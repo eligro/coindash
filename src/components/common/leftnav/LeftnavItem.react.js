@@ -1,13 +1,11 @@
 import React from 'react';
 //import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import FontAwesome from 'react-fontawesome';
 
 export default class LeftnavItem extends React.Component {
     redirectToPage() {
-        console.log('this.item', this.props.item.route);
-        //this.context.router.push('/about');
-        //TODO - this is too bad
-        window.location = this.props.item.route;
+        browserHistory.push(this.props.item.route);
     }
 
     render() {

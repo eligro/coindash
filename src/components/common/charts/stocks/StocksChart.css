@@ -1,0 +1,11 @@
+.highcharts-credits {
+    visibility: hidden;
+}
+
+.refresh-cont {
+    margin: 180px 0;
+}
+
+.highcharts-background {
+    fill: rgba(0, 0, 0, 0);
+}

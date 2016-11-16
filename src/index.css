@@ -25,6 +25,10 @@ body {
   border-color: #122b40;
 }
 
+.icon-refresh {
+  color: #fff;
+}
+
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;

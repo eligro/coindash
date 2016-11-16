@@ -65,7 +65,7 @@ class AccountPage extends React.Component {
 
     render() {
         return (
-            <div className="account-page">
+            <div className="page-container account-page">
                 <div className="my-accounts">
                     <div className="page-title">My Accounts</div>
                     <AccountModal onSaveCB={this.createExchange} exchange={this.state.exchange}/>

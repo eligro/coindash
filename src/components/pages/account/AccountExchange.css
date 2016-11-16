@@ -1,0 +1,29 @@
+.account-source {
+    height: 60px;
+    color: #fff;
+    line-height: 60px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.source-type {
+    float: left;
+    width: 260px;
+    padding: 0 20px;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.source-token {
+    float: left;
+    position: absolute;
+    left: 360px;
+    right: 100px;
+}
+
+
+.delete-btn {
+    float: right;
+    margin: 0 20px;
+    color: #ff5a3e;
+}

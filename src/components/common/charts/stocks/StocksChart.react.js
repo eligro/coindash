@@ -22,8 +22,6 @@ export default class StocksChart extends React.Component {
             }]
         };
 
-        //console.log('config', config);
-
         return(
             <div>
                 <ReactHighstock config={config}/>

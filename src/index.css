@@ -3,3 +3,30 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.btn-primary {
+  background: #00a79d;
+  border: none;
+  border-radius: 20px;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #048078;
+}
+
+.btn-primary:active, .btn-primary.active {
+  background: #048078;
+  border-color: #245580;
+}
+
+.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+  color: #fff;
+  background: #048078;
+  border-color: #122b40;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

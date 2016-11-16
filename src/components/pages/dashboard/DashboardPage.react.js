@@ -5,9 +5,22 @@ import StocksChart from '../../common/charts/stocks/StocksChart.react';
 class HomePage extends React.Component {
     render() {
         return (
-            <div className="page-container">
-                <h4>Profit from BTC</h4>
-                <StocksChart/>
+            <div className="page-container dashboard-page">
+                <div className="top-cont">
+                    <div className="balances-cont">
+                        <div className="header">
+                            BALANCES
+                        </div>
+                    </div>
+                    <div className="chart-cont">
+                        <StocksChart/>
+                    </div>
+                </div>
+                <div className="bottom-cont">
+                    <div className="positions-header">
+                        POSITIONS
+                    </div>
+                </div>
             </div>
         );
     }

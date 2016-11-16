@@ -7,7 +7,15 @@ import routes from './routes';
 import './index.css';
 
 //const store = configureStore();
-const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+//const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+
+const store = configureStore(persistedState);
+
+store.subscribe(()=>{
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
 
 render(
     <Provider store={store}>

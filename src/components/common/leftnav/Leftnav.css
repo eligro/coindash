@@ -1,5 +1,7 @@
 .left-nav {
     float: left;
+    position: absolute;
+    z-index: 10;
     width: 160px;
     min-height: calc(100vh - 52px);
     padding: 20px;

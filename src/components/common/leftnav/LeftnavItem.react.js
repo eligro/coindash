@@ -15,7 +15,7 @@ export default class LeftnavItem extends React.Component {
                     <FontAwesome name={this.props.item.icon} size='2x'
                                  style={this.props.item.style}/>
                 </div>
-                <div className="title">{this.props.item.title || {}}</div>
+                <div className="title">{this.props.item.title}</div>
             </li>
         );
     }

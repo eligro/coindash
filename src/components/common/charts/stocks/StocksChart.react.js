@@ -33,7 +33,7 @@ export default class StocksChart extends React.Component {
         var seriesOptions = [];
 
         seriesOptions[0] = {
-            name: 'BTC',
+            name: 'BTC ($)',
             data: btcData,
             tooltip: {
                 valueDecimals: 2
@@ -47,7 +47,7 @@ export default class StocksChart extends React.Component {
         };
 
         seriesOptions[1] = {
-            name: 'Portfolio',
+            name: 'Portfolio ($)',
             data: portfolioData,
             tooltip: {
                 valueDecimals: 2

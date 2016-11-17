@@ -33,7 +33,7 @@ export default class StocksChartRisk extends React.Component {
         var seriesOptions = [];
 
         seriesOptions[0] = {
-            name: 'Beta',
+            name: 'Beta (%)',
             data: betaData,
             tooltip: {
                 valueDecimals: 2
@@ -47,7 +47,7 @@ export default class StocksChartRisk extends React.Component {
         };
 
         seriesOptions[1] = {
-            name: 'Alpha',
+            name: 'Alpha (%)',
             data: alphaData,
             tooltip: {
                 valueDecimals: 2

@@ -7,10 +7,17 @@
 }
 
 .highcharts-background {
-    fill: #342eb2;
-    /*fill: rgba(0, 0, 0, 0);*/
+    fill: rgba(0, 0, 0, 0);
 }
 
 .highcharts-range-selector-buttons {
+    display: none;
+}
+
+.highcharts-scrollbar {
+    display: none;
+}
+
+.highcharts-input-group {
     display: none;
 }

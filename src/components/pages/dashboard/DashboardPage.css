@@ -24,7 +24,14 @@
 .chart-cont {
     position: absolute;
     left: 320px;
-    right: 10px;
+    right: 0;
+    padding: 0 30px;
+    background: -webkit-linear-gradient(top, rgba(39,17,137,1) 0%, rgba(54,47,179,1) 100%);
+}
+
+.chart-header {
+    height: 60px;
+    background: #362fb4;
 }
 
 .bottom-cont {

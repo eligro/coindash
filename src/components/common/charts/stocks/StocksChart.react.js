@@ -64,6 +64,9 @@ export default class StocksChart extends React.Component {
             rangeSelector: {
                 selected: 5
             },
+            navigator: {
+                enabled: false
+            },
 /*            title: {
                 text: 'BTC Price'
             },*/
@@ -76,18 +79,25 @@ export default class StocksChart extends React.Component {
             }],*/
             series: seriesOptions,
             colors: ['#00a79d', '#f8ac93'],
+            xAxis: {
+                lineColor: '#fff',
+                tickColor: '#fff',
+                tickWidth: 3,
+                lineWidth: 3
+            },
             yAxis: {
                 gridLineWidth: 0,
-                //     tickColor: 'black',
+                lineColor: '#fff',
+                tickColor: '#fff',
                 tickLength: 5,
-                tickWidth: 1,
+                tickWidth: 3,
                 tickPosition: 'outside',
                 labels: {
                     align: 'right',
                     x:-10,
                     y:5
                 },
-                lineWidth:1,
+                lineWidth: 3
                 //  lineColor:'black'
             }
             //color: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],

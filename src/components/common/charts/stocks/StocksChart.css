@@ -7,5 +7,10 @@
 }
 
 .highcharts-background {
-    fill: rgba(0, 0, 0, 0);
+    fill: #342eb2;
+    /*fill: rgba(0, 0, 0, 0);*/
+}
+
+.highcharts-range-selector-buttons {
+    display: none;
 }

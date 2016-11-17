@@ -1,0 +1,14 @@
+.chart-navigation {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 5px 35px;
+    background: #362fb4;
+}
+
+.navbar .nav-pills > li > a {
+    background: #00a79d;
+    border: none;
+    border-radius: 20px;
+}

@@ -1,9 +1,13 @@
-.highcharts-credits {
-    visibility: hidden;
+.highchart-cont {
+    padding: 30px 0 0 0;
 }
 
 .refresh-cont {
-    margin: 180px 0;
+    margin: 170px 0;
+}
+
+.highcharts-credits {
+    visibility: hidden;
 }
 
 .highcharts-background {

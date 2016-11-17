@@ -1,6 +1,8 @@
 import React from 'react';
 import './DashboardPage.css';
 import StocksChart from '../../common/charts/stocks/StocksChart.react';
+import Balances from './Balances.react';
+import Positions from './Positions.react';
 
 class HomePage extends React.Component {
     render() {
@@ -11,6 +13,7 @@ class HomePage extends React.Component {
                         <div className="header">
                             BALANCES
                         </div>
+                        <Balances />
                     </div>
                     <div className="chart-cont">
                         <StocksChart/>
@@ -19,6 +22,9 @@ class HomePage extends React.Component {
                 <div className="bottom-cont">
                     <div className="positions-header">
                         POSITIONS
+                    </div>
+                    <div>
+                        <Positions />
                     </div>
                 </div>
             </div>

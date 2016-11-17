@@ -1,0 +1,25 @@
+.balances-list .refresh-cont{
+    margin-top: 134px;
+}
+
+.balance-item {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.balance-item .item-title {
+    float: left;
+    width: 80px;
+    text-align: left   ;
+}
+
+.balance-item .item-amount {
+    float: left;
+    text-align: center;
+}
+
+.balance-item .item-value {
+    text-align: right;
+}

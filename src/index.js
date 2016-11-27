@@ -6,6 +6,9 @@ import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import './index.css';
 
+import {loadChart} from './actions/chart.actions';
+import {loadBalances} from './actions/balances.actions';
+
 //const store = configureStore();
 //const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
@@ -14,8 +17,13 @@ const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStor
 const store = configureStore(persistedState);
 
 store.subscribe(()=>{
+    console.log('store', store.getState());
     localStorage.setItem('reduxState', JSON.stringify(store.getState()))
 })
+
+
+store.dispatch(loadChart());
+store.dispatch(loadBalances());
 
 render(
     <Provider store={store}>

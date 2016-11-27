@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './DashboardPage.css';
 import StocksChart from '../../common/charts/stocks/StocksChart.react';
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react';
@@ -18,6 +19,7 @@ class HomePage extends React.Component {
     chartSelected(selected) {
         console.log('chartSelected', selected);
         this.setState({selectedChart: selected});
+
     }
 
     render() {
@@ -28,11 +30,11 @@ class HomePage extends React.Component {
                         <div className="header">
                             BALANCES
                         </div>
-                        <Balances />
+                        <Balances balances={this.props.balances}/>
                     </div>
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected}/>
-                        {this.state.selectedChart === 1 && <StocksChart/>}
+                        {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData}/>}
                         {this.state.selectedChart === 2 && <StocksChartRisk/>}
                     </div>
                 </div>
@@ -49,4 +51,17 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+function mapStateToProps(state, ownProps) {
+    return {
+        balances: state.balances,
+        chartData: state.charts.chartData
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

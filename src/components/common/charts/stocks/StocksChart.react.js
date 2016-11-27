@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import Highcharts from 'highcharts';
 //import Highlight from 'react-highlight';
 import FontAwesome from 'react-fontawesome';
 import './StocksChart.css';
 
-export default class StocksChart extends React.Component {
+class StocksChart extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {loading: true};
 
+        //console.log('chartData', this.props.chartData);
+
         setTimeout(() => {
             this.setState({loading: false});
+            //console.log('chartData', this.props.chartData);
         }, 2500);
     }
 
@@ -120,3 +123,9 @@ export default class StocksChart extends React.Component {
         );
     }
 }
+
+StocksChart.propTypes = {
+    chartData: PropTypes.object.isRequired
+};
+
+export default StocksChart;

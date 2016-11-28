@@ -1,3 +1,5 @@
+export const LOADING_START = 'LOADING_START';
+
 export const CREATE_EXCHANGE = 'CREATE_EXCHANGE';
 export const DELETE_EXCHANGE = 'DELETE_EXCHANGE';
 

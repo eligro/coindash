@@ -39,11 +39,16 @@
     top: 400px;
     left: 0;
     right: 0;
+    margin-left: -160px;
+    padding-left: 160px;
     border-top: 1px solid rgba(255, 255, 255, 0.5);
+    background: -webkit-linear-gradient(top, rgba(2,61,128,1) 0%, rgba(0,33,87,1) 100%);
+    min-height: calc(100vh - 423px);
 }
 
 .bottom-cont .positions-header {
     height: 50px;
+    border-radius: 0 0 0 50px;
     line-height: 50px;
     background: #004a80;
 }

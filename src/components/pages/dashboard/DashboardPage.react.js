@@ -40,7 +40,7 @@ class HomePage extends React.Component {
                 </div>
                 <div className="bottom-cont">
                     <div className="positions-header">
-                        POSITIONS
+                        WATCHLIST
                     </div>
                     <div>
                         <Positions />

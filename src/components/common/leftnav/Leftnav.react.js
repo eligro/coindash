@@ -17,9 +17,9 @@ export default class Leftnav extends React.Component {
             {title: 'dashboard', icon: 'tachometer', route: '/', style: {paddingTop: '6px'}},
             {title: 'investments', icon: 'university', route: '/accounts', style: {paddingTop: '8px'}},
             {title: 'My Accounts', icon: 'cogs', route: '/accounts', style: {paddingTop: '10px'}},
-            {title: 'news', icon: 'newspaper-o', route: '/accounts', style: {paddingTop: '11px'}},
-            {title: 'about', icon: 'building-o', route: '/accounts', style: {paddingTop: '10px'}},
-            {title: 'links', icon: 'link', route: '/accounts', style: {paddingTop: '11px'}}
+            {title: 'Copy Crypto', icon: 'newspaper-o', route: '/accounts', style: {paddingTop: '11px'}},
+            /*{title: 'about', icon: 'building-o', route: '/accounts', style: {paddingTop: '10px'}},
+            {title: 'links', icon: 'link', route: '/accounts', style: {paddingTop: '11px'}}*/
         ].map((item, index) => <LeftnavItem key={index} item={item}/>);
 
 

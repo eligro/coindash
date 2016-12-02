@@ -3,8 +3,9 @@
     position: absolute;
     z-index: 10;
     width: 160px;
-    min-height: calc(100vh - 52px);
+    /*min-height: calc(100vh - 52px);*/
     padding: 20px;
+    border-radius: 0 0 50px 0;
     color: #fff;
     background: #0d004c;
     box-shadow: 2px 0 2px rgba(0, 0, 0, 0.3);

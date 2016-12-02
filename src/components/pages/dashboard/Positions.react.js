@@ -19,6 +19,9 @@ class Positions extends React.Component {
 
         const items = [
             {title: 'BTC', daily: '+%1.2', weekly: '+%8.65', all: '+%9938.4'},
+            {title: 'ETH', daily: '+%1.7', weekly: '+%2.5', all: '+%6538.4'},{title: 'BTC', daily: '+%1.2', weekly: '+%8.65', all: '+%9938.4'},
+            {title: 'ETH', daily: '+%1.7', weekly: '+%2.5', all: '+%6538.4'},{title: 'BTC', daily: '+%1.2', weekly: '+%8.65', all: '+%9938.4'},
+            {title: 'ETH', daily: '+%1.7', weekly: '+%2.5', all: '+%6538.4'},{title: 'BTC', daily: '+%1.2', weekly: '+%8.65', all: '+%9938.4'},
             {title: 'ETH', daily: '+%1.7', weekly: '+%2.5', all: '+%6538.4'},
             {title: 'DGD', daily: '+%6', weekly: '+%12.66', all: '+%538.6'}
         ].map((item, index) => <PositionItem key={index} item={item}/>);

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import FontAwesome from 'react-fontawesome';
+import Spinner from '../../common/Spinner.react';
 import BalanceItem from './BalanceItem.react';
 
 
@@ -11,7 +11,7 @@ class Balances extends React.Component {
 
         return (
             <div className="balances-list">
-                {!this.props.balances.length && <div className="refresh-cont"><FontAwesome ref="font" className='icon-refresh' name='refresh' size='3x' spin /></div>}
+                {!this.props.balances.length && <Spinner/>}
                 {this.props.balances.length && items}
             </div>
         );

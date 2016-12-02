@@ -43,7 +43,7 @@ class HomePage extends React.Component {
                         WATCHLIST
                     </div>
                     <div>
-                        <Positions />
+                        <Positions front={this.props.front}/>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,8 @@ class HomePage extends React.Component {
 function mapStateToProps(state, ownProps) {
     return {
         balances: state.balances,
-        chartData: state.charts.chartData
+        chartData: state.charts.chartData,
+        front: state.coins.front
     };
 }
 

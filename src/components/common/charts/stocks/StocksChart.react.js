@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import Highcharts from 'highcharts';
 //import Highlight from 'react-highlight';
-import FontAwesome from 'react-fontawesome';
+import Spinner from '../../Spinner.react';
 import './StocksChart.css';
 
 class StocksChart extends React.Component {
@@ -117,7 +117,7 @@ class StocksChart extends React.Component {
 
         return(
             <div className="highchart-cont">
-                {this.state.loading && <div className="refresh-cont"><FontAwesome ref="font" className='icon-refresh' name='refresh' size='3x' spin /></div>}
+                {this.state.loading && <Spinner/>}
                 {!this.state.loading && <ReactHighstock config={config} ref="chart" /> }
             </div>
         );

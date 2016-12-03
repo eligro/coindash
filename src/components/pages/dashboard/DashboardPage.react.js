@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as coinActions from '../../../actions/coins.actions';
 import './DashboardPage.css';
 import StocksChart from '../../common/charts/stocks/StocksChart.react';
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react';
@@ -12,8 +14,37 @@ class HomePage extends React.Component {
         super(props, context);
 
         this.state = {selectedChart: 1};
-
         this.chartSelected = this.chartSelected.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //console.log('componentWillReceiveProps', nextProps);
+        /*if (this.props.front !== nextProps.front) {
+            if (!nextProps.isFetching) {
+                this.startPoll();
+            }
+        }*/
+    }
+
+    componentWillMount() {
+        this.props.coinActions.loadFront()
+        this.startPoll();
+    }
+
+    componentWillUnmount() {
+        this.stopPoll();
+    }
+
+
+    startPoll() {
+        this.timeout = setTimeout(() => {
+            this.props.coinActions.loadFront()
+            this.startPoll();
+        }, 20000);
+    }
+
+    stopPoll() {
+        clearTimeout(this.timeout);
     }
 
     chartSelected(selected) {
@@ -61,7 +92,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        coinActions: bindActionCreators(coinActions, dispatch)
     };
 }
 

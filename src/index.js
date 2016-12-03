@@ -25,7 +25,7 @@ store.subscribe(()=>{
 
 store.dispatch(loadChart());
 store.dispatch(loadBalances());
-store.dispatch(loadFront());
+//store.dispatch(loadFront());
 
 render(
     <Provider store={store}>

@@ -48,6 +48,7 @@
 .bottom-cont .positions-header {
     height: 50px;
     margin-left: 160px;
+    padding-right: 160px;
     border-radius: 0 0 0 50px;
     line-height: 50px;
     background: #004a80;

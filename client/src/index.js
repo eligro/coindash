@@ -6,6 +6,8 @@ import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import './index.css';
 
+import '../node_modules/fixed-data-table/dist/fixed-data-table.css';
+
 import {loadChart} from './actions/chart.actions';
 import {loadBalances} from './actions/balances.actions';
 import {loadFront} from './actions/coins.actions';

@@ -13,7 +13,7 @@ class StocksChart extends React.Component {
 
         //console.log('chartData', this.props.chartData);
 
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
             this.setState({loading: false});
             //console.log('chartData', this.props.chartData);
         }, 2500);
@@ -25,6 +25,10 @@ class StocksChart extends React.Component {
 
         //let chart = this.refs.chart;
         //console.log('refs', chart);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
     }
 
     render() {

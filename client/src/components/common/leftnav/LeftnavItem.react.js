@@ -6,16 +6,15 @@ import FontAwesome from 'react-fontawesome';
 export default class LeftnavItem extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.redirectToPage = this.redirectToPage.bind(this);
     }
 
     static contextTypes = {
-        router: PropTypes.func
+        router: PropTypes.object
     };
 
     redirectToPage() {
         browserHistory.push(this.props.item.route);
+        console.log('leftNavItem redirectToPage');
     }
 
     render() {
@@ -25,7 +24,7 @@ export default class LeftnavItem extends React.Component {
         var activeClass = this.context.router.location.pathname === this.props.item.route ? 'active' : ''
 
         return (
-            <li onClick={this.redirectToPage()} className={activeClass}>
+            <li onClick={this.redirectToPage.bind(this)} className={activeClass}>
                 <div className="icon-circle">
                     <FontAwesome name={this.props.item.icon} size='2x'
                                  style={this.props.item.style}/>

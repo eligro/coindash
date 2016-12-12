@@ -8,14 +8,12 @@ import './PeopleItemSmall.css';
 class PeopleItemSmall extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.redirectToPage = this.redirectToPage.bind(this);
     }
 
 
     redirectToPage() {
-        console.log('redirect to PeoplePage');
-        //browserHistory.push('/jonesmssmsith');
+        const user = 'JonSmith';
+        browserHistory.push(`/people/@${user}`);
     }
 
     render() {
@@ -24,7 +22,7 @@ class PeopleItemSmall extends React.Component {
                 <div className="people-item">
                     <div className="people-header clearfix">
                         <ExampleImage src="https://s3.amazonaws.com/uifaces/faces/twitter/beshur/128.jpg"/>
-                        <div onClick={this.redirectToPage()} className="name ellipsis">@JonSmith</div>
+                        <div onClick={this.redirectToPage.bind(this)} className="name ellipsis">@JonSmith</div>
                     </div>
                     <div className="people-body">
                         <div>38.11%</div>

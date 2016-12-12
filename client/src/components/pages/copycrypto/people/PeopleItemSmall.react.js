@@ -1,17 +1,30 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 import ExampleImage from '../helpers/ExampleImage';
+import {browserHistory} from 'react-router';
 
 import './PeopleItemSmall.css';
 
 class PeopleItemSmall extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+
+        this.redirectToPage = this.redirectToPage.bind(this);
+    }
+
+
+    redirectToPage() {
+        console.log('redirect to PeoplePage');
+        //browserHistory.push('/jonesmssmsith');
+    }
+
     render() {
         return(
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-6 thumb">
                 <div className="people-item">
                     <div className="people-header clearfix">
                         <ExampleImage src="https://s3.amazonaws.com/uifaces/faces/twitter/beshur/128.jpg"/>
-                        <div className="name ellipsis">@JonSmith</div>
+                        <div onClick={this.redirectToPage()} className="name ellipsis">@JonSmith</div>
                     </div>
                     <div className="people-body">
                         <div>38.11%</div>

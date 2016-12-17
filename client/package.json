@@ -8,10 +8,13 @@
     "redux-immutable-state-invariant": "^1.2.4"
   },
   "dependencies": {
+    "bignumber.js": "^3.0.1",
     "bootstrap": "^3.3.7",
+    "crypto-js": "^3.1.9-1",
     "fixed-data-table": "^0.6.3",
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.2",
+    "moment": "^2.17.1",
     "react": "^15.3.2",
     "react-bootstrap": "^0.30.6",
     "react-dom": "^15.3.2",

@@ -34,11 +34,10 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        let manager = AccountsManager.hardcodedManager();
 
-        manager.getBalances(function(balances) {
-            console.log(balances);
-        });
+
+        /*
+        let manager = AccountsManager.hardcodedManager();
 
         let day = 24 * 60 * 60;
         let today = Math.floor(Date.now() / 1000);
@@ -66,6 +65,7 @@ class HomePage extends React.Component {
                 console.log('wot', str);
             }
         });
+        //*/
     }
 
     componentWillUnmount() {

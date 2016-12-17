@@ -35,6 +35,29 @@ export class AccountsManager {
 	}
 
 
+	// API
+	getBalances(callback) {
+		AccountsBalanceUtils.fetchBalances(this.accounts, function(data) {			
+			let exchangeProvider = ExchangeProvider.coinMarketCapProvider();
+			exchangeProvider.getBalances(data, function(balances) {
+				// prepare for standard objects
+				let ret = [];
+				for (let i in balances) {
+					let obj = balances[i];
+					let token = obj.token;
+					let fiatValue = obj.balance;
+					let cryptoAmount = token.balance.toNumber();
+
+					ret.push({
+						"title" : token.symbol,
+						"amount" : cryptoAmount,
+						"value" : fiatValue
+					});
+				}
+				callback(ret);
+			});
+		});
+	}
 
 	dayStatusFromDate(fromDate, callback) {
 		let executed = 0;
@@ -83,6 +106,8 @@ export class AccountsManager {
 		});
 	}
 
+
+	// UTILS
 	calcDayStatusObject(fromDate, currentBalances, trades, deposits, withdrawals, callback) {
 		let days = [];
 		let dayTime = 24 * 60 * 60;

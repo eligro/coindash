@@ -73,8 +73,72 @@ export class ExchangeProvider {
 		this.cachedData = {};
 	}
 
+	// API
 	valueForDays(days, callback) {
 		this.aggregateDays(days, 0, callback);
+	}
+
+	getBalances(tokens, callback) {
+		let timestamp = new Date() / 1000;
+		this.aggregateBalances(timestamp, "usd", tokens, 0, [], callback);
+	}
+
+	// Utils
+	aggregateBalances(timestamp, targetCurrency, tokens, idx, data, callback) {
+		if (tokens.length == idx) {
+			callback(data);
+			return
+		}
+
+		let token = tokens[idx];
+		let parentObj = this;
+
+		this.fetchHistoricalDataForToken(token, function(historicalData){
+			let targetDate = new Date(timestamp*1000);
+
+			var isSameDate = function(dataPoint) {
+				let d1 = new Date(dataPoint.timestamp * 1000);
+			  	return d1.getYear() == targetDate.getYear() &&
+			  			d1.getMonth() == targetDate.getMonth() &&
+			  			d1.getDate() == targetDate.getDate();
+			};
+			var dataPoint = historicalData.dataPoints.find(isSameDate)
+
+			if (dataPoint == undefined) { // no data point
+				console.log("no data point");
+				data.push({
+					"token" : token,
+					"balance" : 0,
+					"currency" : "usd"
+				});
+				parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback);
+				return 
+			}
+			
+
+			var isSameCurrensy = function(exchangeValuePoint) {
+			  	return exchangeValuePoint.currency.toUpperCase() == targetCurrency.toUpperCase();
+			};
+			var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
+
+        	let currentValue = token.balance == 0 ? 0 : token.balance.times(exchangeValuePoint.value).toNumber();
+        	data.push({
+					"token" : token,
+					"balance" : currentValue,
+					"currency" : "usd"
+				});
+        	parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback);
+
+  		}, function(error){
+			console.log("token without history");
+			data.push({
+					"token" : token,
+					"balance" : 0,
+					"currency" : "usd"
+				});
+  			parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback);
+  			return
+  		});
 	}
 
 	aggregateDays(days, idx, callback) {
@@ -195,7 +259,6 @@ export class ExchangeProvider {
   			return this.aggregateTokens(tokens, timestamp, ++count, totalValue, targetCurrency, callback);
   		});
 	}
-
 
 
 	fetchHistoricalDataForToken(token, callback, errorCallBack) {

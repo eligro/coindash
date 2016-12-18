@@ -6,8 +6,8 @@ export default function chartReducer(state = {}, action) {
         case types.LOAD_CHART_SUCCESS:
             console.log(types.LOAD_CHART_SUCCESS, action);
 
-            const portfolioData = action.data.map(i => [i.timestamp * 1000, i.dayFiatValue]);
-            const btcData = action.data.map(i => [i.timestamp * 1000, i.dayFiatValue + Utils.rnd(-1, 1)]);
+            const portfolioData = action.data.portfolio.map(i => [i.timestamp * 1000, i.delta]);
+            const btcData = action.data.market.map(i => [i.timestamp * 1000, i.delta]);
 
             console.log(types.LOAD_CHART_SUCCESS, Object.assign({}, state, {
                 chartData: {btcData, portfolioData}

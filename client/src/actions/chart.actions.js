@@ -4,8 +4,6 @@ import {ETHWallet} from '../utils/Accounts/Ethereum/ETHWallet';
 import {PoloniexAccount} from '../utils/Accounts/Poloniex/PoloniexAccount';
 
 import {AccountsManager} from '../utils/Accounts/AccountsManager';
-import {Token} from '../utils/Trades/Token';
-import {ExchangeProvider} from '../utils/ExchangeProvider/ExchangeProvider';
 
 export function loadChartSuccess(data) {
     return {type: types.LOAD_CHART_SUCCESS, data};
@@ -64,12 +62,6 @@ export function loadChart() {
                  console.log('wot', str);
                  }
                  */
-            });
-
-
-            let provider = ExchangeProvider.coinMarketCapProvider();
-            provider.getTokenDayStatus(Token.BTC(), "usd", spanTime, function(data) {
-                console.log(data);
             });
         }
 

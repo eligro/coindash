@@ -124,7 +124,8 @@ export class AccountsManager {
 				"trades" : [],
 				"deposits" : [],
 				"withdrawals" : [],
-				"balances" : []
+				"balances" : [],
+				"delta" : 0,
 			});
 			currentUnix -= dayTime;
 		}
@@ -175,7 +176,16 @@ export class AccountsManager {
 		let exchangeProvider = ExchangeProvider.coinMarketCapProvider();
 		exchangeProvider.valueForDays(days, function(daysValues){
 			console.log("calculated USD daily value");
-	        callback(AccountsCalcUtils.calcDayDelta(daysValues));
+	        
+	        let ret = {
+	        	"portfolio" : AccountsCalcUtils.calcDayDelta(daysValues)
+	        }
+
+	        exchangeProvider.getTokenDayStatus(Token.BTC(), "usd", fromDate, function(data) {
+                ret["market"] = data;
+
+                callback(ret);
+            });
         });  		
 	}
 }

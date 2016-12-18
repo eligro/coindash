@@ -112,6 +112,7 @@ export class AccountsManager {
 		let days = [];
 		let dayTime = 24 * 60 * 60;
 
+		// prepare days array
 		let endOfToday = new Date();
 		endOfToday.setHours(23);   // set hours to 0
 		endOfToday.setMinutes(59); // set minutes to 0

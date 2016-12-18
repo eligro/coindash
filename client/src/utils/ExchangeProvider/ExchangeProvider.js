@@ -83,6 +83,71 @@ export class ExchangeProvider {
 		this.aggregateBalances(timestamp, "usd", tokens, 0, [], callback);
 	}
 
+	getTokenDayStatus(token, currency, fromDate, callback) {
+		let days = [];
+		let dayTime = 24 * 60 * 60;
+
+		// prepare days array
+		let endOfToday = new Date();
+		endOfToday.setHours(23);   // set hours to 0
+		endOfToday.setMinutes(59); // set minutes to 0
+		endOfToday.setSeconds(59); // set seconds to 0
+		let currentUnix = Math.floor(endOfToday / 1000);
+		while (currentUnix > fromDate) {
+			days.push({
+				"timestamp" : currentUnix,
+				"delta" : 0,
+				"valuePoint" : null,
+				"fiatPrice" : 0
+			});
+			currentUnix -= dayTime;
+		}
+
+		this.fetchHistoricalDataForToken(token, function(historicalData){
+
+			// get delta
+			for (let idx in days) {
+				let day = days[idx];
+				let dayTime = day.timestamp;
+
+				let targetDate = new Date(dayTime*1000);
+
+				let isSameDate = function(dataPoint) {
+					let d1 = new Date(dataPoint.timestamp * 1000);
+				  	return d1.getYear() == targetDate.getYear() &&
+				  			d1.getMonth() == targetDate.getMonth() &&
+				  			d1.getDate() == targetDate.getDate();
+				};
+				let dataPoint = historicalData.dataPoints.find(isSameDate)
+
+				if (dataPoint == undefined) { // no data point
+					console.log("no data point");
+					callback([]);
+				}
+				
+
+				let isSameCurrensy = function(exchangeValuePoint) {
+				  	return exchangeValuePoint.currency.toUpperCase() == currency.toUpperCase();
+				};
+				day.valuePoint = dataPoint.price.find(isSameCurrensy);
+				day.fiatPrice = day.valuePoint.value;
+			}
+
+			// calc delta
+			for(let dayIdx = days.length - 1; dayIdx > 0; dayIdx--) {
+				let day = days[dayIdx];
+				let nextDay = days[dayIdx - 1];
+
+				// calc deposits and withdrawals 
+				day.delta = (nextDay.fiatPrice / day.fiatPrice) - 1;
+			}
+			callback(days);
+  		}, function(error){
+			console.log("token without history");
+			callback(days);
+  		});
+	}
+
 	// Utils
 	aggregateBalances(timestamp, targetCurrency, tokens, idx, data, callback) {
 		if (tokens.length == idx) {

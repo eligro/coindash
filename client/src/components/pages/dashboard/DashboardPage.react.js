@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as coinActions from '../../../actions/coins.actions';
 import './DashboardPage.css';
 import StocksChart from '../../common/charts/stocks/StocksChart.react';
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react';
 import Balances from './Balances.react';
 import Positions from './Positions.react';
 import ChartNavigation from './ChartNavigation.react';
+
+import * as coinActions from '../../../actions/coins.actions';
+import * as chartActions from '../../../actions/chart.actions';
+import * as balancesActions from '../../../actions/balances.actions';
 
 import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
@@ -29,7 +32,9 @@ class HomePage extends React.Component {
     }
 
     componentWillMount() {
-        this.props.coinActions.loadFront()
+        this.props.coinActions.loadFront();
+        this.props.chartActions.loadChart();
+        this.props.balancesActions.loadBalances();
         this.startPoll();
     }
 
@@ -129,7 +134,9 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        coinActions: bindActionCreators(coinActions, dispatch)
+        coinActions: bindActionCreators(coinActions, dispatch),
+        chartActions: bindActionCreators(chartActions, dispatch),
+        balancesActions: bindActionCreators(balancesActions, dispatch)
     };
 }
 

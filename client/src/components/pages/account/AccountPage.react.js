@@ -13,7 +13,7 @@ class AccountPage extends React.Component {
         super(props, context);
 
         this.state = {
-            exchange: {type: 'ethereum', token: '', created: ''}
+            exchange: {type: 'ethereum', token: '', secret: '', created: ''}
         }
 
         //this.titleChange = this.titleChange.bind(this);

@@ -8,9 +8,9 @@ import './index.css';
 
 import '../node_modules/fixed-data-table/dist/fixed-data-table.css';
 
-import {loadChart} from './actions/chart.actions';
-import {loadBalances} from './actions/balances.actions';
-import {loadFront} from './actions/coins.actions';
+//import {loadChart} from './actions/chart.actions';
+//import {loadBalances} from './actions/balances.actions';
+//import {loadFront} from './actions/coins.actions';
 
 //const store = configureStore();
 //const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -25,8 +25,8 @@ store.subscribe(()=>{
 })
 
 
-store.dispatch(loadChart());
-store.dispatch(loadBalances());
+//store.dispatch(loadChart());
+//store.dispatch(loadBalances());
 //store.dispatch(loadFront());
 
 render(

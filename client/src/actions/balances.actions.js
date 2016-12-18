@@ -35,6 +35,10 @@ export function loadBalances() {
     }
 }
 
+export function clearBalances() {
+    return {type: types.DELETE_EXCHANGE};
+}
+
 /*
 export function loadBalances() {
     return (dispatch) => {

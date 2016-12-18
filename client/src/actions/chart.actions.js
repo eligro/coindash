@@ -78,6 +78,10 @@ export function loadChart() {
     }
 }*/
 
+export function clearCharts() {
+    return {type: types.CLEAR_CHARTS};
+}
+
 export function loadChartRisk() {
     return (dispatch) => {
         return ChartAPI.getRiskChart().then(data => {

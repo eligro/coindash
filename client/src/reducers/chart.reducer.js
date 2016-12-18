@@ -22,6 +22,9 @@ export default function chartReducer(state = {}, action) {
                 chartData: action.data
             });
 
+        case types.CLEAR_CHARTS:
+            return {chartData: null};
+
         default:
             return state;
     }

@@ -5,6 +5,9 @@ export default function balancesReducer(state = [], action) {
         case types.LOAD_BALANCES_SUCCESS:
             return [...action.data];
 
+        case types.CLEAR_BALANCES:
+            return [];
+
         default:
             return state;
     }

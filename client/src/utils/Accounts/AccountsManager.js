@@ -16,11 +16,6 @@ export class AccountsManager {
 	static hardcodedManager() {
 		let wallet = ETHWallet.hardcoded();
 		let accounts = wallet.getAccounts();
-
-		// let poloniexAccount = new PoloniexAccount(
-		// 		"LGD0CO3H-3TVGSTOJ-WWYE2BGU-JBEB00EC",
-		// 		"2a99daaa0401620babe544669ccb9495d744ef4def03cd0ddb39d9594c8fd5959acee6818c29a05a4353ca3b4695a3d640c5041a79ab07c35e532b196e14d9ce"
-		// 	);
 		let poloniexAccount = new PoloniexAccount(
 				"6R25SW6B-OCHTH66W-VONNICW7-72GYFIJB",
 				"2ffccecbae9bfcf3c330c27eff9de6f82260def1b1165bd61ff4b92857cd2d21ea99f8860b22d7fbed496c9a36edd546265c41d2ae1c98c613746f035548a0f4"

@@ -4,10 +4,6 @@ import { ETHChainAccount } from './ETHChainAccount';
 
 export class ETHWallet {
 	static hardcoded() {
-		// return new ETHWallet([
-	 //    	"0xd7e10d75cf87abc5a2f34a83ccf27cd54108cbc3"
-	 //    ]);
-
 		return new ETHWallet([
 	    	"0xfd6259c709Be5Ea1a2A6eC9e89FEbfAd4c095778"
 	    ]);

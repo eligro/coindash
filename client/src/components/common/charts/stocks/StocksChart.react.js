@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
+import {Link} from 'react-router';
 import Highcharts from 'highcharts';
 //import Highlight from 'react-highlight';
 import Spinner from '../../Spinner.react';
@@ -121,7 +122,8 @@ class StocksChart extends React.Component {
     render() {
         return(
             <div className="highchart-cont">
-                {!this.props.chartData && <Spinner/>}
+                {!this.props.chartData && this.props.exchanges.length && <div><Spinner/><div className="spinner-msg">This might take a while...</div></div>}
+                {!this.props.exchanges.length && <div className="accounts-msg">Please add <Link to={'/accounts'}>Accounts</Link></div>}
                 {this.props.chartData && <ReactHighstock config={this.getChartConfig()} ref="chart" /> }
             </div>
         );
@@ -130,6 +132,7 @@ class StocksChart extends React.Component {
 
 StocksChart.propTypes = {
     chartData: PropTypes.object.isRequired
+    //,exchanges: PropTypes.array.isRequired
 };
 
 export default StocksChart;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { Navbar, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
@@ -31,6 +31,11 @@ export default class Header extends React.Component {
     }
 
     render() {
+
+        const Extension = this.props.extension.version === '0.0.0' ?
+            <div className="extension-link">Please download the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> from the Chrome web store</div>
+            : <div className="extension-link">You already have the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> installed (version: {this.props.extension.version})</div>
+
         return (
             <div>
                 <Navbar>
@@ -54,15 +59,15 @@ export default class Header extends React.Component {
                     <Modal.Body>
                         <div className="help-modal-body">
                             <p>
-                                <div className="extension-link">Please download the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> from the Chrome web store</div>
+                                {Extension}
+                            </p>
+                            <p>
+                                <div>Start using Coindash by adding your Etehreum and/poloniex <Link to={'/accounts'}>accounts</Link></div>
                             </p>
                             <p>
                                 <div>Coindash.io works in the browser. None of your data is touching our server.</div>
-
                                 <div>This extension will enable your browser to connect to certain exchanges API.</div>
-
                                 <div>Later, you'll be able to opt-in and to securely save some of your data on our server.</div>
-
                                 <div>Coindash source code is available in here: <a href="https://bitbucket.org/coindash/coindashio" target="_blank">https://bitbucket.org/coindash/coindashio</a></div>
                             </p>
                         </div>

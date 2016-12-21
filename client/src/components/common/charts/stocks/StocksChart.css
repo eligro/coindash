@@ -6,6 +6,22 @@
     margin: 170px 0;
 }
 
+.accounts-msg {
+    background: inherit;
+    position: absolute;
+    top: 190px;
+    left: 0;
+    right: 0;
+    font-size: 24px;
+}
+
+.spinner-msg {
+    position: absolute;
+    top: 250px;
+    left: 0;
+    right: 0;
+}
+
 .highcharts-credits {
     visibility: hidden;
 }

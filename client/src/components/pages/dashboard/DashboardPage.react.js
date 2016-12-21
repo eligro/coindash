@@ -107,7 +107,7 @@ class HomePage extends React.Component {
                     </div>
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected}/>
-                        {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData}/>}
+                        {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
                         {this.state.selectedChart === 2 && <StocksChartRisk/>}
                     </div>
                 </div>
@@ -128,7 +128,8 @@ function mapStateToProps(state, ownProps) {
     return {
         balances: state.balances,
         chartData: state.charts.chartData,
-        front: state.coins.front
+        front: state.coins.front,
+        exchanges: state.exchanges
     };
 }
 

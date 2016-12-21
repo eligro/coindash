@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import './App.css';
@@ -13,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header/>
+        <Header extension={this.props.extension}/>
         <div className="main-container container-fluid">
             <Leftnav/>
             {this.props.children}
@@ -23,4 +24,17 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state, ownProps) {
+    return {
+        extension: state.extension
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

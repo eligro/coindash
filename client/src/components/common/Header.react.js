@@ -1,30 +1,77 @@
 import React from 'react';
 import { IndexLink } from 'react-router';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
-export default class Header extends React.Component {
+import './Header.css';
 
-    someCallback() {
-        console.log('someCallback');
+export default class Header extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+
+        this.state = {showHelp: null};
+
+        this.closeHelp = this.closeHelp.bind(this);
+        this.openHelp = this.openHelp.bind(this);
+        this.isShowHelp = this.isShowHelp.bind(this);
+    }
+
+    openHelp(event) {
+        console.log('show help', this.props.extension);
+        this.setState({ showHelp: true });
+    }
+
+    closeHelp(event) {
+        console.log('closeHelp', event);
+        this.setState({ showHelp: false });
+    }
+
+    isShowHelp() {
+        return this.props.extension.version === '0.0.0' && this.state.showHelp === null || this.state.showHelp;
     }
 
     render() {
         return (
-            <Navbar>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <IndexLinkContainer to="/">
-                            <IndexLink to="/">COIN<b>DASH</b></IndexLink>
-                        </IndexLinkContainer>
-                    </Navbar.Brand>
-                </Navbar.Header>
-                <Nav pullRight>
-                    <LinkContainer to="/settings">
-                        <NavItem eventKey={1}>Settings</NavItem>
-                    </LinkContainer>
-                </Nav>
-            </Navbar>
+            <div>
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <IndexLinkContainer to="/">
+                                <IndexLink to="/">COIN<b>DASH</b></IndexLink>
+                            </IndexLinkContainer>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Nav pullRight>
+                        <LinkContainer onClick={this.openHelp} to="#">
+                            <NavItem eventKey={1}>Help</NavItem>
+                        </LinkContainer>
+                    </Nav>
+                </Navbar>
+                <Modal show={this.isShowHelp()} onHide={this.closeHelp}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Help</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="help-modal-body">
+                            <p>
+                                <div className="extension-link">Please download the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> from the Chrome web store</div>
+                            </p>
+                            <p>
+                                <div>Coindash.io works in the browser. None of your data is touching our server.</div>
+
+                                <div>This extension will enable your browser to connect to certain exchanges API.</div>
+
+                                <div>Later, you'll be able to opt-in and to securely save some of your data on our server.</div>
+
+                                <div>Coindash source code is available in here: <a href="https://bitbucket.org/coindash/coindashio" target="_blank">https://bitbucket.org/coindash/coindashio</a></div>
+                            </p>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.closeHelp}>Got it</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         );
     }
 }

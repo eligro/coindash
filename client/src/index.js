@@ -11,6 +11,7 @@ import '../node_modules/fixed-data-table/dist/fixed-data-table.css';
 //import {loadChart} from './actions/chart.actions';
 //import {loadBalances} from './actions/balances.actions';
 //import {loadFront} from './actions/coins.actions';
+import {getExtensionVersion} from './actions/extension.actions';
 
 //const store = configureStore();
 //const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -28,6 +29,7 @@ store.subscribe(() => {
 //store.dispatch(loadChart());
 //store.dispatch(loadBalances());
 //store.dispatch(loadFront());
+store.dispatch(getExtensionVersion());
 
 render(
     <Provider store={store}>

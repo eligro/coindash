@@ -33,7 +33,7 @@ export class AccountsManager {
 	// API
 	getBalances(callback) {
 		AccountsBalanceUtils.fetchBalances(this.accounts, function(data) {			
-			let exchangeProvider = ExchangeProvider.coinMarketCapProvider();
+			let exchangeProvider = ExchangeProvider.instance();
 			exchangeProvider.getBalances(data, function(balances) {
 				// prepare for standard objects
 				let ret = [];
@@ -168,7 +168,7 @@ export class AccountsManager {
 
 		console.log("calculated balances");
 
-		let exchangeProvider = ExchangeProvider.coinMarketCapProvider();
+		let exchangeProvider = ExchangeProvider.instance();
 		exchangeProvider.valueForDays(days, function(daysValues){
 			console.log("calculated USD daily value");
 	        

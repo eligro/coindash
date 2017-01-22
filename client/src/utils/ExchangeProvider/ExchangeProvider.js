@@ -2,6 +2,7 @@
 import { Token } from '../Trades/Token';
 import { ExchangeDataFetcherBase } from './ExchangeDataFetcherBase';
 import CoinMarketCapFetcher from './CoinmarketCapFetcher';
+import CryptoCompareFetcher from './CryptoCompareFetcher';
 import BigNumber from 'bignumber.js';
 
 export class ExchangeValuePoint {
@@ -64,8 +65,9 @@ export const BTC = "BTC";
 export const ETH = "ETH";
 
 export class ExchangeProvider {
-	static coinMarketCapProvider() {
-		return new ExchangeProvider(new CoinMarketCapFetcher());
+	static instance() {
+		// return new ExchangeProvider(new CoinMarketCapFetcher());
+		return new ExchangeProvider(new CryptoCompareFetcher());
 	}
 
 	constructor(fetcher) {
@@ -129,6 +131,7 @@ export class ExchangeProvider {
 				let isSameCurrensy = function(exchangeValuePoint) {
 				  	return exchangeValuePoint.currency.toUpperCase() == currency.toUpperCase();
 				};
+
 				day.valuePoint = dataPoint.price.find(isSameCurrensy);
 				day.fiatPrice = day.valuePoint.value;
 			}
@@ -169,6 +172,11 @@ export class ExchangeProvider {
 			};
 			var dataPoint = historicalData.dataPoints.find(isSameDate)
 
+
+			console.log("aggregateBalances");
+			console.log(timestamp);
+			console.log(dataPoint);
+			console.log(historicalData);
 			if (dataPoint == undefined) { // no data point
 				console.log("no data point");
 				data.push({

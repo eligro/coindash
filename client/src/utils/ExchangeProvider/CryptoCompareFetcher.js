@@ -37,8 +37,9 @@ export default class CryptoCompareFetcher  extends ExchangeDataFetcherBase {
 
 		let history = raw;
 		let dataPoints = []
-		for (let date in history) {
-			let data = history[date];
+
+		for (var i = 0; i < history.length; i++) {
+			let data = history[i];
 
 			let change1H = null;//this.dicToValueArray(data.change1h);
 			let change7H = null;//this.dicToValueArray(data.change7h);

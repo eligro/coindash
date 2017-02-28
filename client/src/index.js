@@ -21,7 +21,6 @@ const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStor
 const store = configureStore(persistedState);
 
 store.subscribe(() => {
-    console.log('store', store.getState());
     localStorage.setItem('reduxState', JSON.stringify(store.getState()))
 })
 

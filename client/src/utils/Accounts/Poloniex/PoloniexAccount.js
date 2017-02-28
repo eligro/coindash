@@ -144,8 +144,6 @@ export class PoloniexAccount extends Account {
 					moment(dic.date).unix()
 				)
 		}
-
-		return null;
 	}
 
 	tokensFromCurrencyPair(currencyPair) {

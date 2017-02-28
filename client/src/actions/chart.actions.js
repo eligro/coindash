@@ -23,12 +23,20 @@ export function setLoadedChart(state) {
     }
 }
 
+export function chartText(text) {
+    return {type: types.SET_STATUS_TEXT, text};
+}
+
 export function loadChart() {
     return (dispatch, getState) => {
-        if (getState().charts.chartLoaded == true) {
+        if (getState().charts.chartLoaded === true) {
             console.log("chart already loaded, do not load again");
+            dispatch(chartText(""));
             return;
         }
+
+        dispatch(chartText("Fetching data ..."));
+        console.log("started chart loading");
 
 
         let ethTokens = getState().exchanges.filter(i => i.type === 'ethereum').map(i => i.token);
@@ -40,7 +48,6 @@ export function loadChart() {
         }
 
         getState().exchanges.filter(i => i.type === 'polonix').forEach(i => {
-            console.log(i);
             let poloniexAccount = new PoloniexAccount(i.token, i.secret);
             accounts.push(poloniexAccount);
         })
@@ -52,7 +59,11 @@ export function loadChart() {
 
             let spanTime = today - 30 * day;
 
-            manager.dayStatusFromDate(spanTime, function (data) {
+            manager.dayStatusFromDate(spanTime, 
+                function (text) { // status updater
+                    dispatch(chartText(text));
+                },
+                function (data) {
                 console.log("finished loading charts");
                 dispatch(loadedChartWithState(true));
                 dispatch(loadChartSuccess(data));
@@ -77,7 +88,6 @@ export function loadChart() {
                  str += t.symbol + " " + t.prettyBalance() + "\n";
                  }
 
-                 console.log('wot', str);
                  }
                  */
             });

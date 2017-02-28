@@ -60,7 +60,6 @@ class AccountPage extends React.Component {
     }
 
     tempFunc() {
-        console.log('tempFunc', this.state);
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Popover, Tooltip, Button, Modal, OverlayTrigger} from 'react-bootstrap';
+import { Button, Modal} from 'react-bootstrap';
 import AccountExchangeForm from './AccountExchangeForm.react';
 import './AccountModal.css';
 

@@ -17,12 +17,10 @@ export default class Header extends React.Component {
     }
 
     openHelp(event) {
-        console.log('show help', this.props.extension);
         this.setState({ showHelp: true });
     }
 
     closeHelp(event) {
-        console.log('closeHelp', event);
         this.setState({ showHelp: false });
     }
 

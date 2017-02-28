@@ -99,6 +99,7 @@ export class ExchangeProvider {
 			days.push({
 				"timestamp" : currentUnix,
 				"delta" : 0,
+				"aggregatedDelta": 1, // 1 simulates investing $1 and see its aggregated delta value
 				"valuePoint" : null,
 				"fiatPrice" : 0
 			});
@@ -137,12 +138,20 @@ export class ExchangeProvider {
 			}
 
 			// calc delta
-			for(let dayIdx = days.length - 1; dayIdx > 0; dayIdx--) {
+			let baseScale = days[days.length - 1].fiatPrice;
+			for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
 				let day = days[dayIdx];
-				let nextDay = days[dayIdx - 1];
 
-				// calc deposits and withdrawals 
-				day.delta = (nextDay.fiatPrice / day.fiatPrice) - 1;
+				if (dayIdx > 0) {
+					let nextDay = days[dayIdx - 1];
+					// calc deposits and withdrawals 
+
+					console.log(nextDay);
+
+					day.delta = (nextDay.fiatPrice / day.fiatPrice) - 1;
+				}
+				
+				day.aggregatedDelta = day.fiatPrice / baseScale;
 			}
 			callback(days);
   		}, function(error){
@@ -173,10 +182,6 @@ export class ExchangeProvider {
 			var dataPoint = historicalData.dataPoints.find(isSameDate)
 
 
-			console.log("aggregateBalances");
-			console.log(timestamp);
-			console.log(dataPoint);
-			console.log(historicalData);
 			if (dataPoint == undefined) { // no data point
 				console.log("no data point");
 				data.push({
@@ -328,7 +333,6 @@ export class ExchangeProvider {
         	return parentObj.aggregateTokens(tokens, timestamp, ++count, totalValue+currentValue, targetCurrency, callback);
   		}, function(error){
 			console.log("token without history");
-			console.log(tokens[count].symbol);
   			return this.aggregateTokens(tokens, timestamp, ++count, totalValue, targetCurrency, callback);
   		});
 	}

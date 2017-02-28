@@ -6,9 +6,9 @@ import {browserHistory} from 'react-router';
 import './PeopleItemSmall.css';
 
 class PeopleItemSmall extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    // }
 
 
     redirectToPage() {

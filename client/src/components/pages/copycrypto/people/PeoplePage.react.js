@@ -6,9 +6,8 @@ import './PeoplePage.css';
 class PeoplePage extends React.Component {
 
     componentDidMount() {
-        const user = this.props.params.user;
+        // const user = this.props.params.user;
 
-        console.log('user', user);
     }
 
 

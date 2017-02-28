@@ -9,11 +9,9 @@ class Positions extends React.Component {
         super(props, context);
 
         //this.state = {loading: true};
-        console.log('this.props', this.props);
 
         setTimeout(() => {
             //this.setState({loading: false});
-            console.log('this.props', this.props);
         }, 1200);
     }
 

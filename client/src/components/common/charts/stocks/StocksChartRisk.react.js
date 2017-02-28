@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
-import Highcharts from 'highcharts';
+// import Highcharts from 'highcharts';
 //import Highlight from 'react-highlight';
 import Spinner from '../../Spinner.react'
 import './StocksChart.css';

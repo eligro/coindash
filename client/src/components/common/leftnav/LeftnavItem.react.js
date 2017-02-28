@@ -4,9 +4,6 @@ import { browserHistory } from 'react-router';
 import FontAwesome from 'react-fontawesome';
 
 export default class LeftnavItem extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
     static contextTypes = {
         router: PropTypes.object
@@ -14,7 +11,6 @@ export default class LeftnavItem extends React.Component {
 
     redirectToPage() {
         browserHistory.push(this.props.item.route);
-        console.log('leftNavItem redirectToPage');
     }
 
     render() {

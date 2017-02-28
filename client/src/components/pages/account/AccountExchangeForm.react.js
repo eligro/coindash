@@ -36,8 +36,6 @@ class AccountExchangeForm extends React.Component {
     }
 
     typeChange(event) {
-        console.log('typeChange', event);
-
         const exchange = this.state.exchange;
         exchange.type = event.target.value;
 

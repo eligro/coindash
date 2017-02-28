@@ -54,7 +54,7 @@ export class AccountsManager {
 		});
 	}
 
-	dayStatusFromDate(fromDate, callback) {
+	dayStatusFromDate(fromDate, statusUpdater, callback) {
 		let executed = 0;
 		let executions = 3;
 
@@ -68,9 +68,11 @@ export class AccountsManager {
 		AccountsBalanceUtils.fetchBalances(this.accounts, function(data) {
 			balances = data;
 
-			console.log("fethced accounts balance");
-
 			executed += 1;
+
+			console.log("fethced accounts balance");
+			statusUpdater(executed * 10 + "%");
+
 			if (executed == executions) {
 				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, callback);
 			}
@@ -80,9 +82,11 @@ export class AccountsManager {
 		AccountsTradesUtils.fetchTrades(this.accounts, function(data) {
 			trades = data;
 
-			console.log("fethced accounts trades");
-
 			executed += 1;
+
+			console.log("fethced accounts trades");
+			statusUpdater(executed * 10 + "%");
+
 			if (executed == executions) {
 				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, callback);
 			}
@@ -92,18 +96,20 @@ export class AccountsManager {
 			deposits = openDeposits;
 			withdrawals = openWithdrawals;
 
-			console.log("fethced accounts withdrawals and deposits");
-
 			executed += 1;
+
+			console.log("fethced accounts withdrawals and deposits");
+			statusUpdater(executed * 10 + "%");
+
 			if (executed == executions) {
-				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, callback);
+				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback);
 			}
 		});
 	}
 
 
 	// UTILS
-	calcDayStatusObject(fromDate, currentBalances, trades, deposits, withdrawals, callback) {
+	calcDayStatusObject(fromDate, currentBalances, trades, deposits, withdrawals, statusUpdater, callback) {
 		let days = [];
 		let dayTime = 24 * 60 * 60;
 
@@ -121,6 +127,7 @@ export class AccountsManager {
 				"withdrawals" : [],
 				"balances" : [],
 				"delta" : 0,
+				"aggregatedDelta": 1 // 1 simulates investing $1 and see its aggregated delta value
 			});
 			currentUnix -= dayTime;
 		}
@@ -129,6 +136,9 @@ export class AccountsManager {
 		days[0].balances = currentBalances;
 
 		// append trades, open deposits and withdrawals
+		console.log("ordered day events");
+		statusUpdater("40%");
+
 		for (let dayIdx in days) {
 			let day = days[dayIdx];
 
@@ -162,15 +172,20 @@ export class AccountsManager {
 			}
 		}
 		console.log("ordered day data");
+		statusUpdater("50%");
 
 		// calc balances
 		days = AccountsCalcUtils.calcBalances(days);
 
 		console.log("calculated balances");
+		statusUpdater("70%");
+
+		let parentObj = this;
 
 		let exchangeProvider = ExchangeProvider.instance();
 		exchangeProvider.valueForDays(days, function(daysValues){
 			console.log("calculated USD daily value");
+			statusUpdater("100%");
 	        
 	        let ret = {
 	        	"portfolio" : AccountsCalcUtils.calcDayDelta(daysValues)
@@ -182,5 +197,5 @@ export class AccountsManager {
                 callback(ret);
             });
         });  		
-	}
+	} 
 }

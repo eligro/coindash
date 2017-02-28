@@ -20,7 +20,6 @@ export function loadBalances() {
         }
 
         getState().exchanges.filter(i => i.type === 'polonix').forEach(i => {
-            console.log(i);
             let poloniexAccount = new PoloniexAccount(i.token, i.secret);
             accounts.push(poloniexAccount);
         })

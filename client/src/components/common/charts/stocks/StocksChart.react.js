@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import {Link} from 'react-router';
-import Highcharts from 'highcharts';
+// import Highcharts from 'highcharts';
 //import Highlight from 'react-highlight';
 import Spinner from '../../Spinner.react';
 import './StocksChart.css';
@@ -35,6 +35,21 @@ class StocksChart extends React.Component {
     getChartConfig() {
         const btcData = this.props.chartData.btcData;
         const portfolioData = this.props.chartData.portfolioData;
+
+        // sort in ascending order
+        btcData.sort(function(a, b) {
+            let v1 = a[0];
+            let v2 = b[0];
+
+            return v1 - v2;
+        });
+
+        portfolioData.sort(function(a, b) {
+            let v1 = a[0];
+            let v2 = b[0];
+
+            return v1 - v2;
+        });
 
         var seriesOptions = [];
 

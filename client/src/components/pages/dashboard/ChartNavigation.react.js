@@ -28,10 +28,13 @@ class ChartNavigation extends React.Component {
     render() {
         return (
             <div className="chart-navigation">
+                <div className="status-cont">
+                    <p className="title"> {this.props.statusText} </p>
+                </div>
                 <div className="btn-cont">
                     <button className="btn" onClick={this.handleRefresh}>Click me</button>
                 </div>
-                <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={(selectedKey) => { this.handleSelect(selectedKey);}}>
+                <Nav className="navbar-cont" bsStyle="pills" activeKey={this.state.activeKey} onSelect={(selectedKey) => { this.handleSelect(selectedKey);}}>
                     <NavItem eventKey={1} title="item1">Profit / Lost</NavItem>
                     <NavItem eventKey={2} title="Item2">Risk</NavItem>
                 </Nav>

@@ -1,5 +1,5 @@
 import { Token } from '../../Trades/Token';
-import { ETHTransaction } from './ETHTransaction';
+// import { ETHTransaction } from './ETHTransaction';
 import { ETHChainAccount } from './ETHChainAccount';
 
 export class ETHWallet {
@@ -23,20 +23,20 @@ export class ETHWallet {
 	}
 
 	// tokens
-	addToken(token) {
-		this.addToken(token.symbol, token.contractAddress, token.decimal);
-	}
+	// addToken(token) {
+	// 	this.addToken(token.symbol, token.contractAddress, token.decimal);
+	// }
 
-	addToken(symbol, address, decimal) {
-		console.log("adding token with symbol: " + symbol + ", address: " + address + ", decimal: " + decimal);
-		var tokens = Wallet.savedTokens() 
-		tokens.push({
-					address: address,
-					symbol: symbol,
-					decimal: decimal
-				});
-		localStorage.setItem("localTokens",JSON.stringify(tokens));
-	}
+	// addToken(symbol, address, decimal) {
+	// 	console.log("adding token with symbol: " + symbol + ", address: " + address + ", decimal: " + decimal);
+	// 	var tokens = Wallet.savedTokens() 
+	// 	tokens.push({
+	// 				address: address,
+	// 				symbol: symbol,
+	// 				decimal: decimal
+	// 			});
+	// 	localStorage.setItem("localTokens",JSON.stringify(tokens));
+	// }
 
 	static allTokens() {
 		return ETHWallet.savedTokens().concat(Token.hardcodedTokes());

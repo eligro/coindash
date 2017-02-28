@@ -11,14 +11,18 @@ export class AccountsCalcUtils {
 		  *	(next day USD value) - ((day value) + deposits - withdrawals)
 		*/
 
-
-		for(let dayIdx = days.length - 1; dayIdx > 0; dayIdx--) {
+		let baseScale = days[days.length - 1].dayFiatValue;
+		for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
 			let day = days[dayIdx];
 			let nextDay = days[dayIdx - 1];
 
-			// calc deposits and withdrawals 
-			let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
-			day.delta = diff / day.dayFiatValue;
+			if (dayIdx > 0) {
+				// calc deposits and withdrawals 
+				let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
+				day.delta = diff / day.dayFiatValue;
+			}
+			
+			day.aggregatedDelta = day.dayFiatValue / baseScale;
 		}
 
 		return days;

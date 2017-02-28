@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 
 import PeopleItemSmall from './people/PeopleItemSmall.react';
 
@@ -8,9 +8,9 @@ import './CopyCryptoPage.css';
 
 
 class CopyCryptoPage extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    // }
 
     render() {
         return (
@@ -35,9 +35,9 @@ class CopyCryptoPage extends React.Component {
     }
 }
 
-CopyCryptoPage.propTypes = {
+// CopyCryptoPage.propTypes = {
 
-}
+// }
 
 function mapStateToProps(state, ownProps) {
     return {

@@ -12,7 +12,7 @@ import * as coinActions from '../../../actions/coins.actions';
 import * as chartActions from '../../../actions/chart.actions';
 import * as balancesActions from '../../../actions/balances.actions';
 
-import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
+// import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
 class HomePage extends React.Component {
     constructor(props, context) {
@@ -68,7 +68,6 @@ class HomePage extends React.Component {
                     str += t.symbol + " " + t.prettyBalance() + "\n";
                 }
 
-                console.log('wot', str);
             }
         });
         //*/
@@ -91,14 +90,13 @@ class HomePage extends React.Component {
     }
 
     chartSelected(selected) {
-        console.log('chartSelected', selected);
         this.setState({selectedChart: selected});
 
     }
 
     refreshChart() {
         this.props.chartActions.setLoadedChart(false);
-        // this.props.chartActions.loadChart();
+        this.props.chartActions.loadChart();
     }
 
     render() {
@@ -112,9 +110,9 @@ class HomePage extends React.Component {
                         <Balances balances={this.props.balances}/>
                     </div>
                     <div className="chart-cont">
-                        <ChartNavigation handleSelectCB={this.chartSelected} handleRefreshCB={this.refreshChart}/>
+                        <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
                         {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
-                        {this.state.selectedChart === 2 && <StocksChartRisk/>}
+                        // {this.state.selectedChart === 2 && <StocksChartRisk/>}
                     </div>
                 </div>
                 <div className="bottom-cont">
@@ -135,7 +133,8 @@ function mapStateToProps(state, ownProps) {
         balances: state.balances,
         chartData: state.charts.chartData,
         front: state.coins.front,
-        exchanges: state.exchanges
+        exchanges: state.exchanges,
+        statusText: state.charts.statusText
     };
 }
 

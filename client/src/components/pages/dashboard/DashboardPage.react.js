@@ -20,6 +20,7 @@ class HomePage extends React.Component {
 
         this.state = {selectedChart: 1};
         this.chartSelected = this.chartSelected.bind(this);
+        this.refreshChart = this.refreshChart.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -95,6 +96,11 @@ class HomePage extends React.Component {
 
     }
 
+    refreshChart() {
+        this.props.chartActions.setLoadedChart(false);
+        // this.props.chartActions.loadChart();
+    }
+
     render() {
         return (
             <div className="page-container dashboard-page">
@@ -106,7 +112,7 @@ class HomePage extends React.Component {
                         <Balances balances={this.props.balances}/>
                     </div>
                     <div className="chart-cont">
-                        <ChartNavigation handleSelectCB={this.chartSelected}/>
+                        <ChartNavigation handleSelectCB={this.chartSelected} handleRefreshCB={this.refreshChart}/>
                         {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
                         {this.state.selectedChart === 2 && <StocksChartRisk/>}
                     </div>

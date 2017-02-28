@@ -12,3 +12,19 @@
     border: none;
     border-radius: 20px;
 }
+
+.chart-navigation .btn-cont {
+	position: relative;
+    float: right;
+    vertical-align: middle;
+    height: 100%;
+    width: 6%;
+    background: #000000;
+}
+
+.chart-navigation .btn-cont .btn {
+	background: #ffffff;
+	vertical-align: middle;
+	height: 100%;
+	width: 100%;
+}

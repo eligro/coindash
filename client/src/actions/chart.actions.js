@@ -13,8 +13,14 @@ export function loadChartRiskSuccess(data) {
     return {type: types.LOAD_CHART_RISK_SUCCESS, data};
 }
 
-export function setLoadedChart(state) {
+export function loadedChartWithState(state) {
     return {type: types.SET_CHART_LOADED, state};
+}
+
+export function setLoadedChart(state) {
+    return (dispatch, getState) => {
+        dispatch(loadedChartWithState(state));
+    }
 }
 
 export function loadChart() {
@@ -48,7 +54,7 @@ export function loadChart() {
 
             manager.dayStatusFromDate(spanTime, function (data) {
                 console.log("finished loading charts");
-                dispatch(setLoadedChart(true));
+                dispatch(loadedChartWithState(true));
                 dispatch(loadChartSuccess(data));
                 // print
                 /*

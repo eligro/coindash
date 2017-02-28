@@ -26,6 +26,7 @@ export default function chartReducer(state = {}, action) {
             return {chartData: null};
 
         case types.SET_CHART_LOADED:
+            console.log("set did load to " + action.state);
             return Object.assign({}, state, {
                 chartLoaded: Boolean(action.state)
             });

@@ -13,8 +13,18 @@ export function loadChartRiskSuccess(data) {
     return {type: types.LOAD_CHART_RISK_SUCCESS, data};
 }
 
+export function setLoadedChart(state) {
+    return {type: types.SET_CHART_LOADED, state};
+}
+
 export function loadChart() {
     return (dispatch, getState) => {
+        if (getState().charts.chartLoaded == true) {
+            console.log("chart already loaded, do not load again");
+            return;
+        }
+
+
         let ethTokens = getState().exchanges.filter(i => i.type === 'ethereum').map(i => i.token);
         var accounts = [];
 
@@ -37,6 +47,8 @@ export function loadChart() {
             let spanTime = today - 30 * day;
 
             manager.dayStatusFromDate(spanTime, function (data) {
+                console.log("finished loading charts");
+                dispatch(setLoadedChart(true));
                 dispatch(loadChartSuccess(data));
                 // print
                 /*

@@ -4,14 +4,14 @@ import Utils from '../utils/Utils';
 export default function chartReducer(state = {}, action) {
     switch(action.type) {
         case types.LOAD_CHART_SUCCESS:
-            console.log(types.LOAD_CHART_SUCCESS, action);
+            // console.log(types.LOAD_CHART_SUCCESS, action);
 
             const portfolioData = action.data.portfolio.map(i => [i.timestamp * 1000, i.delta]);
             const btcData = action.data.market.map(i => [i.timestamp * 1000, i.delta]);
 
-            console.log(types.LOAD_CHART_SUCCESS, Object.assign({}, state, {
-                chartData: {btcData, portfolioData}
-            }));
+            // console.log(types.LOAD_CHART_SUCCESS, Object.assign({}, state, {
+            //     chartData: {btcData, portfolioData}
+            // }));
 
             return Object.assign({}, state, {
                 chartData: {btcData, portfolioData}
@@ -24,6 +24,11 @@ export default function chartReducer(state = {}, action) {
 
         case types.CLEAR_CHARTS:
             return {chartData: null};
+
+        case types.SET_CHART_LOADED:
+            return Object.assign({}, state, {
+                chartLoaded: Boolean(action.state)
+            });
 
         default:
             return state;

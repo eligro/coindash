@@ -3,6 +3,8 @@ import {Nav, NavItem} from 'react-bootstrap';
 
 import './ChartNavigation.css';
 
+import FontAwesome from 'react-fontawesome';
+
 class ChartNavigation extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -32,7 +34,9 @@ class ChartNavigation extends React.Component {
                     <p className="title"> {this.props.statusText} </p>
                 </div>
                 <div className="btn-cont">
-                    <button className="btn" onClick={this.handleRefresh}>Click me</button>
+                    <button className="btn" onClick={this.handleRefresh}>
+                        <FontAwesome name="refresh" size='2x'/>
+                    </button>
                 </div>
                 <Nav className="navbar-cont" bsStyle="pills" activeKey={this.state.activeKey} onSelect={(selectedKey) => { this.handleSelect(selectedKey);}}>
                     <NavItem eventKey={1} title="item1">Performance</NavItem>

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './DashboardPage.css';
+import PerformanceChart from '../../common/charts/stocks/PerformanceChart.react';
 import StocksChart from '../../common/charts/stocks/StocksChart.react';
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react';
 import Balances from './Balances.react';
@@ -91,7 +92,6 @@ class HomePage extends React.Component {
 
     chartSelected(selected) {
         this.setState({selectedChart: selected});
-
     }
 
     refreshChart() {
@@ -111,8 +111,9 @@ class HomePage extends React.Component {
                     </div>
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
-                        {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
-                        // {this.state.selectedChart === 2 && <StocksChartRisk/>}
+                        {this.state.selectedChart === 1 && <PerformanceChart chartData={this.props.performanceData} exchanges={this.props.exchanges}/>}
+                        {this.state.selectedChart === 2 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
+                        {this.state.selectedChart === 3 && <StocksChartRisk/>}
                     </div>
                 </div>
                 <div className="bottom-cont">
@@ -132,6 +133,7 @@ function mapStateToProps(state, ownProps) {
     return {
         balances: state.balances,
         chartData: state.charts.chartData,
+        performanceData: state.charts.preformanceData,
         front: state.coins.front,
         exchanges: state.exchanges,
         statusText: state.charts.statusText

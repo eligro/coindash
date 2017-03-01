@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal} from 'react-bootstrap';
 import AccountExchangeForm from './AccountExchangeForm.react';
 import './AccountModal.css';
+import {Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
 
 class AccountModal extends React.Component {
 

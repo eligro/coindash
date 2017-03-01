@@ -6,8 +6,8 @@ import {Link} from 'react-router';
 import Spinner from '../../Spinner.react';
 import './StocksChart.css';
 
-class StocksChart extends React.Component {
-    constructor(props, context) {
+class PerformanceChart extends React.Component {
+	constructor(props, context) {
         super(props, context);
 
         this.state = {loading: true};
@@ -20,30 +20,14 @@ class StocksChart extends React.Component {
         }, 2500);
     }
 
-    componentDidMount() {
-        //let chart = this.refs.chart.getChart();
-        //chart.series.addPoint({x: 10, y: 12});
-
-        //let chart = this.refs.chart;
-        //console.log('refs', chart);
-    }
-
     componentWillUnmount() {
         clearTimeout(this.timeout);
     }
 
     getChartConfig() {
-        const btcData = this.props.chartData.btcAggDelta;
-        const portfolioData = this.props.chartData.portfolioAggDelta;
+        const portfolioData = this.props.chartData;
 
         // sort in ascending order
-        btcData.sort(function(a, b) {
-            let v1 = a[0];
-            let v2 = b[0];
-
-            return v1 - v2;
-        });
-
         portfolioData.sort(function(a, b) {
             let v1 = a[0];
             let v2 = b[0];
@@ -54,20 +38,6 @@ class StocksChart extends React.Component {
         var seriesOptions = [];
 
         seriesOptions[0] = {
-            name: 'BTC ($)',
-            data: btcData,
-            tooltip: {
-                valueDecimals: 2
-            },
-            marker: {
-                enabled: true,
-                radius: 6
-            },
-            shadow: true,
-            lineWidth: 4
-        };
-
-        seriesOptions[1] = {
             name: 'Portfolio ($)',
             data: portfolioData,
             tooltip: {
@@ -145,9 +115,9 @@ class StocksChart extends React.Component {
     }
 }
 
-StocksChart.propTypes = {
+PerformanceChart.propTypes = {
     chartData: PropTypes.object.isRequired
     //,exchanges: PropTypes.array.isRequired
 };
 
-export default StocksChart;
+export default PerformanceChart;

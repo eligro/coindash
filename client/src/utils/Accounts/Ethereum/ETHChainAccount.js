@@ -1,11 +1,12 @@
 import { Account } from '../Account.js';
-import { Token } from '../../Trades/Token'
-import { Trade } from '../../Trades/Trade'
-import { WithdrawlDeposit } from '../../Trades/WithdrawlDeposit'
-import { ETHTransaction, ERC20Data } from './ETHTransaction'
+import { Token } from '../../Trades/Token';
+import { Trade } from '../../Trades/Trade';
+import { WithdrawlDeposit } from '../../Trades/WithdrawlDeposit';
+import { ETHTransaction, ERC20Data } from './ETHTransaction';
 import { AjaxUtils } from '../../utils/AjaxUtils';
 import { Utils } from '../../utils/Utils';
 import BigNumber from 'bignumber.js';
+import { ETHHelper } from './ETHHelper';
 
 export class ETHChainAccount extends Account {
 	constructor(ethAccount, watchedTokens) {
@@ -98,40 +99,46 @@ export class ETHChainAccount extends Account {
 	}
 
 	fetchBalanceForToken(token, callback) {
-		let data = AjaxUtils.queryParams(token.balanceCallData());
-	    let serverUrl = "https://rpc.myetherwallet.com/api.mew";
-	    let parentObj = this;
-
-	    fetch(serverUrl, {
-	      method: 'post',
-	      headers: {
-	        'Content-Type': 'application/x-www-form-urlencoded',
-	      },
-	      body: data
-	    })
-	    .then((response) => response.json())
-	    .then((data) => {
-	      if (!data.error) {
-	        if (token.symbol === "ETH" || token.symbol === "ETC") {
-	          token.balance = data.data.balance;
-	          token.balance = new BigNumber(token.weiBalance());
-	          callback(token.balance);
-	        }
-	        else {
-	          let decimal = token.decimal;
-	          let _balance = new BigNumber(data.data).div(new BigNumber(10).pow(decimal));
-	          token.balance = _balance;
-	          callback(_balance);
-	        }
-	      }
-	      else {
-	      	callback(new BigNumber(0));
-	      }
-	    })
-	    .catch((error) => {
-	      console.error(error);
-	    });
+	    ETHHelper.fetchBalanceForToken(token, this.ethAccount, callback);
 	}
+
+	// old MEW api
+
+	// fetchBalanceForToken(token, callback) {
+	// 	let data = AjaxUtils.queryParams(token.balanceCallData());
+	//     let serverUrl = "https://rpc.myetherwallet.com/api.mew";
+	//     let parentObj = this;
+
+	//     fetch(serverUrl, {
+	//       method: 'post',
+	//       headers: {
+	//         'Content-Type': 'application/x-www-form-urlencoded',
+	//       },
+	//       body: data
+	//     })
+	//     .then((response) => response.json())
+	//     .then((data) => {
+	//       if (!data.error) {
+	//         if (token.symbol === "ETH" || token.symbol === "ETC") {
+	//           token.balance = data.data.balance;
+	//           token.balance = new BigNumber(token.weiBalance());
+	//           callback(token.balance);
+	//         }
+	//         else {
+	//           let decimal = token.decimal;
+	//           let _balance = new BigNumber(data.data).div(new BigNumber(10).pow(decimal));
+	//           token.balance = _balance;
+	//           callback(_balance);
+	//         }
+	//       }
+	//       else {
+	//       	callback(new BigNumber(0));
+	//       }
+	//     })
+	//     .catch((error) => {
+	//       console.error(error);
+	//     });
+	// }
 
 	findTokenICOTrade(tx) {
 		let allTokens = this.watchedTokens;

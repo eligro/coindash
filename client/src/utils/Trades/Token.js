@@ -43,7 +43,7 @@ export class Token {
 	static hardcodedTokes() {
 		return [
 			Token.ETH(),
-			Token.ETC(),
+			// Token.ETC(),
 			Token.DAO(),
 			Token.DGD(),
 			Token.MKR(),

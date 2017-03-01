@@ -146,8 +146,6 @@ export class ExchangeProvider {
 					let nextDay = days[dayIdx - 1];
 					// calc deposits and withdrawals 
 
-					console.log(nextDay);
-
 					day.delta = (nextDay.fiatPrice / day.fiatPrice) - 1;
 				}
 				

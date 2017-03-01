@@ -35,8 +35,9 @@ class ChartNavigation extends React.Component {
                     <button className="btn" onClick={this.handleRefresh}>Click me</button>
                 </div>
                 <Nav className="navbar-cont" bsStyle="pills" activeKey={this.state.activeKey} onSelect={(selectedKey) => { this.handleSelect(selectedKey);}}>
-                    <NavItem eventKey={1} title="item1">Profit / Lost</NavItem>
-                    <NavItem eventKey={2} title="Item2">Risk</NavItem>
+                    <NavItem eventKey={1} title="item1">Performance</NavItem>
+                    <NavItem eventKey={2} title="item2">Benchmark</NavItem>
+                    <NavItem eventKey={3} title="Item3">Risk</NavItem>
                 </Nav>
                 
             </div>

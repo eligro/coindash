@@ -4,18 +4,16 @@ import * as types from '../actions/action.const';
 export default function chartReducer(state = {}, action) {
     switch(action.type) {
         case types.LOAD_CHART_SUCCESS:
-            // console.log(types.LOAD_CHART_SUCCESS, action);
+            // benchmark chart
+            const portfolioAggDelta = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta ]);
+            const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
 
-            console.log(action.data);
-            const portfolioData = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
-            const btcData = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
-
-            // console.log(types.LOAD_CHART_SUCCESS, Object.assign({}, state, {
-            //     chartData: {btcData, portfolioData}
-            // }));
+            // preformance chart
+            const portfolioPerfo = action.data.portfolio.map(i => [i.timestamp * 1000, i.dayFiatValue ]);
 
             return Object.assign({}, state, {
-                chartData: {btcData, portfolioData}
+                chartData: {btcAggDelta, portfolioAggDelta},
+                preformanceData: portfolioPerfo
             });
         
         case types.LOAD_CHART_RISK_SUCCESS:
@@ -24,7 +22,7 @@ export default function chartReducer(state = {}, action) {
             });
 
         case types.CLEAR_CHARTS:
-            return {chartData: null};
+            return {chartData: null, preformanceData: null, statusText: "", chartLoaded: Boolean(false)};
 
         case types.SET_CHART_LOADED:
             return Object.assign({}, state, {

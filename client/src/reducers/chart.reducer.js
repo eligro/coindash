@@ -4,6 +4,9 @@ import * as types from '../actions/action.const';
 export default function chartReducer(state = {}, action) {
     switch(action.type) {
         case types.LOAD_CHART_SUCCESS:
+            console.log("LOAD_CHART_SUCCESS");
+            console.log(action.data);
+
             // benchmark chart
             const portfolioAggDelta = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta ]);
             const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);

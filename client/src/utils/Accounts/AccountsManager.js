@@ -74,7 +74,7 @@ export class AccountsManager {
 			statusUpdater(executed * 10 + "%");
 
 			if (executed == executions) {
-				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, callback);
+				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback);
 			}
 		});
 
@@ -88,7 +88,7 @@ export class AccountsManager {
 			statusUpdater(executed * 10 + "%");
 
 			if (executed == executions) {
-				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, callback);
+				parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback);
 			}
 		});
 

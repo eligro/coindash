@@ -17,7 +17,7 @@ export class PoloniexAccount extends Account {
 		let parentObj = this;
 		this.fetchPoloniexTrades(function(trades, error) {
 			if (error != null) {
-				console.log(error);
+				console.log("could not get poloniex trades: " + error);
 			}
 			else {
 				let data = parentObj.parsePoloniexTradeData(trades);
@@ -41,7 +41,7 @@ export class PoloniexAccount extends Account {
 	}
 
 	getTransactionHistory(callback) {
-		
+		callback([]);
 	}
 
 	getWithdrawAndDepositHistory(callback) {
@@ -83,7 +83,7 @@ export class PoloniexAccount extends Account {
 				callback(ret);
 			}
 			else {
-				console.log(error);
+				console.log("could not get withdrawals & deposits from poloniex: " + error);
 			}
 		});
 	}

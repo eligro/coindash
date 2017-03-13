@@ -4,13 +4,13 @@ import { Token } from '../../utils/Trades/Token';
 import { DayBalance } from '../../utils/Trades/DayBalance';
 import BigNumber from 'bignumber.js';
 
-import jStat from 'jStat';
-
 export class AccountsCalcUtils {
-	static calcDayDelta(days) {
+	static calcDayStats(days) {
 		/**
 		  *	We calculate day delta this way:
 		  *	(next day USD value) - ((day value) + deposits - withdrawals)
+		  *
+		  * We calculate variance and covariance
 		*/
 
 		let baseScale = days[days.length - 1].dayFiatValue;

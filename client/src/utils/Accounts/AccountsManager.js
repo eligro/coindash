@@ -188,7 +188,7 @@ export class AccountsManager {
 			statusUpdater("100%");
 	        
 	        let ret = {
-	        	"portfolio" : AccountsCalcUtils.calcDayDelta(daysValues)
+	        	"portfolio" : AccountsCalcUtils.calcDayStats(daysValues)
 	        }
 
 	        exchangeProvider.getTokenDayStatus(Token.BTC(), "usd", fromDate, function(data) {

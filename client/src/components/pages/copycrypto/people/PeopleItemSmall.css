@@ -7,6 +7,14 @@
     border: 1px solid #fff;
 }
 
+.chart-cont-p {
+    /*position: absolute;*/
+    left: 320px;
+    right: 0;
+    padding: 0 30px;
+    background: -webkit-linear-gradient(top, rgba(39,17,137,1) 0%, rgba(54,47,179,1) 100%);
+}
+
 .people-item {
     margin: 20px 0;
     padding: 20px;

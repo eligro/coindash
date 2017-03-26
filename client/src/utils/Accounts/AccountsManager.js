@@ -198,4 +198,17 @@ export class AccountsManager {
             });
         });  		
 	} 
+
+	calcDeltaByDays(data, numOfDays, callback){
+		console.log("calcDeltaByDays");
+		
+		if(data.portfolio.length > numOfDays)
+			var startBalance = data.portfolio[data.portfolio.length - numOfDays].dayFiatValue;
+		else
+			var startBalance = data.portfolio[0].dayFiatValue;
+		console.log(startBalance);
+		var endBalance = data.portfolio[data.portfolio.length - 1].dayFiatValue;
+		console.log(endBalance);
+		callback((endBalance - startBalance) / startBalance);
+	}
 }

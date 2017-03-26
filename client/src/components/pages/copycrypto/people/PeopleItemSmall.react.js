@@ -2,35 +2,37 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import ExampleImage from '../helpers/ExampleImage';
 import {browserHistory} from 'react-router';
+import database from '../../../../utils/database.react.js';
 
 import './PeopleItemSmall.css';
 
 class PeopleItemSmall extends React.Component {
-    // constructor(props, context) {
-    //     super(props, context);
-    // }
+    constructor(props, context) {
+        super(props, context);
 
+        this.state = {showModal: false};
+    }
 
     redirectToPage() {
-        const user = 'JonSmith';
-        browserHistory.push(`/people/@${user}`);
+        const user = this.props.index;
+        browserHistory.push(`/people/${user}`);
     }
 
     render() {
         return(
-            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-6 thumb">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-6 thumb" onClick={this.open}>
                 <div className="people-item">
                     <div className="people-header clearfix">
                         <ExampleImage src="https://s3.amazonaws.com/uifaces/faces/twitter/beshur/128.jpg"/>
-                        <div onClick={this.redirectToPage.bind(this)} className="name ellipsis">@JonSmith</div>
+                        <div onClick={this.redirectToPage.bind(this)} className="name ellipsis">@JonSmith {this.props.index}</div>
                     </div>
                     <div className="people-body">
-                        <div>38.11%</div>
-                        <div>Profit</div>
-                        <div>62 days</div>
+                        <div>7 Days: {this.props.data.shortDelta.toFixed(2)}%</div>
+                        <div>12 Months: {this.props.data.longDelta.toFixed(2)}%</div>
+                        <div></div>
                     </div>
                     <div className="people-footer clearfix">
-                        <div className="note">11 Copers</div>
+                        <div className="note">Copiers: {this.props.data.copiers}</div>
                         <div className="btn-cont">
                             <Button bsStyle="primary">Copy</Button>
                         </div>

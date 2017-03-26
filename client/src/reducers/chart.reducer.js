@@ -16,7 +16,9 @@ export default function chartReducer(state = {}, action) {
 
             return Object.assign({}, state, {
                 chartData: {btcAggDelta, portfolioAggDelta},
-                preformanceData: portfolioPerfo
+                preformanceData: portfolioPerfo,
+                shortDelta: action.data.shortDelta,
+                longDelta: action.data.longDelta
             });
         
         case types.LOAD_CHART_RISK_SUCCESS:

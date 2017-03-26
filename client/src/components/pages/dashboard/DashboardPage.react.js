@@ -13,6 +13,7 @@ import * as coinActions from '../../../actions/coins.actions';
 import * as chartActions from '../../../actions/chart.actions';
 import * as balancesActions from '../../../actions/balances.actions';
 
+
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
 class HomePage extends React.Component {

@@ -39,7 +39,10 @@ class CopyCryptoPage extends React.Component {
 // }
 
 function getDataFromLocalStorage(obj) {
-  return localStorage.getItem("id").substring(1, localStorage.getItem("id").length - 1);
+    if(localStorage.getItem("id") != null)
+        return localStorage.getItem("id").substring(1, localStorage.getItem("id").length - 1)
+    else
+        return "";
 }
 
 function mapStateToProps(state, ownProps) {

@@ -1,11 +1,10 @@
 import * as types from './action.const';
-import database from './../utils/database.react.js';
-
+import firebase from '../utils/database.react.js';
 
 export function getUsersData() {
   return (dispatch, getState) => {
     dispatch(getUsersDataRequestedAction());
-    return database.ref('/users').once('value', snap => {
+    return firebase.database().ref('/users').once('value', snap => {
       const userData = snap.val();
       var data = [];
       snap.forEach(function(d) {

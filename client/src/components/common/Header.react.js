@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { IndexLink, Link } from 'react-router';
 import { Navbar, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
-import database from './../../utils/database.react.js';
+import firebase from './../../utils/database.react.js';
+import {FormGroup, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap';
+import FileUploader from 'react-firebase-file-uploader';    
 
 import './Header.css';
 
@@ -12,7 +14,7 @@ class Header extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {showHelp: null, showShare: false};
+        this.state = {showHelp: null, showShare: false, userName: null, image: null};
 
         this.closeHelp = this.closeHelp.bind(this);
         this.openHelp = this.openHelp.bind(this);
@@ -20,6 +22,7 @@ class Header extends React.Component {
         this.closeShare = this.closeShare.bind(this);
         this.openShare = this.openShare.bind(this);
         this.share = this.share.bind(this);
+        this.saveUserName = this.saveUserName.bind(this);
     }
 
     componentWillMount() {
@@ -39,20 +42,24 @@ class Header extends React.Component {
     }
 
     closeShare(event) {
-        this.setState({ showShare: false });
+        this.setState({ showShare: false, image: null, userName: null });
     }
 
     isShowHelp() {
         return this.props.extension.version === '0.0.0' && this.state.showHelp === null || this.state.showHelp;
     }
+
+    saveUserName(event) {
+        this.setState({userName: event.target.value});
+    }
     
     share(event) {
+        if(this.state.image == null || this.state.userName == null){}
+        else{
         if(this.props.chartLoaded === true){
             var id = getDataFromLocalStorage();
-            console.log("***********");
-            console.log(id);
-            var key = database.ref().push().key;
-            var ref = database.ref("users");
+            var key = firebase.database().ref().push().key;
+            var ref = firebase.database().ref("users");
 
             var userData = {
                 id: key,
@@ -62,29 +69,62 @@ class Header extends React.Component {
                 chartData: this.props.chartData,
                 shortDelta: this.props.shortDelta,
                 longDelta: this.props.longDelta,
-                copiers: 0
+                copiers: 0,
+                userName: this.state.userName,
+                image: this.state.image
             }
-            if(id != "default"){
-                userData.id = id;
-                ref.child(id).set(userData);
-                console.log("saved in fb");
-            }
-            else{
+            if(id == null || id == "default" || id == ""){
+                console.log("if");
                 userData.id = key;
                 ref.child(key).set(userData);
                 saveDataToLocalStorage(key);
                 console.log("saved in ls + fb");
+            }
+            else{
+                console.log("else");
+                userData.id = id;
+                ref.child(id).set(userData);
+                console.log("saved in fb");
             }    
         }
         else{
             console.log("chart not loaded");
             alert("Please load chart first");
         }
+        this.setState({uploaded: false});
         this.closeShare();
+        }
     }
 
-    render() {
+    getUserNameValidationState() {
+        if(this.state.userName != null)
+            return 'success';
+        else
+            return 'error';
+    }
 
+    getImageValidationState() {
+        if(this.state.uploaded)
+            return 'success';
+        else
+            return 'error';
+    }
+
+    handleUploadStart = (file) => {
+        console.log(file.name);
+        this.setState({isUploading: true, progress: 0});
+    }
+    handleProgress = (progress) => this.setState({progress});
+    handleUploadError = (error) => {
+        this.setState({isUploading: false, progress: 0});
+        console.error(error);
+    }
+    handleUploadSuccess = (filename) => {
+        this.setState({avatar: filename, progress: 100, isUploading: false, uploaded: true});
+        firebase.storage().ref('images').child(filename).getDownloadURL().then(url => this.state.image = url);
+    };
+
+    render() {
         const Extension = this.props.extension.version === '0.0.0' ?
             <div className="extension-link">Please download the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> from the Chrome web store</div>
             : <div className="extension-link">You already have the <a href="https://chrome.google.com/webstore/detail/coindashio/bmakfigpeajegddeamfkmnambomhmnoh" target="_blank">Coindash.io Chrome Extension</a> installed (version: {this.props.extension.version})</div>
@@ -138,7 +178,27 @@ class Header extends React.Component {
                         <Modal.Title>Share Your Profile</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        
+                        <form >
+                            <FormGroup controlId="formToken" validationState={this.getUserNameValidationState()}>
+                                <ControlLabel>UserName</ControlLabel>
+                                    <FormControl type="text" placeholder="Enter userName" onChange={this.saveUserName} />
+                                <FormControl.Feedback />
+                            </FormGroup>
+                            <FormGroup controlId="formToken" validationState={this.getImageValidationState()}>
+                                <ControlLabel>Profile Image</ControlLabel>
+                                <FileUploader
+                                    accept="image/*"
+                                    name="avatar"
+                                    randomizeFilename
+                                    storageRef={firebase.storage().ref('images')}
+                                    onUploadStart={this.handleUploadStart}
+                                    onUploadError={this.handleUploadError}
+                                    onUploadSuccess={this.handleUploadSuccess}
+                                    onProgress={this.handleProgress}
+                                />
+                                <HelpBlock>Please Upload Image</HelpBlock>
+                            </FormGroup>
+                        </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.share} >Share</Button>
@@ -165,14 +225,15 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-// Store your data.
 function saveDataToLocalStorage(obj) {
   localStorage.setItem("id", JSON.stringify(obj));
 }
 
-// Do something with your data.
 function getDataFromLocalStorage(obj) {
-  return localStorage.getItem("id").substring(1, localStorage.getItem("id").length - 1);
+    if(localStorage.getItem("id") != null)
+        return localStorage.getItem("id").substring(1, localStorage.getItem("id").length - 1)
+    else
+        return "";
 }
 
-export default connect(mapStateToProps, database)(Header);
+export default connect(mapStateToProps, firebase)(Header);

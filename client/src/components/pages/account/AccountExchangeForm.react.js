@@ -29,10 +29,21 @@ class AccountExchangeForm extends React.Component {
 
     getValidationState() {
         //const length = this.state.value.length;
-        const length = this.props.exchange.token.length;
-        if (length > 10) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
+        // const length = this.props.exchange.token.length;
+        // if (length > 10) return 'success';
+        // else if (length > 5) return 'warning';
+        // else if (length > 0) return 'error';
+
+        var ethereum_address = require('ethereum-address');
+        console.log(this.props.exchange.token)
+        if (ethereum_address.isAddress(this.props.exchange.token)) {
+            console.log('Valid ethereum address.');
+            return 'success'
+        }
+        else {
+            console.log('Invalid Ethereum address.');
+            return 'error';
+        }
     }
 
     typeChange(event) {
@@ -90,7 +101,6 @@ class AccountExchangeForm extends React.Component {
                     <ControlLabel>Select source</ControlLabel>
                     <FormControl componentClass="select" placeholder="select"
                                  value={this.props.exchange.type} onChange={this.typeChange}>
-                        <option value="polonix">Polonix</option>
                         <option value="ethereum">Ethereum</option>
                     </FormControl>
                 </FormGroup>

@@ -5,7 +5,7 @@ import StocksChart from '../../../common/charts/stocks/StocksChart.react'
 import ChartNavigation from '../../dashboard/ChartNavigation.react';
 import PerformanceChart from '../../../common/charts/stocks/PerformanceChart.react';
 import StocksChartRisk from '../../../common/charts/stocks/StocksChartRisk.react';
-import database from '../../../../utils/database.react.js';
+import firebase from '../../../../utils/database.react.js';
 
 import './PeoplePage.css';
 
@@ -35,7 +35,7 @@ class PeoplePage extends React.Component {
     copy() {
         var id = this.state.user.id;
         console.log(id);
-        var ref = database.ref("users");
+        var ref = firebase.database().ref("users");
 
         var copiers = ref.child(id).child("copiers");
 

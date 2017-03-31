@@ -64,17 +64,14 @@ export function loadChart() {
                     dispatch(chartText(text));
                 },
                 function (data) {
-                
                 //Calc 7 days delta
                 manager.calcDeltaByDays(data, 7,
                     function (shortDelta) {
-                        console.log(shortDelta);
                         data.shortDelta = shortDelta;
                     });
                 //Calc 365 days delta
                 manager.calcDeltaByDays(data, 365,
                     function (longDelta) {
-                        console.log(longDelta);
                         data.longDelta = longDelta;
                     });
 

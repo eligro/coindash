@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Modal, Button } from 'react-bootstrap';
 import * as exchangeActions from '../../../actions/exchange.actions';
 import './AccountPage.css';
-
 import AccountExchange from './AccountExchange.react';
 
 import AccountModal from './AccountModal.react';
@@ -13,7 +13,7 @@ class AccountPage extends React.Component {
         super(props, context);
 
         this.state = {
-            exchange: {type: 'ethereum', token: '', secret: '', created: ''}
+            exchange: {type: 'ethereum', token: '', secret: '', created: '',showModal: false}
         }
 
         //this.titleChange = this.titleChange.bind(this);
@@ -22,6 +22,8 @@ class AccountPage extends React.Component {
         this.deleteExchange = this.deleteExchange.bind(this);
 
         this.tempFunc = this.tempFunc.bind(this);
+        this.close = this.close.bind(this);
+        this.open = this.open.bind(this);
     }
 
     /*titleChange(event) {
@@ -29,6 +31,14 @@ class AccountPage extends React.Component {
         exchange.title = event.target.value;
         this.setState({exchange: exchange});
     }*/
+
+    close() {
+        this.setState({ showModal: false });
+    }
+
+    open(index) {
+        this.setState({ showModal: true, index: index });
+    }
 
     tokenChange(event) {
         const exchange = this.state.exchange;
@@ -41,13 +51,13 @@ class AccountPage extends React.Component {
         this.props.actions.createExchange(this.state.exchange);
     }
 
-    deleteExchange(index) {
-        console.log('delete exchange', event, index);
-        this.props.actions.deleteExchange(index);
+    deleteExchange() {
+        console.log('delete exchange', event, this.state.index);
+        this.props.actions.deleteExchange(this.state.index);
     }
 
     exchangeComponent(exchange, index) {
-        return <AccountExchange key={index} exchange={exchange} deleteExchangeCB={() => {this.deleteExchange(index); }} />;
+        return <AccountExchange key={index} exchange={exchange} deleteExchangeCB={() => {this.open(index); }} />;
         /*return(
             <div key={index}>
                 <div>{exchange.type}</div>
@@ -70,7 +80,23 @@ class AccountPage extends React.Component {
                     <AccountModal onSaveCB={this.createExchange} exchange={this.state.exchange}/>
                 </div>
                 {this.props.exchanges.map(this.exchangeComponent, this)}
+
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header>
+                        <Modal.Title>Delete Account?</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        Are you sure that you want to delete the account?
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button bsStyle="primary" onClick={this.close}>No</Button>
+                        <Button bsStyle="primary" onClick={ () => {this.deleteExchange(); this.close(); }} >Yes</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
+                
         );
     }
 }

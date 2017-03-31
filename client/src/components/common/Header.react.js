@@ -74,14 +74,12 @@ class Header extends React.Component {
                 image: this.state.image
             }
             if(id == null || id == "default" || id == ""){
-                console.log("if");
                 userData.id = key;
                 ref.child(key).set(userData);
                 saveDataToLocalStorage(key);
                 console.log("saved in ls + fb");
             }
             else{
-                console.log("else");
                 userData.id = id;
                 ref.child(id).set(userData);
                 console.log("saved in fb");
@@ -211,7 +209,6 @@ class Header extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    console.log(state);
     return {
         balances: state.balances,
         chartData: state.charts.chartData,

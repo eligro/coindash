@@ -110,14 +110,16 @@ class PerformanceChart extends React.Component {
                 {!this.props.chartData && this.props.exchanges.length && <div><Spinner/><div className="spinner-msg">This might take a while...</div></div>}
                 {!this.props.exchanges.length && <div className="accounts-msg">Please add <Link to={'/accounts'}>Accounts</Link></div>}
                 {this.props.chartData && <ReactHighstock config={this.getChartConfig()} ref="chart" /> }
+
             </div>
         );
     }
 }
 
 PerformanceChart.propTypes = {
-    chartData: PropTypes.object.isRequired
-    //,exchanges: PropTypes.array.isRequired
+    chartData: PropTypes.object.isRequired,
+    exchanges: PropTypes.array.isRequired
+    
 };
 
 export default PerformanceChart;

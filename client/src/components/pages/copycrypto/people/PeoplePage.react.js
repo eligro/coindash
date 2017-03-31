@@ -66,7 +66,6 @@ StocksChart.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-    console.log(state);
     return {
         balances: state.balances,
         chartData: state.charts.chartData,

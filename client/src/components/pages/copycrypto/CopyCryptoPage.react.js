@@ -46,7 +46,6 @@ function getDataFromLocalStorage(obj) {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state.copyCrypto.userData);
     return {
         exchanges: state.exchanges,
         userData: state.copyCrypto.userData

@@ -204,8 +204,8 @@ export class ETHChainAccount extends Account {
 	      }
 	      else {
 	      	// handle error
-	      	alert("No transactions found in the account");
-	      	console.log(data);
+	      	let _txs = [];
+	      	callback(_txs);
 	      }
 	    })
 	    .catch((error) => {

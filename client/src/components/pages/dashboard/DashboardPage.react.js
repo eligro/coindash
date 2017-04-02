@@ -108,7 +108,7 @@ class HomePage extends React.Component {
                         <div className="header">
                             BALANCES
                         </div>
-                        <Balances balances={this.props.balances}/>
+                        <Balances balances={this.props.balances} error={this.props.error}/>
                     </div>
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
@@ -131,13 +131,16 @@ class HomePage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+    console.log("Dashboard");
+    console.log(state);
     return {
         balances: state.balances,
         chartData: state.charts.chartData,
         performanceData: state.charts.preformanceData,
         front: state.coins.front,
         exchanges: state.exchanges,
-        statusText: state.charts.statusText
+        statusText: state.charts.statusText,
+        error: state.charts.error
     };
 }
 

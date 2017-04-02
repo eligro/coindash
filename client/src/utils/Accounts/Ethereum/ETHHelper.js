@@ -34,6 +34,7 @@ export class ETHHelper {
 	    })
 	    .catch((error) => {
 	      console.error(error);
+	      alert("Some problems with the account, try again later");
 	    });
 	}
 
@@ -59,6 +60,7 @@ export class ETHHelper {
 	    })
 	    .catch((error) => {
 	      console.error(error);
+	      alert("Some problems with the account, try again later");
 	    });
 	}
 }

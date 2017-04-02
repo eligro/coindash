@@ -27,6 +27,10 @@ export function chartText(text) {
     return {type: types.SET_STATUS_TEXT, text};
 }
 
+export function chartError(text) {
+    return {type: types.CHART_ERROR, text};
+}
+
 export function loadChart() {
     return (dispatch, getState) => {
         if (getState().charts.chartLoaded === true) {
@@ -64,6 +68,8 @@ export function loadChart() {
                     dispatch(chartText(text));
                 },
                 function (data) {
+                    if(data == null)
+                        dispatch(chartError("No Balance Found"));
                 //Calc 7 days delta
                 manager.calcDeltaByDays(data, 7,
                     function (shortDelta) {

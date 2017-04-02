@@ -66,8 +66,8 @@ export const ETH = "ETH";
 
 export class ExchangeProvider {
 	static instance() {
-		// return new ExchangeProvider(new CoinMarketCapFetcher());
-		return new ExchangeProvider(new CryptoCompareFetcher());
+		return new ExchangeProvider(new CoinMarketCapFetcher());
+		// return new ExchangeProvider(new CryptoCompareFetcher());
 	}
 
 	constructor(fetcher) {

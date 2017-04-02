@@ -9,6 +9,10 @@ export function loadBalancesSuccess(data) {
     return {type: types.LOAD_BALANCES_SUCCESS, data};
 }
 
+export function loadBalancesError(data) {
+    return {type: types.LOAD_BALANCES_ERROR, data};
+}
+
 export function loadBalances() {
     return (dispatch, getState) => {
         let ethTokens = getState().exchanges.filter(i => i.type === 'ethereum').map(i => i.token);

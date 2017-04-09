@@ -66,6 +66,8 @@ export class AccountsManager {
 		let parentObj = this;
 
 		AccountsBalanceUtils.fetchBalances(this.accounts, function(data) {
+			if(!data.length)
+				callback(null);
 			balances = data;
 
 			executed += 1;

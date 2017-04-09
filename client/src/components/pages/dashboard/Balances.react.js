@@ -7,12 +7,14 @@ import './Balances.css';
 
 class Balances extends React.Component {
     render() {
+        console.log(this.props);
         const items = this.props.balances.map((item, index) => <BalanceItem key={index} item={item}/>);
 
         return (
             <div className="balances-list">
-                {!this.props.balances.length && <Spinner/>}
-                {this.props.balances.length && items}
+                {!this.props.balances.length > 0 && !this.props.error && <Spinner/>}
+                {this.props.balances.length > 0 && items}
+                {this.props.error && <div>{this.props.error}</div>}
             </div>
         );
     }

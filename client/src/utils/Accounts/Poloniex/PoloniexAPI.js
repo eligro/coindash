@@ -73,6 +73,7 @@ export class PoloniexAPI {
 	    .catch((error) => {
 	      console.log(error);
 	      callback(null, error);
+	      alert("Some problems with the account, try again later");
 	    });
 	}
 

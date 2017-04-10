@@ -115,6 +115,9 @@ export class AccountsCalcUtils {
 					let tmpToken = Token.fromSymbol(deposit.token.symbol);
 					tmpToken.balance = new BigNumber(deposit.amount)
 
+					/*
+						Deposited tokens which are not on the list should be added from this day forward
+					*/
 					AccountsCalcUtils.addTokenToAllOlderBalances(
 							tmpToken,
 							dayIdx,

@@ -84,18 +84,22 @@ export class ETHChainAccount extends Account {
 
 	// private
 	fetchAllBalances(tokens, tokenIdx, callback) {
-		if (tokenIdx == tokens.length) {
-			callback(tokens);
-			return;
+
+		let cntActions = 0;
+		for (let i = 0; i < tokens.length; i++) {
+			cntActions ++;
+
+			let token = tokens[i];
+
+			this.fetchBalanceForToken(token, function (t, balance) {
+				t.balance = balance;
+				
+				cntActions --;
+				if (cntActions == 0) {
+					callback(tokens);
+				}
+			});
 		}
-
-		let token = tokens[tokenIdx];
-
-		let parentObj = this;
-		this.fetchBalanceForToken(token, function (balance) {
-			token.balance = balance;
-			parentObj.fetchAllBalances(tokens, tokenIdx + 1, callback);
-		});
 	}
 
 	fetchBalanceForToken(token, callback) {

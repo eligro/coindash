@@ -26,10 +26,10 @@ export class ETHHelper {
 	    .then((data) => {
 	      if (data.status === '1') {
 	      	token.balance = new BigNumber(data.result).div(token.getValueOfUnit('ether'));
-	        callback(token.balance);
+	        callback(token, token.balance);
 	      }
 	      else {
-	      	callback(new BigNumber(0));
+	      	callback(token, new BigNumber(0));
 	      }
 	    })
 	    .catch((error) => {
@@ -52,10 +52,10 @@ export class ETHHelper {
 	    .then((data) => {
 	      if (data.status === '1') {
 	      	token.balance = new BigNumber(data.result).div(token.getValueOfUnit('ether'));
-	        callback(token.balance);
+	        callback(token, token.balance);
 	      }
 	      else {
-	      	callback(new BigNumber(0));
+	      	callback(token, new BigNumber(0));
 	      }
 	    })
 	    .catch((error) => {

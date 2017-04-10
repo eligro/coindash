@@ -327,6 +327,8 @@ export class ExchangeProvider {
 			var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
         	let currentValue = tokens[count].balance == 0 ? 0 : tokens[count].balance.times(exchangeValuePoint.value).toNumber();
+        	tokens[count].fiatCurrency =  targetCurrency;
+        	tokens[count].fiatValue = currentValue;
 
         	return parentObj.aggregateTokens(tokens, timestamp, ++count, totalValue+currentValue, targetCurrency, callback);
   		}, function(error){

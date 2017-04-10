@@ -68,7 +68,7 @@ class PerformanceChart extends React.Component {
                     let balancesStr = "<br/>";
                     for (let i=0; i < balances.length ; i ++) {
                         let balance = balances[i];
-                        balancesStr += "<br/>" + balance.symbol + "  " + balance.balance;
+                        balancesStr += "<br/>" + balance.symbol + "  " + balance.balance + " (" + balance.fiatValue + " " + balance.fiatCurrency + ")";
                     }
 
 

@@ -13,6 +13,8 @@ export class Token {
 		this.balanceHex = "0x70a08231";
 		this.transferHex = "0xa9059cbb";
 		this.ico_address = "";
+		this.fiatCurrency = "usd";
+		this.fiatValue = 0;
 
 		this.unitMap = {
 			'wei': '1',

@@ -63,7 +63,7 @@ export function loadChart() {
             let day = 24 * 60 * 60;
             let today = Math.floor(Date.now() / 1000);
 
-            let spanTime = today - 90 * day;
+            let spanTime = today - 30 * day;
 
             manager.dayStatusFromDate(spanTime, 
                 function (text) { // status updater

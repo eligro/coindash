@@ -7,7 +7,6 @@ import './Balances.css';
 
 class Balances extends React.Component {
     render() {
-        console.log(this.props);
         const items = this.props.balances.map((item, index) => <BalanceItem key={index} item={item}/>);
 
         return (

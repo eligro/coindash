@@ -249,21 +249,6 @@ export class ETHChainAccount extends Account {
 				}
 			});
 		}
-
-
-		// if (idx == tokens.length - 1) {
-		// 	callback(balances);
-		// 	return
-		// }
-
-		// let parentObj = this;
-
-		// let t = tokens[idx];
-		// this.fetchTokenContractTxList(t, account, function(txs) {
-		// 	balances.push(txs);
-
-		// 	parentObj.fetchAllTokenContractTxList(idx + 1, tokens, balances, account, callback);
-		// });
 	}
 
 	fetchTokenContractTxList(token, account, callback) {

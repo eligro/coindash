@@ -148,9 +148,15 @@ export class ETHChainAccount extends Account {
 		let allTokens = this.watchedTokens;
 		for(let idx in allTokens) {
 			let tokenAddress = allTokens[idx].contractAddress.replace('0x','');
+			let tokenICOAddress = "";
+			if (allTokens[idx].ico_address) {
+				tokenICOAddress = allTokens[idx].ico_address.replace('0x','');
+			}
+
 			let txTo = tx.to.replace('0x','');
 
-			if(tokenAddress.toLowerCase() === txTo.toLowerCase()) {
+			if(tokenAddress.toLowerCase() === txTo.toLowerCase() || 
+				tokenICOAddress.toLowerCase() === txTo.toLowerCase()) {
 				return allTokens[idx];
 			}
 		}

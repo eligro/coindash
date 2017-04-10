@@ -7,6 +7,8 @@ export default function chartReducer(state = {}, action) {
             console.log("LOAD_CHART_SUCCESS");
             console.log(action.data);
 
+            console.log(action.data.portfolio);
+
             // benchmark chart
             const portfolioAggDelta = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta ]);
 
@@ -14,7 +16,6 @@ export default function chartReducer(state = {}, action) {
             action.data.portfolio.forEach(function ( val ) {
                 portfolioBalancesByDay[ val.timestamp * 1000 ] = val.balances;
             });
-            console.log(portfolioBalancesByDay);
 
             const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
 

@@ -12,6 +12,7 @@ export class Token {
 		this.balance = new BigNumber(0);
 		this.balanceHex = "0x70a08231";
 		this.transferHex = "0xa9059cbb";
+		this.ico_address = "";
 
 		this.unitMap = {
 			'wei': '1',
@@ -91,6 +92,7 @@ export class Token {
 							dic.userAddress,
 							dic.symbol,
 							dic.decimal);
+		ret.ico_address = dic.ico_contract_address;
 		if (dic.balance != null) {
 			ret.balance = new BigNumber(dic.balance);
 		}

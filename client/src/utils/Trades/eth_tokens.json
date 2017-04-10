@@ -115,6 +115,7 @@
   },
   {
     "address":"0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1",
+    "ico_contract_address":"0x3bf541f87056d134e0109be1be92978b26cb09e0",
     "symbol":"MLN",
     "decimal":18,
     "type":"default"

@@ -113,7 +113,7 @@ class HomePage extends React.Component {
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
                         {this.state.selectedChart === 1 && <PerformanceChart chartData={this.props.performanceData} dayBalances={this.props.portfolioBalancesByDay} exchanges={this.props.exchanges}/>}
-                        {this.state.selectedChart === 2 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
+                        {this.state.selectedChart === 2 && <StocksChart chartData={this.props.chartData} dayBalances={this.props.portfolioBalancesByDay} exchanges={this.props.exchanges}/>}
                         {this.state.selectedChart === 3 && <StocksChartRisk/>}
                     </div>
                 </div>

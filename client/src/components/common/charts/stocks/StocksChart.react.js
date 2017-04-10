@@ -35,6 +35,7 @@ class StocksChart extends React.Component {
     getChartConfig() {
         const btcData = this.props.chartData.btcAggDelta;
         const portfolioData = this.props.chartData.portfolioAggDelta;
+        var dayBalances = this.props.dayBalances;
 
         // sort in ascending order
         btcData.sort(function(a, b) {
@@ -87,6 +88,25 @@ class StocksChart extends React.Component {
             },
             navigator: {
                 enabled: false
+            },
+            tooltip : {
+                formatter: function () {
+                    let date = new Date(this.x);
+
+                    // prepare balances
+                    let balances = dayBalances[this.x];
+                    let balancesStr = "<br/>";
+                    for (let i=0; i < balances.length ; i ++) {
+                        let balance = balances[i];
+                        balancesStr += "<br/>" + balance.symbol + "  " + balance.balance + " (" + balance.fiatValue + " " + balance.fiatCurrency + ")";
+                    }
+
+
+                    let ret = "<b>" + date.toLocaleDateString() + "</b><br/><b>Day Aggregated delta: " + Math.round((this.y-1) * 100) + "%</b>" + balancesStr;
+
+
+                    return ret;
+                }
             },
             /*            title: {
              text: 'BTC Price'

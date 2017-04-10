@@ -12,20 +12,40 @@ export class AccountsCalcUtils {
 		  *
 		  * We calculate variance and covariance
 		*/
-
-		let baseScale = days[days.length - 1].dayFiatValue;
-		for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
+		days[days.length - 1].delta = 0;
+		days[days.length - 1].aggregatedDelta = 1;
+		for(let dayIdx = days.length - 2; dayIdx >= 0; dayIdx--) {
 			let day = days[dayIdx];
-			let nextDay = days[dayIdx - 1];
+			let previousDay = days[dayIdx + 1];
 
-			if (dayIdx > 0) {
-				// calc deposits and withdrawals 
-				let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
-				day.delta = diff / day.dayFiatValue;
-			}
+			// the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
+			// let previousDayCorrectedValue = previousDay.dayFiatValue + previousDay.withdrawalsFiatValue - previousDay.depositsFiatValue;
+			let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue;
+			day.delta = (todayCorrectedValue - previousDay.dayFiatValue) / previousDay.dayFiatValue;
 			
-			day.aggregatedDelta = day.dayFiatValue / baseScale;
+			day.aggregatedDelta = previousDay.aggregatedDelta * (1+day.delta);
 		}
+
+
+
+
+		// let baseScale = days[days.length - 1].dayFiatValue;
+		// for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
+		// 	let day = days[dayIdx];
+		// 	let nextDay = days[dayIdx - 1];
+
+		// 	if (dayIdx > 0) {
+		// 		// the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
+		// 		let nextDayCorrectedValue = nextDay.dayFiatValue + nextDay.withdrawalsFiatValue - nextDay.depositsFiatValue;
+		// 		let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue;
+		// 		// let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
+		// 		day.delta = (nextDayCorrectedValue - todayCorrectedValue) / todayCorrectedValue;
+
+
+		// 	}
+			
+		// 	day.aggregatedDelta = day.dayFiatValue / baseScale;
+		// }
 
 		return days;
 	}

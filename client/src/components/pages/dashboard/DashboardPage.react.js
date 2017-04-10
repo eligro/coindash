@@ -112,7 +112,7 @@ class HomePage extends React.Component {
                     </div>
                     <div className="chart-cont">
                         <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
-                        {this.state.selectedChart === 1 && <PerformanceChart chartData={this.props.performanceData} exchanges={this.props.exchanges}/>}
+                        {this.state.selectedChart === 1 && <PerformanceChart chartData={this.props.performanceData} dayBalances={this.props.portfolioBalancesByDay} exchanges={this.props.exchanges}/>}
                         {this.state.selectedChart === 2 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
                         {this.state.selectedChart === 3 && <StocksChartRisk/>}
                     </div>
@@ -135,6 +135,7 @@ function mapStateToProps(state, ownProps) {
         balances: state.balances,
         chartData: state.charts.chartData,
         performanceData: state.charts.preformanceData,
+        portfolioBalancesByDay: state.charts.portfolioBalancesByDay,
         front: state.coins.front,
         exchanges: state.exchanges,
         statusText: state.charts.statusText,

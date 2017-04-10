@@ -9,6 +9,13 @@ export default function chartReducer(state = {}, action) {
 
             // benchmark chart
             const portfolioAggDelta = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta ]);
+
+            var portfolioBalancesByDay = {};
+            action.data.portfolio.forEach(function ( val ) {
+                portfolioBalancesByDay[ val.timestamp * 1000 ] = val.balances;
+            });
+            console.log(portfolioBalancesByDay);
+
             const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
 
             // preformance chart
@@ -16,6 +23,7 @@ export default function chartReducer(state = {}, action) {
 
             return Object.assign({}, state, {
                 chartData: {btcAggDelta, portfolioAggDelta},
+                portfolioBalancesByDay: portfolioBalancesByDay,
                 preformanceData: portfolioPerfo,
                 shortDelta: action.data.shortDelta,
                 longDelta: action.data.longDelta

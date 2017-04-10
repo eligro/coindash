@@ -91,10 +91,13 @@ class StocksChart extends React.Component {
             },
             tooltip : {
                 formatter: function () {
-                    let date = new Date(this.x);
+                    let benchmarkValue = this.points[0];
+                    let portfolioValue = this.points[1];
+
+                    let date = new Date(portfolioValue.x);
 
                     // prepare balances
-                    let balances = dayBalances[this.x];
+                    let balances = dayBalances[portfolioValue.x];
                     let balancesStr = "<br/>";
                     for (let i=0; i < balances.length ; i ++) {
                         let balance = balances[i];
@@ -102,8 +105,8 @@ class StocksChart extends React.Component {
                     }
 
 
-                    let ret = "<b>" + date.toLocaleDateString() + "</b><br/><b>Day Aggregated delta: " + Math.round((this.y-1) * 100) + "%</b>" + balancesStr;
-
+                    let ret = "<b>" + date.toLocaleDateString() + "</b><br/><b>Day Aggregated delta: " + Math.round((portfolioValue.y-1) * 100) + "%</b>" + balancesStr;
+                    ret += "<br/></br><b>Market: " + Math.round((benchmarkValue.y-1) * 100) + "%</b>";
 
                     return ret;
                 }

@@ -131,8 +131,6 @@ class HomePage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    console.log("Dashboard");
-    console.log(state);
     return {
         balances: state.balances,
         chartData: state.charts.chartData,

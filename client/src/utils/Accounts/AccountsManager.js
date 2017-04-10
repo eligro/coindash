@@ -208,9 +208,7 @@ export class AccountsManager {
 			var startBalance = data.portfolio[data.portfolio.length - numOfDays].dayFiatValue;
 		else
 			var startBalance = data.portfolio[0].dayFiatValue;
-		console.log(startBalance);
 		var endBalance = data.portfolio[data.portfolio.length - 1].dayFiatValue;
-		console.log(endBalance);
 		callback((endBalance - startBalance) / startBalance);
 	}
 }

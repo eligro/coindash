@@ -26,7 +26,7 @@ export default class CryptoCompareFetcher  extends ExchangeDataFetcherBase {
 	    })
 	    .catch((error) => {
 	      console.error(error);
-	      alert("Some problems with the account, try again later");
+	      // alert("Some problems with the account, try again later");
 	    })
 	}
 

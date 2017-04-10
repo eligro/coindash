@@ -66,7 +66,6 @@ export default class CoinMarketCapFetcher extends ExchangeDataFetcherBase {
 
 	fetchRaw(token, callback) {
 		let url = "http://coinmarketcap.northpole.ro/api/v5/history/" + token.symbol + "_2017.json";
-		console.log(url);
 		fetch(url, {
 	      method: 'get',
 	    })
@@ -76,7 +75,7 @@ export default class CoinMarketCapFetcher extends ExchangeDataFetcherBase {
 	    })
 	    .catch((error) => {
 	      console.error(error);
-	      alert("Some problems with the account, try again later");
+	      // alert("Some problems with the account, try again later");
 	    })
 	}
 }

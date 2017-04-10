@@ -57,6 +57,11 @@ export class AccountsCalcUtils {
 						rhsTokenFromBalances.balance = new BigNumber(trade.rhsValue)
 						balancesCpy.push(rhsTokenFromBalances);
 
+						/*
+							the rhs token is the one bought using the lhs token. 
+							If there is no token on the list for whatever reason we add it because from
+							this day forward it should be on the list
+						*/
 						AccountsCalcUtils.addTokenToAllOlderBalances(
 							rhsTokenFromBalances,
 							dayIdx,
@@ -78,6 +83,11 @@ export class AccountsCalcUtils {
 						lhsTokenFromBalances.balance = new BigNumber(trade.lhsValue)
 						balancesCpy.push(lhsTokenFromBalances);
 
+						/*
+							the lhs token is the one sold to using the rhs token. 
+							If there is no token on the list for whatever reason we add it because from
+							this day forward it should be on the list
+						*/
 						AccountsCalcUtils.addTokenToAllOlderBalances(
 							lhsTokenFromBalances,
 							dayIdx,
@@ -122,7 +132,8 @@ export class AccountsCalcUtils {
 				let token = AccountsCalcUtils.tokenFromList(balancesCpy, withr.token);
 				if (token == null) {
 					token = Token.fromSymbol(withr.token.symbol);
-					token.balance = new BigNumber(withr.amount) 
+					token.balance = new BigNumber(withr.amount);
+					balancesCpy.push(token); 
 				}
 				else {
 					token.addToBalance(new BigNumber(withr.amount));

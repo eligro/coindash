@@ -42,12 +42,6 @@
     "type":"default"
   },
   {
-    "address":"0x5c40eF6f527f4FbA68368774E6130cE6515123f2",
-    "symbol":"DAO_extraBalance",
-    "decimal":0,
-    "type":"default"
-  },
-  {
     "address":"0xe0b7927c4af23765cb51314a0e0521a9645f0e2a",
     "symbol":"DGD",
     "decimal":9,

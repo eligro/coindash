@@ -56,6 +56,8 @@ export function loadChart() {
             accounts.push(poloniexAccount);
         })
 
+
+
         if (accounts.length) {
             let manager = new AccountsManager(accounts);
             let day = 24 * 60 * 60;
@@ -109,6 +111,10 @@ export function loadChart() {
                  }
                  */
             });
+        }
+        else { // no account
+            console.log("No accounts found, not loading charts");
+            dispatch(chartText(""));
         }
 
     }

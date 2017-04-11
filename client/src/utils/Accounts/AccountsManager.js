@@ -200,7 +200,7 @@ export class AccountsManager {
 	        	"portfolio" : AccountsCalcUtils.calcDayStats(daysValues)
 	        }
 
-	        exchangeProvider.getTokenDayStatus(Token.BTC(), "usd", fromDate, function(data) {
+	        exchangeProvider.getTokenDayStatus(Token.ETH(), "usd", fromDate, function(data) {
                 ret["market"] = data;
 
                 callback(ret);

@@ -3,10 +3,20 @@
 }
 
 .balance-item {
+    white-space: nowrap;
     height: 40px;
     line-height: 40px;
     padding: 0 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.balance-item.sum {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: none;
 }
 
 .balance-item .item-title {

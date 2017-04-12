@@ -10,8 +10,10 @@ class Balances extends React.Component {
     render() {
         const items = this.props.balances.map((item, index) => <BalanceItem key={index} item={item}/>);
 
+            console.log(this.props.balances);
+
         const sum = this.props.balances.reduce(function(total, value){
-            return total + value.amount;
+            return total + value.value;
         }, 0);
 
 
@@ -23,7 +25,7 @@ class Balances extends React.Component {
 
                 <div className="balance-item sum">
                     <div className="item-title">Total</div>
-                    <div className="item-amount">{sum}</div>
+                    <div className="item-amount"></div>
                     <div className="item-value" title={`$${sum}`}>${Utils.toFixed(sum, 3)}</div>
                 </div>
             </div>

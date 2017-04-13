@@ -29,6 +29,35 @@
 .balance-item .item-title {
     width: 80px;
     text-align: left;
+    display: flex;
+}
+
+.balance-item .item-title .btn-toolbar {
+  margin: 0;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.balance-item .item-title .btn-toolbar .dropdown.btn-group.btn-group-link {
+  display: flex;
+  flex: 1 1 auto;
+}
+.balance-item .item-title .btn-toolbar .dropdown.btn-group.btn-group-link .dropdown-toggle.btn.btn-link {
+  padding: 0;
+  color: #FFF;
+  text-align: left;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+}
+.balance-item .item-title .btn-toolbar .dropdown.btn-group.btn-group-link .dropdown-toggle.btn.btn-link .caret {
+  margin-left: auto;
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: all 180ms ease-in-out;
+}
+.balance-item:hover .item-title .btn-toolbar .dropdown.btn-group.btn-group-link .dropdown-toggle.btn.btn-link .caret {
+  opacity: 1;
 }
 
 .balance-item .item-amount {

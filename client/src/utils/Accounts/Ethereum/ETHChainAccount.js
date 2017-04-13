@@ -4,6 +4,16 @@ import { WithdrawlDeposit } from '../../Trades/WithdrawlDeposit'
 import { ETHTransaction, ERC20Data } from './ETHTransaction'
 import { Utils } from '../../utils/Utils'
 import { ETHHelper } from './ETHHelper'
+import analytics from '../../../components/analytics'
+
+const nevent = ({label, action, nonInteraction = false}) => {
+  analytics.event({
+    category: 'Network',
+    action,
+    label,
+    nonInteraction
+  })
+}
 
 export class ETHChainAccount extends Account {
   constructor (ethAccount, watchedTokens) {
@@ -29,13 +39,28 @@ export class ETHChainAccount extends Account {
   }
 
   getTransactionHistory (callback) {
+    nevent({
+      action: 'Fetch transaction history',
+      label: 'Start',
+      nonInteraction: true
+    })
     this.fetchTxHistoryAndTokenHistory(this.ethAccount, function (txs) {
+      nevent({
+        action: 'Fetch transaction history',
+        label: 'End',
+        nonInteraction: true
+      })
       callback(txs)
     })
   }
 
   getWithdrawAndDepositHistory (callback) {
     let parentObj = this
+    nevent({
+      action: 'Fetch widthdraw and deposit history',
+      label: 'Start',
+      nonInteraction: true
+    })
     this.getTransactionHistory(function (txs) {
       let ret = []
       for (let idx in txs) {
@@ -73,6 +98,11 @@ export class ETHChainAccount extends Account {
           }
         }
       }
+      nevent({
+        action: 'Fetch widthdraw and deposit history',
+        label: 'End',
+        nonInteraction: true
+      })
       callback(ret)
     })
   }

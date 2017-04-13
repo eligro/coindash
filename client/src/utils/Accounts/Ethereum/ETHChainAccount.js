@@ -1,11 +1,8 @@
 import { Account } from '../Account.js'
 import { Token } from '../../Trades/Token'
-import { Trade } from '../../Trades/Trade'
 import { WithdrawlDeposit } from '../../Trades/WithdrawlDeposit'
 import { ETHTransaction, ERC20Data } from './ETHTransaction'
-import { AjaxUtils } from '../../utils/AjaxUtils'
 import { Utils } from '../../utils/Utils'
-import BigNumber from 'bignumber.js'
 import { ETHHelper } from './ETHHelper'
 
 export class ETHChainAccount extends Account {

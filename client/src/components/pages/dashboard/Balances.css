@@ -43,4 +43,8 @@
 
 .balance-item.titles > * {
   text-align: left;
+  opacity: 0.75;
+}
+.balance-item.titles .item-amount, .balance-item.titles .item-value {
+  text-align: right;
 }

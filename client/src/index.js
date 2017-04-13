@@ -1,39 +1,42 @@
-import React from 'react';
-import { render } from 'react-dom';
-import configureStore from './store/configureStore';
-import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router';
-import routes from './routes';
-import './index.css';
+import React from 'react'
+import { render } from 'react-dom'
+import configureStore from './store/configureStore'
+import { Provider } from 'react-redux'
+import { Router, browserHistory } from 'react-router'
+import routes from './routes'
+import './index.css'
+import analytics from './components/analytics'
 
-import '../node_modules/fixed-data-table/dist/fixed-data-table.css';
+import '../node_modules/fixed-data-table/dist/fixed-data-table.css'
 
-//import {loadChart} from './actions/chart.actions';
-//import {loadBalances} from './actions/balances.actions';
-//import {loadFront} from './actions/coins.actions';
-import {getExtensionVersion} from './actions/extension.actions';
+// import {loadChart} from './actions/chart.actions';
+// import {loadBalances} from './actions/balances.actions';
+// import {loadFront} from './actions/coins.actions';
+import {getExtensionVersion} from './actions/extension.actions'
 
-//const store = configureStore();
-//const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+// const store = configureStore();
+// const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const { localStorage } = window
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
 
-const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
-
-const store = configureStore(persistedState);
+const store = configureStore(persistedState)
 
 store.subscribe(() => {
-    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
 })
 
+// store.dispatch(loadChart());
+// store.dispatch(loadBalances());
+// store.dispatch(loadFront());
+store.dispatch(getExtensionVersion())
 
-//store.dispatch(loadChart());
-//store.dispatch(loadBalances());
-//store.dispatch(loadFront());
-store.dispatch(getExtensionVersion());
+// Register analytics listener
+browserHistory.listen(analytics.listener)
 
 render(
-    <Provider store={store}>
-        <Router history={browserHistory} routes={routes} />
-    </Provider>,
+  <Provider store={store}>
+    <Router history={browserHistory} routes={routes} />
+  </Provider>,
     document.getElementById('root')
 )
 

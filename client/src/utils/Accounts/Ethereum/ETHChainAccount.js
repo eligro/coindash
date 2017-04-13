@@ -18,9 +18,9 @@ export class ETHChainAccount extends Account {
 
     // attach accoutn address
     for (var i = 0; i < this.watchedTokens.length; i++) {
-        let t = this.watchedTokens[i]
-        t.userAddress = this.ethAccount
-      }
+      let t = this.watchedTokens[i]
+      t.userAddress = this.ethAccount
+    }
   }
 
   getTrades (callback) {
@@ -92,7 +92,7 @@ export class ETHChainAccount extends Account {
         t.balance = balance
 
         cntActions--
-        if (cntActions == 0) {
+        if (cntActions === 0) {
           callback(tokens)
         }
       })
@@ -100,7 +100,7 @@ export class ETHChainAccount extends Account {
   }
 
   fetchBalanceForToken (token, callback) {
-      ETHHelper.fetchBalanceForToken(token, this.ethAccount, callback)
+    ETHHelper.fetchBalanceForToken(token, this.ethAccount, callback)
   }
 
   // old MEW api
@@ -194,9 +194,9 @@ export class ETHChainAccount extends Account {
     let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU'
     let serverUrl = prefix + account + suffix
 
-      fetch(serverUrl, {
-        method: 'get'
-      })
+    fetch(serverUrl, {
+      method: 'get'
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.status === '1') {
@@ -224,10 +224,10 @@ export class ETHChainAccount extends Account {
 
     this.fetchTxsForAccount(account, function (_txs) {
       // fetch token contract txs
-          parentObj.fetchAllTokenContractTxList(0, parentObj.watchedTokens, [], account, function (txsLst) {
-          txsLst.push(_txs)
-          callback(Utils.concatArrayOfArrays(txsLst))
-        })
+      parentObj.fetchAllTokenContractTxList(0, parentObj.watchedTokens, [], account, function (txsLst) {
+        txsLst.push(_txs)
+        callback(Utils.concatArrayOfArrays(txsLst))
+      })
     })
   }
 
@@ -262,8 +262,8 @@ export class ETHChainAccount extends Account {
     let parentObj = this
 
     fetch(serverUrl, {
-        method: 'get'
-      })
+      method: 'get'
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.status === '1') {
@@ -275,11 +275,11 @@ export class ETHChainAccount extends Account {
               tx.tokenTransaction = parentObj.findTokenICOTrade(tx)
               let erc20Data = tx.getERC20Data()
 
-        if (erc20Data != null &&
+              if (erc20Data != null &&
             erc20Data.type === ERC20Data.OperationType().Transfer &&
             erc20Data.account.toLowerCase() === account.toLowerCase()) {
-          _txs.push(tx)
-        }
+                _txs.push(tx)
+              }
             }
           }
 

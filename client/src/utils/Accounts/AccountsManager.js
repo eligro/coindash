@@ -6,6 +6,9 @@ import { AccountsDepositAndWithdrawalUtils } from './AccountsDepositAndWithdrawa
 import { AccountsCalcUtils } from './AccountsCalcUtils'
 import { Token } from '../../utils/Trades/Token'
 import { ExchangeProvider } from '../../utils/ExchangeProvider/ExchangeProvider'
+import analytics from '../../components/analytics'
+
+const nevent = ({action, label, nonInteraction = true}) => analytics.event({ category: 'Account', action, label, nonInteraction })
 
 export class AccountsManager {
   static hardcodedManager () {
@@ -26,6 +29,7 @@ export class AccountsManager {
 
   // API
   getBalances (callback) {
+    nevent({action: 'Get Balances', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
       let exchangeProvider = ExchangeProvider.instance()
       exchangeProvider.getBalances(data, function (balances) {
@@ -43,6 +47,9 @@ export class AccountsManager {
             'value': fiatValue
           })
         }
+
+        nevent({action: 'Get Balances', label: 'Balances received'})
+
         callback(ret)
       })
     })
@@ -60,6 +67,7 @@ export class AccountsManager {
     let parentObj = this
 
     console.time('fetchBalances')
+    nevent({action: 'Days Status', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
       if (!data.length) { callback(null) }
       balances = data
@@ -68,6 +76,7 @@ export class AccountsManager {
 
       console.timeEnd('fetchBalances')
       console.log('finsihed fetchBalances')
+      nevent({action: 'Days Status', label: 'Fetched Balances'})
       statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {
@@ -83,6 +92,7 @@ export class AccountsManager {
 
       console.timeEnd('fetchTrades')
       console.log('finsihed fetchTrades')
+      nevent({action: 'Days Status', label: 'Fetched Trades'})
       statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {
@@ -99,6 +109,7 @@ export class AccountsManager {
 
       console.timeEnd('AccountsDepositAndWithdrawalUtils')
       console.log('finsihed AccountsDepositAndWithdrawalUtils')
+      nevent({action: 'Days Status', label: 'Fetched Deposits and Widthdraws'})
       statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {

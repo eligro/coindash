@@ -269,7 +269,7 @@ export class ETHChainAccount extends Account {
         balances.push(txs)
 
         cntActions--
-        if (cntActions == 0) {
+        if (cntActions === 0) {
           callback(balances)
         }
       })
@@ -277,7 +277,7 @@ export class ETHChainAccount extends Account {
   }
 
   fetchTokenContractTxList (token, account, callback) {
-    if (token.contractAddress == null || token.contractAddress.length == 0) {
+    if (token.contractAddress === null || token.contractAddress.length === 0) {
       callback([])
       return
     }

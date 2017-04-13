@@ -5,10 +5,15 @@ export default function chartReducer(state = {}, action) {
     switch(action.type) {
         case types.LOAD_CHART_SUCCESS:
             console.log("LOAD_CHART_SUCCESS");
-            console.log(action.data);
 
             // benchmark chart
             const portfolioAggDelta = action.data.portfolio.map(i => [i.timestamp * 1000, i.aggregatedDelta ]);
+
+            var portfolioDayDataByDate = {};
+            action.data.portfolio.forEach(function ( val ) {
+                portfolioDayDataByDate[ val.timestamp * 1000 ] = val;
+            });
+
             const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta]);
 
             // preformance chart
@@ -16,9 +21,11 @@ export default function chartReducer(state = {}, action) {
 
             return Object.assign({}, state, {
                 chartData: {btcAggDelta, portfolioAggDelta},
+                portfolioDayDataByDate: portfolioDayDataByDate,
                 preformanceData: portfolioPerfo,
                 shortDelta: action.data.shortDelta,
-                longDelta: action.data.longDelta
+                longDelta: action.data.longDelta,
+                raw_data: action.data
             });
         
         case types.LOAD_CHART_RISK_SUCCESS:

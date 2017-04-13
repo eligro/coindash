@@ -56,12 +56,14 @@ export function loadChart() {
             accounts.push(poloniexAccount);
         })
 
+
+
         if (accounts.length) {
             let manager = new AccountsManager(accounts);
             let day = 24 * 60 * 60;
             let today = Math.floor(Date.now() / 1000);
 
-            let spanTime = today - 30 * day;
+            let spanTime = today - 90 * day;
 
             manager.dayStatusFromDate(spanTime, 
                 function (text) { // status updater
@@ -109,6 +111,10 @@ export function loadChart() {
                  }
                  */
             });
+        }
+        else { // no account
+            console.log("No accounts found, not loading charts");
+            dispatch(chartText(""));
         }
 
     }

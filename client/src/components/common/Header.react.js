@@ -109,7 +109,6 @@ class Header extends React.Component {
     }
 
     handleUploadStart = (file) => {
-        console.log(file.name);
         this.setState({isUploading: true, progress: 0});
     }
     handleProgress = (progress) => this.setState({progress});

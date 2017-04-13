@@ -20,6 +20,16 @@
     height: 50px;
     line-height: 50px;
     background: #0099a7;
+    display: flex;
+    padding: 0 20px;
+}
+.balances-cont .header h3 {
+  flex: 1 1 auto;
+  font-size: 16px;
+  text-align: left;
+}
+.balances-cont .header button.btn {
+
 }
 
 .chart-cont {

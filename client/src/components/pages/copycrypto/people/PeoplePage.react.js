@@ -34,7 +34,6 @@ class PeoplePage extends React.Component {
 
     copy() {
         var id = this.state.user.id;
-        console.log(id);
         var ref = firebase.database().ref("users");
 
         var copiers = ref.child(id).child("copiers");

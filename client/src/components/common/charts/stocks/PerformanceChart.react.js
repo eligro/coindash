@@ -26,6 +26,7 @@ class PerformanceChart extends React.Component {
 
     getChartConfig() {
         const portfolioData = this.props.chartData;
+        var dayBalances = this.props.dayBalances;
 
         // sort in ascending order
         portfolioData.sort(function(a, b) {
@@ -57,6 +58,25 @@ class PerformanceChart extends React.Component {
             },
             navigator: {
                 enabled: false
+            },
+            tooltip : {
+                formatter: function () {
+                    let date = new Date(this.x);
+
+                    // prepare balances
+                    let balances = dayBalances[this.x];
+                    let balancesStr = "<br/>";
+                    for (let i=0; i < balances.length ; i ++) {
+                        let balance = balances[i];
+                        balancesStr += "<br/>" + balance.symbol + "  " + balance.balance + " (" + balance.fiatValue + " " + balance.fiatCurrency + ")";
+                    }
+
+
+                    let ret = "<b>" + date.toLocaleDateString() + "</b><br/><b>Day Balance: $" + (Math.round(this.y * 100) / 100) + "</b>" + balancesStr;
+
+
+                    return ret;
+                }
             },
             /*            title: {
              text: 'BTC Price'
@@ -99,6 +119,7 @@ class PerformanceChart extends React.Component {
                 lineWidth: 3
                 //  lineColor:'black'
             }
+
         }
 
         return config;

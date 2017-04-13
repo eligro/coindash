@@ -65,6 +65,7 @@ export class AccountsManager {
 
 		let parentObj = this;
 
+		console.time("fetchBalances");
 		AccountsBalanceUtils.fetchBalances(this.accounts, function(data) {
 			if(!data.length)
 				callback(null);
@@ -72,7 +73,8 @@ export class AccountsManager {
 
 			executed += 1;
 
-			console.log("fethced accounts balance");
+			console.timeEnd("fetchBalances");
+			console.log("finsihed fetchBalances");
 			statusUpdater(executed * 10 + "%");
 
 			if (executed == executions) {
@@ -81,12 +83,14 @@ export class AccountsManager {
 		});
 
 
+		console.time("fetchTrades");
 		AccountsTradesUtils.fetchTrades(this.accounts, function(data) {
 			trades = data;
 
 			executed += 1;
 
-			console.log("fethced accounts trades");
+			console.timeEnd("fetchTrades");
+			console.log("finsihed fetchTrades");
 			statusUpdater(executed * 10 + "%");
 
 			if (executed == executions) {
@@ -94,13 +98,15 @@ export class AccountsManager {
 			}
 		});
 
+		console.time("AccountsDepositAndWithdrawalUtils");
 		AccountsDepositAndWithdrawalUtils.fetch(this.accounts, function(openWithdrawals, openDeposits) {
 			deposits = openDeposits;
 			withdrawals = openWithdrawals;
 
 			executed += 1;
 
-			console.log("fethced accounts withdrawals and deposits");
+			console.timeEnd("AccountsDepositAndWithdrawalUtils");
+			console.log("finsihed AccountsDepositAndWithdrawalUtils");
 			statusUpdater(executed * 10 + "%");
 
 			if (executed == executions) {
@@ -135,6 +141,7 @@ export class AccountsManager {
 		}
 
 		// today has the current balance
+		console.log(currentBalances);
 		days[0].balances = currentBalances;
 
 		// append trades, open deposits and withdrawals
@@ -193,7 +200,7 @@ export class AccountsManager {
 	        	"portfolio" : AccountsCalcUtils.calcDayStats(daysValues)
 	        }
 
-	        exchangeProvider.getTokenDayStatus(Token.BTC(), "usd", fromDate, function(data) {
+	        exchangeProvider.getTokenDayStatus(Token.ETH(), "usd", fromDate, function(data) {
                 ret["market"] = data;
 
                 callback(ret);
@@ -208,9 +215,7 @@ export class AccountsManager {
 			var startBalance = data.portfolio[data.portfolio.length - numOfDays].dayFiatValue;
 		else
 			var startBalance = data.portfolio[0].dayFiatValue;
-		console.log(startBalance);
 		var endBalance = data.portfolio[data.portfolio.length - 1].dayFiatValue;
-		console.log(endBalance);
 		callback((endBalance - startBalance) / startBalance);
 	}
 }

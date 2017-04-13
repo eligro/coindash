@@ -12,20 +12,40 @@ export class AccountsCalcUtils {
 		  *
 		  * We calculate variance and covariance
 		*/
-
-		let baseScale = days[days.length - 1].dayFiatValue;
-		for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
+		days[days.length - 1].delta = 0;
+		days[days.length - 1].aggregatedDelta = 1;
+		for(let dayIdx = days.length - 2; dayIdx >= 0; dayIdx--) {
 			let day = days[dayIdx];
-			let nextDay = days[dayIdx - 1];
+			let previousDay = days[dayIdx + 1];
 
-			if (dayIdx > 0) {
-				// calc deposits and withdrawals 
-				let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
-				day.delta = diff / day.dayFiatValue;
-			}
+			// the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
+			// let previousDayCorrectedValue = previousDay.dayFiatValue + previousDay.withdrawalsFiatValue - previousDay.depositsFiatValue;
+			let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue;
+			day.delta = (todayCorrectedValue - previousDay.dayFiatValue) / previousDay.dayFiatValue;
 			
-			day.aggregatedDelta = day.dayFiatValue / baseScale;
+			day.aggregatedDelta = previousDay.aggregatedDelta * (1+day.delta);
 		}
+
+
+
+
+		// let baseScale = days[days.length - 1].dayFiatValue;
+		// for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
+		// 	let day = days[dayIdx];
+		// 	let nextDay = days[dayIdx - 1];
+
+		// 	if (dayIdx > 0) {
+		// 		// the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
+		// 		let nextDayCorrectedValue = nextDay.dayFiatValue + nextDay.withdrawalsFiatValue - nextDay.depositsFiatValue;
+		// 		let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue;
+		// 		// let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
+		// 		day.delta = (nextDayCorrectedValue - todayCorrectedValue) / todayCorrectedValue;
+
+
+		// 	}
+			
+		// 	day.aggregatedDelta = day.dayFiatValue / baseScale;
+		// }
 
 		return days;
 	}
@@ -57,6 +77,11 @@ export class AccountsCalcUtils {
 						rhsTokenFromBalances.balance = new BigNumber(trade.rhsValue)
 						balancesCpy.push(rhsTokenFromBalances);
 
+						/*
+							the rhs token is the one bought using the lhs token. 
+							If there is no token on the list for whatever reason we add it because from
+							this day forward it should be on the list
+						*/
 						AccountsCalcUtils.addTokenToAllOlderBalances(
 							rhsTokenFromBalances,
 							dayIdx,
@@ -78,6 +103,11 @@ export class AccountsCalcUtils {
 						lhsTokenFromBalances.balance = new BigNumber(trade.lhsValue)
 						balancesCpy.push(lhsTokenFromBalances);
 
+						/*
+							the lhs token is the one sold to using the rhs token. 
+							If there is no token on the list for whatever reason we add it because from
+							this day forward it should be on the list
+						*/
 						AccountsCalcUtils.addTokenToAllOlderBalances(
 							lhsTokenFromBalances,
 							dayIdx,
@@ -105,6 +135,9 @@ export class AccountsCalcUtils {
 					let tmpToken = Token.fromSymbol(deposit.token.symbol);
 					tmpToken.balance = new BigNumber(deposit.amount)
 
+					/*
+						Deposited tokens which are not on the list should be added from this day forward
+					*/
 					AccountsCalcUtils.addTokenToAllOlderBalances(
 							tmpToken,
 							dayIdx,
@@ -122,7 +155,8 @@ export class AccountsCalcUtils {
 				let token = AccountsCalcUtils.tokenFromList(balancesCpy, withr.token);
 				if (token == null) {
 					token = Token.fromSymbol(withr.token.symbol);
-					token.balance = new BigNumber(withr.amount) 
+					token.balance = new BigNumber(withr.amount);
+					balancesCpy.push(token); 
 				}
 				else {
 					token.addToBalance(new BigNumber(withr.amount));

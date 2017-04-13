@@ -84,18 +84,22 @@ export class ETHChainAccount extends Account {
 
 	// private
 	fetchAllBalances(tokens, tokenIdx, callback) {
-		if (tokenIdx == tokens.length) {
-			callback(tokens);
-			return;
+
+		let cntActions = 0;
+		for (let i = 0; i < tokens.length; i++) {
+			cntActions ++;
+
+			let token = tokens[i];
+
+			this.fetchBalanceForToken(token, function (t, balance) {
+				t.balance = balance;
+				
+				cntActions --;
+				if (cntActions == 0) {
+					callback(tokens);
+				}
+			});
 		}
-
-		let token = tokens[tokenIdx];
-
-		let parentObj = this;
-		this.fetchBalanceForToken(token, function (balance) {
-			token.balance = balance;
-			parentObj.fetchAllBalances(tokens, tokenIdx + 1, callback);
-		});
 	}
 
 	fetchBalanceForToken(token, callback) {
@@ -144,9 +148,15 @@ export class ETHChainAccount extends Account {
 		let allTokens = this.watchedTokens;
 		for(let idx in allTokens) {
 			let tokenAddress = allTokens[idx].contractAddress.replace('0x','');
+			let tokenICOAddress = "";
+			if (allTokens[idx].ico_address) {
+				tokenICOAddress = allTokens[idx].ico_address.replace('0x','');
+			}
+
 			let txTo = tx.to.replace('0x','');
 
-			if(tokenAddress.toLowerCase() === txTo.toLowerCase()) {
+			if(tokenAddress.toLowerCase() === txTo.toLowerCase() || 
+				tokenICOAddress.toLowerCase() === txTo.toLowerCase()) {
 				return allTokens[idx];
 			}
 		}
@@ -210,7 +220,7 @@ export class ETHChainAccount extends Account {
 	    })
 	    .catch((error) => {
 	      console.error(error);
-	      alert("Some problems with the account, try again later");
+	      // alert("Some problems with the account, try again later");
 	    });
 	}
 
@@ -229,19 +239,22 @@ export class ETHChainAccount extends Account {
 	}
 
 	fetchAllTokenContractTxList(idx, tokens, balances, account, callback) {
-		if (idx == tokens.length - 1) {
-			callback(balances);
-			return
+
+		let cntActions = 0;
+		for (let i = 0; i < tokens.length; i++) {
+			cntActions ++;
+
+			let t = tokens[i];
+
+			this.fetchTokenContractTxList(t, account, function(txs) {
+				balances.push(txs);
+
+				cntActions --;
+				if (cntActions == 0) {
+					callback(balances);
+				}
+			});
 		}
-
-		let parentObj = this;
-
-		let t = tokens[idx];
-		this.fetchTokenContractTxList(t, account, function(txs) {
-			balances.push(txs);
-
-			parentObj.fetchAllTokenContractTxList(idx + 1, tokens, balances, account, callback);
-		});
 	}
 
 	fetchTokenContractTxList(token, account, callback) {
@@ -287,7 +300,7 @@ export class ETHChainAccount extends Account {
 	    })
 	    .catch((error) => {
 	      console.error(error);
-	      alert("Some problems with the account, try again later");
+	      // alert("Some problems with the account, try again later");
 	    });
 	}
 }

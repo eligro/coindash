@@ -1,48 +1,49 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import './DashboardPage.css';
-import PerformanceChart from '../../common/charts/stocks/PerformanceChart.react';
-import StocksChart from '../../common/charts/stocks/StocksChart.react';
-import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react';
-import Balances from './Balances.react';
-import Positions from './Positions.react';
-import ChartNavigation from './ChartNavigation.react';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import './DashboardPage.css'
+import PerformanceChart from '../../common/charts/stocks/PerformanceChart.react'
+import StocksChart from '../../common/charts/stocks/StocksChart.react'
+import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react'
+import Balances from './Balances.react'
+import Positions from './Positions.react'
+import ChartNavigation from './ChartNavigation.react'
 
-import * as coinActions from '../../../actions/coins.actions';
-import * as chartActions from '../../../actions/chart.actions';
-import * as balancesActions from '../../../actions/balances.actions';
+import * as coinActions from '../../../actions/coins.actions'
+import * as chartActions from '../../../actions/chart.actions'
+import * as balancesActions from '../../../actions/balances.actions'
 
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import FontAwesome from 'react-fontawesome'
 
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
 class HomePage extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+  constructor (props, context) {
+    super(props, context)
 
-        this.state = {selectedChart: 1};
-        this.chartSelected = this.chartSelected.bind(this);
-        this.refreshChart = this.refreshChart.bind(this);
-    }
+    this.state = {selectedChart: 1}
+    this.chartSelected = this.chartSelected.bind(this)
+    this.refreshChart = this.refreshChart.bind(this)
+  }
 
-    componentWillReceiveProps(nextProps) {
-        //console.log('componentWillReceiveProps', nextProps);
-        /*if (this.props.front !== nextProps.front) {
+  componentWillReceiveProps (nextProps) {
+        // console.log('componentWillReceiveProps', nextProps);
+        /* if (this.props.front !== nextProps.front) {
             if (!nextProps.isFetching) {
                 this.startPoll();
             }
-        }*/
-    }
+        } */
+  }
 
-    componentWillMount() {
-        this.props.coinActions.loadFront();
-        this.props.chartActions.loadChart();
-        this.props.balancesActions.loadBalances();
-        this.startPoll();
-    }
+  componentWillMount () {
+    this.props.coinActions.loadFront()
+    this.props.chartActions.loadChart()
+    this.props.balancesActions.loadBalances()
+    this.startPoll()
+  }
 
-    componentDidMount() {
-
+  componentDidMount () {
 
         /*
         let manager = AccountsManager.hardcodedManager();
@@ -72,84 +73,89 @@ class HomePage extends React.Component {
 
             }
         });
-        //*/
-    }
+        // */
+  }
 
-    componentWillUnmount() {
-        this.stopPoll();
-    }
+  componentWillUnmount () {
+    this.stopPoll()
+  }
 
+  startPoll () {
+    this.timeout = setTimeout(() => {
+      this.props.coinActions.loadFront()
+      this.startPoll()
+    }, 20000)
+  }
 
-    startPoll() {
-        this.timeout = setTimeout(() => {
-            this.props.coinActions.loadFront()
-            this.startPoll();
-        }, 20000);
-    }
+  stopPoll () {
+    clearTimeout(this.timeout)
+  }
 
-    stopPoll() {
-        clearTimeout(this.timeout);
-    }
+  chartSelected (selected) {
+    this.setState({selectedChart: selected})
+  }
 
-    chartSelected(selected) {
-        this.setState({selectedChart: selected});
-    }
+  refreshChart () {
+    this.props.chartActions.setLoadedChart(false)
+    this.props.chartActions.loadChart()
+  }
 
-    refreshChart() {
-        this.props.chartActions.setLoadedChart(false);
-        this.props.chartActions.loadChart();
-    }
-
-    render() {
-        return (
-            <div className="page-container dashboard-page">
-                <div className="top-cont">
-                    <div className="balances-cont">
-                        <div className="header">
-                            BALANCES
-                        </div>
-                        <Balances balances={this.props.balances} error={this.props.error}/>
-                    </div>
-                    <div className="chart-cont">
-                        <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart}/>
-                        {this.state.selectedChart === 1 && <PerformanceChart chartData={this.props.performanceData} exchanges={this.props.exchanges}/>}
-                        {this.state.selectedChart === 2 && <StocksChart chartData={this.props.chartData} exchanges={this.props.exchanges}/>}
-                        {this.state.selectedChart === 3 && <StocksChartRisk/>}
-                    </div>
-                </div>
-                <div className="bottom-cont">
-                    <div className="positions-header">
+  render () {
+    const tooltip = (
+      <Tooltip id='tooltip'>Add Custom Token</Tooltip>
+    )
+    return (
+      <div className='page-container dashboard-page'>
+        <div className='top-cont'>
+          <div className='balances-cont'>
+            <div className='header'>
+              <h3>Balances</h3>
+              <OverlayTrigger placement='bottom' overlay={tooltip}>
+                <Button bsStyle='primary'>
+                  <FontAwesome name='plus' />
+                </Button>
+              </OverlayTrigger>
+            </div>
+            <Balances balances={this.props.balances} error={this.props.error} />
+          </div>
+          <div className='chart-cont'>
+            <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
+            {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
+            {this.state.selectedChart === 2 && <StocksChartRisk />}
+          </div>
+        </div>
+        <div className='bottom-cont'>
+          <div className='positions-header'>
                         WATCHLIST
                     </div>
-                    <div>
-                        <Positions front={this.props.front}/>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+          <div>
+            <Positions front={this.props.front} />
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
-function mapStateToProps(state, ownProps) {
-    console.log("Dashboard");
-    console.log(state);
-    return {
-        balances: state.balances,
-        chartData: state.charts.chartData,
-        performanceData: state.charts.preformanceData,
-        front: state.coins.front,
-        exchanges: state.exchanges,
-        statusText: state.charts.statusText,
-        error: state.charts.error
-    };
+function mapStateToProps (state, ownProps) {
+  return {
+    balances: state.balances,
+    chartData: state.charts.chartData,
+    performanceData: state.charts.preformanceData,
+    portfolioDayDataByDate: state.charts.portfolioDayDataByDate,
+    front: state.coins.front,
+    exchanges: state.exchanges,
+    statusText: state.charts.statusText,
+    error: state.charts.error
+  }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        coinActions: bindActionCreators(coinActions, dispatch),
-        chartActions: bindActionCreators(chartActions, dispatch),
-        balancesActions: bindActionCreators(balancesActions, dispatch)
-    };
+function mapDispatchToProps (dispatch) {
+  return {
+    coinActions: bindActionCreators(coinActions, dispatch),
+    chartActions: bindActionCreators(chartActions, dispatch),
+    balancesActions: bindActionCreators(balancesActions, dispatch)
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

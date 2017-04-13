@@ -15,6 +15,12 @@ class Balances extends React.Component {
 
     return (
       <div className='balances-list'>
+        <div className='balance-item titles'>
+          <div className='item-title'>Token</div>
+          <div className='item-amount'>Amount</div>
+          <div className='item-value'>Value</div>
+        </div>
+
         {!this.props.balances.length > 0 && !this.props.error && <Spinner />}
         {this.props.balances.length > 0 && items}
         {this.props.error && <div>{this.props.error}</div>}

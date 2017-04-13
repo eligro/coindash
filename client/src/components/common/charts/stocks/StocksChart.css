@@ -41,3 +41,6 @@
 .highcharts-input-group {
     display: none;
 }
+.highcharts-range-selector {
+  display: none;
+}

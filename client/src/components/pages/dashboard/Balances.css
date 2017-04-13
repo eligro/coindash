@@ -8,6 +8,7 @@
     line-height: 40px;
     padding: 0 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
 }
 
 .balance-item.sum {
@@ -20,16 +21,16 @@
 }
 
 .balance-item .item-title {
-    float: left;
     width: 80px;
-    text-align: left   ;
+    text-align: left;
 }
 
 .balance-item .item-amount {
-    float: left;
-    text-align: center;
+    text-align: right;
+    flex: 1 1 auto;
 }
 
 .balance-item .item-value {
     text-align: right;
+    width: 90px;
 }

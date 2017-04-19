@@ -34,16 +34,16 @@ class AccountExchangeForm extends React.Component {
         // else if (length > 5) return 'warning';
         // else if (length > 0) return 'error';
 
-        var ethereum_address = require('ethereum-address');
-        console.log(this.props.exchange.token)
-        if (ethereum_address.isAddress(this.props.exchange.token)) {
-            console.log('Valid ethereum address.');
+        // var ethereum_address = require('ethereum-address');
+        // console.log(this.props.exchange.token)
+        // if (ethereum_address.isAddress(this.props.exchange.token)) {
+        //     console.log('Valid ethereum address.');
             return 'success'
-        }
-        else {
-            console.log('Invalid Ethereum address.');
-            return 'error';
-        }
+        // }
+        // else {
+        //     console.log('Invalid Ethereum address.');
+        //     return 'error';
+        // }
     }
 
     typeChange(event) {

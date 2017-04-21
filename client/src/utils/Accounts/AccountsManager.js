@@ -7,6 +7,7 @@ import { AccountsCalcUtils } from './AccountsCalcUtils'
 import { Token } from '../../utils/Trades/Token'
 import { ExchangeProvider } from '../../utils/ExchangeProvider/ExchangeProvider'
 import analytics from '../../components/analytics'
+import { Networker } from '../Networking/Networker'
 
 const nevent = ({action, label, nonInteraction = true}) => analytics.event({ category: 'Account', action, label, nonInteraction })
 
@@ -66,6 +67,12 @@ export class AccountsManager {
 
     let parentObj = this
 
+    // set updater
+    Networker.instance().setProgressCallback(function(obj) {
+      console.log(obj.progress);
+      statusUpdater(obj.progress * 100 + '%')
+    });
+
     console.time('fetchBalances')
     nevent({action: 'Days Status', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
@@ -77,7 +84,7 @@ export class AccountsManager {
       console.timeEnd('fetchBalances')
       console.log('finsihed fetchBalances')
       nevent({action: 'Days Status', label: 'Fetched Balances'})
-      statusUpdater(executed * 10 + '%')
+      // statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {
         parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback)
@@ -93,7 +100,7 @@ export class AccountsManager {
       console.timeEnd('fetchTrades')
       console.log('finsihed fetchTrades')
       nevent({action: 'Days Status', label: 'Fetched Trades'})
-      statusUpdater(executed * 10 + '%')
+      // statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {
         parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback)
@@ -110,7 +117,7 @@ export class AccountsManager {
       console.timeEnd('AccountsDepositAndWithdrawalUtils')
       console.log('finsihed AccountsDepositAndWithdrawalUtils')
       nevent({action: 'Days Status', label: 'Fetched Deposits and Widthdraws'})
-      statusUpdater(executed * 10 + '%')
+      // statusUpdater(executed * 10 + '%')
 
       if (executed === executions) {
         parentObj.calcDayStatusObject(fromDate, balances, trades, deposits, withdrawals, statusUpdater, callback)
@@ -148,7 +155,7 @@ export class AccountsManager {
 
     // append trades, open deposits and withdrawals
     console.log('ordered day events')
-    statusUpdater('40%')
+    // statusUpdater('40%')
 
     for (let dayIdx in days) {
       let day = days[dayIdx]
@@ -183,18 +190,18 @@ export class AccountsManager {
       }
     }
     console.log('ordered day data')
-    statusUpdater('50%')
+    // statusUpdater('50%')
 
     // calc balances
     days = AccountsCalcUtils.calcBalances(days)
 
     console.log('calculated balances')
-    statusUpdater('70%')
+    // statusUpdater('70%')
 
     let exchangeProvider = ExchangeProvider.instance()
     exchangeProvider.valueForDays(days, function (daysValues) {
       console.log('calculated USD daily value')
-      statusUpdater('100%')
+      // statusUpdater('100%')
 
       let ret = {
         'portfolio': AccountsCalcUtils.calcDayStats(daysValues)

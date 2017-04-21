@@ -66,7 +66,7 @@ export class ETHChainAccount extends Account {
       for (let idx in txs) {
         let tx = txs[idx]
 
-        tx.tokenTransaction = parentObj.findTokenICOTrade(tx)
+        tx.tokenTransaction = ETHHelper.findTokenICOTrade(parentObj.watchedTokens, tx);
         let erc20Data = tx.getERC20Data()
         if (erc20Data != null) { // ERC 20 action
           let d = erc20Data.getDepositWithdrawl(parentObj.ethAccount) // only ERC20 transfer req is returned
@@ -168,25 +168,6 @@ export class ETHChainAccount extends Account {
   //     });
   // }
 
-  findTokenICOTrade (tx) {
-    let allTokens = this.watchedTokens
-    for (let idx in allTokens) {
-      let tokenAddress = allTokens[idx].contractAddress.replace('0x', '')
-      let tokenICOAddress = ''
-      if (allTokens[idx].ico_address) {
-        tokenICOAddress = allTokens[idx].ico_address.replace('0x', '')
-      }
-
-      let txTo = tx.to.replace('0x', '')
-
-      if (tokenAddress.toLowerCase() === txTo.toLowerCase() ||
-        tokenICOAddress.toLowerCase() === txTo.toLowerCase()) {
-        return allTokens[idx]
-      }
-    }
-    return null
-  }
-
   fetchICOBuyinTrades (account, callback) {
     let parentObj = this
     this.fetchTxsForAccount(account, function (txs, error) {
@@ -196,7 +177,7 @@ export class ETHChainAccount extends Account {
         let _ret = []
         for (let idx in txs) {
           let tx = txs[idx]
-          tx.tokenTransaction = parentObj.findTokenICOTrade(tx)
+          tx.tokenTransaction = ETHHelper.findTokenICOTrade(parentObj.watchedTokens, tx);
           let erc20Data = tx.getERC20Data()
           if (erc20Data != null) {
             // buyin
@@ -217,33 +198,7 @@ export class ETHChainAccount extends Account {
   }
 
   fetchTxsForAccount (account, callback) {
-    let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-    let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU'
-    let serverUrl = prefix + account + suffix
-
-    fetch(serverUrl, {
-      method: 'get'
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === '1') {
-          let _txs = []
-          for (let idx in data.result) {
-            if (data.result[idx].isError === '0') {
-              _txs.push(ETHTransaction.fromEtherscanDic(data.result[idx]))
-            }
-          }
-          callback(_txs)
-        } else {
-          // handle error
-          let _txs = []
-          callback(_txs)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        // alert("Some problems with the account, try again later");
-      })
+    ETHHelper.fetchTxsForAccount(account, callback);
   }
 
   fetchTxHistoryAndTokenHistory (account, callback) {
@@ -277,48 +232,6 @@ export class ETHChainAccount extends Account {
   }
 
   fetchTokenContractTxList (token, account, callback) {
-    if (token.contractAddress === null || token.contractAddress.length === 0) {
-      callback([])
-      return
-    }
-
-    let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-    let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU'
-    let serverUrl = prefix + token.contractAddress + suffix
-
-    let parentObj = this
-
-    fetch(serverUrl, {
-      method: 'get'
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === '1') {
-          let _txs = []
-
-          for (let idx in data.result) {
-            if (data.result[idx].isError === '0') {
-              let tx = ETHTransaction.fromEtherscanDic(data.result[idx])
-              tx.tokenTransaction = parentObj.findTokenICOTrade(tx)
-              let erc20Data = tx.getERC20Data()
-
-              if (erc20Data != null &&
-            erc20Data.type === ERC20Data.OperationType().Transfer &&
-            erc20Data.account.toLowerCase() === account.toLowerCase()) {
-                _txs.push(tx)
-              }
-            }
-          }
-
-          callback(_txs)
-        } else {
-          // handle error
-          console.log(data)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        // alert("Some problems with the account, try again later");
-      })
+    ETHHelper.fetchTokenContractTxList(this.watchedTokens, token, account, callback);
   }
 }

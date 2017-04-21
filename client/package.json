@@ -49,6 +49,8 @@
       "standard",
       "standard-react"
     ],
-    "globals": { "fetch": true }
+    "globals": {
+      "fetch": true
+    }
   }
 }

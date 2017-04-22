@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 // import { Link } from 'react-router';
 import { browserHistory
  } from 'react-router'
@@ -9,7 +10,7 @@ export default class LeftnavItem extends React.Component {
   static contextTypes = {
     router: PropTypes.object
   }
-  
+
   redirectToPage () {
     browserHistory.push(this.props.item.route)
   }

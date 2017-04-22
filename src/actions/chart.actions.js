@@ -68,7 +68,9 @@ export function loadChart () {
                     console.error(obj.error)
                     dispatch(chartText(obj.error))
                   } else {
-                    dispatch(chartText(obj.progress * 100 + '%'))
+                    let progress = obj.progress * 100 ;
+                    progress = Math.round(progress * 100) / 100
+                    dispatch(chartText(progress + '%'))
                   }
                 },
                 function (data) {

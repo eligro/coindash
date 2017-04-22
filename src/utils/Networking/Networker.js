@@ -22,7 +22,8 @@ export class Networker {
   }
 
   startNewTaskSequence () {
-    this.generalFaliure = false
+    this.generalFaliure = false;
+    this.tasks = [];
     return this
   }
 

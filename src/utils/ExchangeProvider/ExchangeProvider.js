@@ -246,7 +246,7 @@ d1.getDate() === targetDate.getDate()
         return depoToken.symbol === token.symbol
       }
       let t = allTokens.find(exists)
-      if (t === null) {
+      if (t === null || t === undefined) {
         let t = depoToken.copy()
         t.balance = new BigNumber(deposit.amount)
         allTokens.push(t)
@@ -267,7 +267,7 @@ d1.getDate() === targetDate.getDate()
         return depoToken.symbol === token.symbol
       }
       let t = allTokens.find(exists)
-      if (t === null) {
+      if (t === null || t === undefined) {
         let t = depoToken.copy()
         t.balance = new BigNumber(deposit.amount)
         allTokens.push(t)

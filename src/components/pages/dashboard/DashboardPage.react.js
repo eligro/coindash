@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import './DashboardPage.css'
 import StocksChart from '../../common/charts/stocks/StocksChart.react'
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react'
+import AssetAllocationChart from '../../common/charts/stocks/AssetAllocationChart.react'
 import Balances from './Balances.react'
 import Positions from './Positions.react'
 import ChartNavigation from './ChartNavigation.react'
@@ -121,6 +122,7 @@ class HomePage extends React.Component {
             <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
             {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
             {this.state.selectedChart === 2 && <StocksChartRisk />}
+            {this.state.selectedChart === 3 && <AssetAllocationChart balances={this.props.balances}/>}
           </div>
         </div>
         <div className='bottom-cont'>

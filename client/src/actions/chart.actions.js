@@ -66,8 +66,14 @@ export function loadChart() {
             let spanTime = today - 90 * day;
 
             manager.dayStatusFromDate(spanTime, 
-                function (text) { // status updater
-                    dispatch(chartText(text));
+                function (obj) { // status updater
+                    if (obj.error != null) {
+                        console.error(obj.error);
+                        dispatch(chartText(obj.error));
+                    }
+                    else {
+                        dispatch(chartText(obj.progress * 100 + '%'));
+                    }
                 },
                 function (data) {
                     if(data == null)

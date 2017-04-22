@@ -43,14 +43,24 @@ export class Networker {
 	        fetch(task.url, {
 		    	method: task.method
 		    })
-	        .then((response) => {
+		    .then((response) => task.postFetchingResponseTransformation(response))
+	        .then((data) => {
 	        	task.completed = true;
-	        	if (parentObj.generalFaliure == false) {
+
+	        	if (parentObj.generalFaliure == false) { // process only if no fatal faliure
 	        		parentObj.fireTaskCountChanged();
-			        resolve(response);
+
+	        		if (task.validateResponse(data) == false) {
+		        		parentObj.generalFaliure = true;
+		        		parentObj.fireGeneralError(task.getError(data));
+		        		reject(task.getError(data));
+		        	}
+		        	else {
+		        		resolve(data);
+		        	}
 	        	}
 	        	else {
-	        		reject("general faliure");
+	        		console.log("general error: not processing responses");
 	        	}
 		    })
 		    .catch((error) => {

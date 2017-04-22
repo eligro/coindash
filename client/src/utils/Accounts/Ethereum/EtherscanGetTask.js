@@ -8,7 +8,7 @@ export class EtherscanGetTask extends GetTask {
 	}
 
 	static fetchERC20TokenBalanceTask(token, walletAddress) {
-		let serverUrl = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddreddss=";
+		let serverUrl = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=";
 	    serverUrl += token.contractAddress;
 	    serverUrl += "&address=";
 	    serverUrl += walletAddress;
@@ -41,5 +41,18 @@ export class EtherscanGetTask extends GetTask {
 	    let serverUrl = prefix + token.contractAddress + suffix + EtherscanGetTask.apiKey();
 
 	    return new EtherscanGetTask(serverUrl);
+	}
+
+	// instance functions
+	postFetchingResponseTransformation(response) {
+		return response.json();
+	}
+
+	validateResponse(response) {
+		return response.status === '1';
+	}
+
+	getError(response) {
+		return response.message;
 	}
 }

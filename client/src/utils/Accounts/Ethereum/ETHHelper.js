@@ -21,7 +21,6 @@ export class ETHHelper {
 	 	Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchERC20TokenBalanceTask(token, walletAddress))
-	    .then((response) => response.json())
 	    .then((data) => {
 	      if (data.status === '1') {
 	      	token.balance = new BigNumber(data.result).div(token.getValueOfUnit('ether'));
@@ -43,7 +42,6 @@ export class ETHHelper {
 	    Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchETHTokenBalanceTask(token, walletAddress))
-	    .then((response) => response.json())
 	    .then((data) => {
 	      if (data.status === '1') {
 	      	token.balance = new BigNumber(data.result).div(token.getValueOfUnit('ether'));
@@ -64,7 +62,6 @@ export class ETHHelper {
 	 	Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchTxsForAccountTask(account))
-	    .then((response) => response.json())
 	    .then((data) => {
 	        if (data.status === '1') {
 	          let _txs = []
@@ -97,7 +94,6 @@ export class ETHHelper {
 	    Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchTokenContractTxListTask(token))
-	    .then((response) => response.json())
 	    .then((data) => {
 	        if (data.status === '1') {
 	        	let _txs = []

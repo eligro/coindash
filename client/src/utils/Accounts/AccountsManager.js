@@ -72,13 +72,7 @@ export class AccountsManager {
     .instance()
     .startNewTaskSequence()
     .setProgressCallback(function(obj) {
-      if (obj.error != null) {
-        console.error("fatal error");
-        console.error(obj.error);
-      }
-      else {
-        statusUpdater(obj.progress * 100 + '%');
-      }
+      statusUpdater(obj);
     });
 
     console.time('fetchBalances')

@@ -1,4 +1,4 @@
-import {balancesDelay} from './delay';
+import {balancesDelay} from './delay'
 
 const items = [
     {title: 'BTC', amount: 12, value: '$7221.5'},
@@ -8,13 +8,13 @@ const items = [
 ]
 
 class BalancesAPI {
-    static getData() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve([...items]);
-            }, balancesDelay);
-        });
-    }
+  static getData () {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([...items])
+      }, balancesDelay)
+    })
+  }
 }
 
-export default BalancesAPI;
+export default BalancesAPI

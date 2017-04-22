@@ -1,2 +1,2 @@
-export default 1000;
-export const balancesDelay = 2000;
+export default 1000
+export const balancesDelay = 2000

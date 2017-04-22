@@ -6,11 +6,10 @@ import FontAwesome from 'react-fontawesome'
 import 'font-awesome/css/font-awesome.css'
 
 export default class LeftnavItem extends React.Component {
-
-    static contextTypes = {
-      router: PropTypes.object
-    }
-
+  static contextTypes = {
+    router: PropTypes.object
+  }
+  
   redirectToPage () {
     browserHistory.push(this.props.item.route)
   }

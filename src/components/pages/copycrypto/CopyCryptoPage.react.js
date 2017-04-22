@@ -19,11 +19,10 @@ class CopyCryptoPage extends React.Component {
   }
 
   render () {
-    const listItems = this.props.userData.map(function (data, i) {
-      if (data.id !== getDataFromLocalStorage()) {
-        return <PeopleItemSmall key={i} data={data} index={i} />
-      }
-    })
+    const listItems = this.props.userData
+      .filter(data => data.id !== getDataFromLocalStorage())
+      .map((data, i) => <PeopleItemSmall key={i} data={data} index={i} />)
+
     return (
       <div className='page-container copy-page'>
         <div>{listItems}</div>

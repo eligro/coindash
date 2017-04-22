@@ -46,7 +46,7 @@ class Header extends React.Component {
   }
 
   isShowHelp () {
-    return this.props.extension.version === '0.0.0' && this.state.showHelp === null || this.state.showHelp
+    return this.props.extension.version === '0.0.0' && (this.state.showHelp === null || this.state.showHelp)
   }
 
   saveUserName (event) {
@@ -117,7 +117,10 @@ class Header extends React.Component {
   }
   handleUploadSuccess (filename) {
     this.setState({avatar: filename, progress: 100, isUploading: false, uploaded: true})
-    firebase.storage().ref('images').child(filename).getDownloadURL().then(url => { this.state.image = url })
+    firebase.storage().ref('images')
+      .child(filename)
+      .getDownloadURL()
+      .then(url => { this.setState({ image: url }) })
   }
 
   render () {
@@ -150,18 +153,14 @@ class Header extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <div className='help-modal-body'>
+              {Extension}
               <p>
-                {Extension}
+                Start using Coindash by adding your Etehreum and/poloniex <Link to={'/accounts'}>accounts</Link>
               </p>
-              <p>
-                <div>Start using Coindash by adding your Etehreum and/poloniex <Link to={'/accounts'}>accounts</Link></div>
-              </p>
-              <p>
-                <div>Coindash.io works in the browser. None of your data is touching our server.</div>
-                <div>This extension will enable your browser to connect to certain exchanges API.</div>
-                <div>Later, you'll be able to opt-in and to securely save some of your data on our server.</div>
-                <div>Coindash source code is available in here: <a href='https://bitbucket.org/coindash/coindashio' target='_blank'>https://bitbucket.org/coindash/coindashio</a></div>
-              </p>
+              <p>Coindash.io works in the browser. None of your data is touching our server.</p>
+              <p>This extension will enable your browser to connect to certain exchanges API.</p>
+              <p>Later, you'll be able to opt-in and to securely save some of your data on our server.</p>
+              <p>Coindash source code is available in here: <a href='https://bitbucket.org/coindash/coindashio' target='_blank'>https://bitbucket.org/coindash/coindashio</a></p>
             </div>
           </Modal.Body>
           <Modal.Footer>

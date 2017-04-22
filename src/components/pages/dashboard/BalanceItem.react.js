@@ -10,7 +10,7 @@ class BalanceItem extends React.Component {
       <div className='balance-item'>
         <div className='item-title'>
           <ButtonToolbar>
-            <DropdownButton bsStyle='link' title={this.props.item.title}>
+            <DropdownButton id='token-options-{this.props.item.title.replace(/[^a-z]/, "").toLowerCase()}' bsStyle='link' title={this.props.item.title}>
               <MenuItem eventKey='1'>Remove Token</MenuItem>
             </DropdownButton>
           </ButtonToolbar>

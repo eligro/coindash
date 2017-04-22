@@ -15,22 +15,12 @@ export class ETHHelper {
 	}
 
 	static fetchERC20TokenBalance(token, walletAddress, callback) {
-		// let serverUrl = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=";
-	 //    serverUrl += token.contractAddress;
-	 //    serverUrl += "&address=";
-	 //    serverUrl += walletAddress;
-	 //    serverUrl += "&tag=latest&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU";
 
 	 	let parentObj = this;
 
 	 	Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchERC20TokenBalanceTask(token, walletAddress))
-	    
-
-	    // fetch(serverUrl, {
-	    //   method: 'get'
-	    // })
 	    .then((response) => response.json())
 	    .then((data) => {
 	      if (data.status === '1') {
@@ -42,24 +32,17 @@ export class ETHHelper {
 	      }
 	    })
 	    .catch((error) => {
-	      console.error(error);
+	      // console.error(error);
 	      // alert("Some problems with the account, try again later");
 	    });
 	}
 
 	static fetchETHTokenBalance(token, walletAddress, callback) {
-		// let serverUrl = "https://api.etherscan.io/api?module=account&action=balance&address=";
-	 //    serverUrl += walletAddress;
-	 //    serverUrl += "&tag=latest&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU";
 	    let parentObj = this;
 
 	    Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchETHTokenBalanceTask(token, walletAddress))
-
-	    // fetch(serverUrl, {
-	    //   method: 'get'
-	    // })
 	    .then((response) => response.json())
 	    .then((data) => {
 	      if (data.status === '1') {
@@ -71,24 +54,16 @@ export class ETHHelper {
 	      }
 	    })
 	    .catch((error) => {
-	      console.error(error);
+	      // console.error(error);
 	      // alert("Some problems with the account, try again later");
 	    });
 	}
 
 	static fetchTxsForAccount(account, callback) {
-		// let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-	 //    let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU'
-	 //    let serverUrl = prefix + account + suffix
-
 
 	 	Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchTxsForAccountTask(account))
-
-	    // fetch(serverUrl, {
-	    //   method: 'get'
-	    // })
 	    .then((response) => response.json())
 	    .then((data) => {
 	        if (data.status === '1') {
@@ -106,7 +81,7 @@ export class ETHHelper {
 	        }
 	    })
 	    .catch((error) => {
-	        console.error(error)
+	        // console.error(error)
 	        // alert("Some problems with the account, try again later");
 	    })
 	}
@@ -117,19 +92,11 @@ export class ETHHelper {
 	      return
 	    }
 
-	    // let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-	    // let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey=38DE12F4P7CNASZBM3RRAEWPHJKMWQD2NU'
-	    // let serverUrl = prefix + token.contractAddress + suffix
-
 	    let parentObj = this
 
 	    Networker
 	 	.instance()
 	 	.start(EtherscanGetTask.fetchTokenContractTxListTask(token))
-
-	    // fetch(serverUrl, {
-	    // 	method: 'get'
-	    // })
 	    .then((response) => response.json())
 	    .then((data) => {
 	        if (data.status === '1') {
@@ -156,8 +123,7 @@ export class ETHHelper {
 	        }
 	    })
 	    .catch((error) => {
-	    	console.error(error)
-	        // alert("Some problems with the account, try again later");
+	    	// console.error(error)
 	    })
 	}
 

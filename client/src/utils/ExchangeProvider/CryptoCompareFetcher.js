@@ -1,5 +1,7 @@
 import { ExchangeDataFetcherBase } from './ExchangeDataFetcherBase'
 import { ExchangeValuePoint, ExchangeDataPoint, TokenHistoricData } from './ExchangeProvider'
+import { Networker } from '../Networking/Networker'
+import { GetTask } from '../Networking/GetTask'
 
 export default class CryptoCompareFetcher  extends ExchangeDataFetcherBase {
 	fetch(token, callback, errorCallBack) {
@@ -12,9 +14,10 @@ export default class CryptoCompareFetcher  extends ExchangeDataFetcherBase {
 	fetchRaw(token, callback) {
 		var historyData = null;
 		let url = "https://min-api.cryptocompare.com/data/histoday?fsym=" + token.symbol + "&tsym=USD&limit=1000";
-		fetch(url, {
-	      method: 'get',
-	    })
+
+	 	Networker
+	 	.instance()
+	 	.start(new GetTask(url))
 	    .then((response) => response.json())
 	    .then((data) => {
 	      if (data.Response === "Success") {

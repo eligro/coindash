@@ -14,13 +14,25 @@ export class Networker {
 
 	constructor() {
 		this.tasks = [];
+		this.generalFaliure = false;
 	}
 
 	setProgressCallback(callback) {
 		this.progressCallback = callback;
 	}
 
+	startNewTaskSequence() {
+		this.generalFaliure = false;
+		return this;
+	}
+
 	start(task) {
+		if (this.generalFaliure) {
+			return new Promise(function(resolve, reject) {
+		        reject("General faliure");
+		    });
+		}
+
 		this.tasks.push(task);
 
 		this.fireTaskCountChanged()
@@ -33,10 +45,19 @@ export class Networker {
 		    })
 	        .then((response) => {
 	        	task.completed = true;
-	        	parentObj.fireTaskCountChanged();
-		        resolve(response);
+	        	if (parentObj.generalFaliure == false) {
+	        		parentObj.fireTaskCountChanged();
+			        resolve(response);
+	        	}
+	        	else {
+	        		reject("general faliure");
+	        	}
 		    })
 		    .catch((error) => {
+		    	if (parentObj.generalFaliure == false) {
+		    		parentObj.generalFaliure = true;
+		    		parentObj.fireGeneralError(error);
+		    	}
 		        reject(error);
 		    })
 	    });
@@ -47,6 +68,15 @@ export class Networker {
 			this.progressCallback({
 				'progress': (this.completedTasks().length / this.tasks.length),
 				'error' : null
+			});
+		}
+	}
+
+	fireGeneralError(error) {
+		if (this.progressCallback) {
+			this.progressCallback({
+				'progress': (this.completedTasks().length / this.tasks.length),
+				'error' : error
 			});
 		}
 	}

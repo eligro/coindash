@@ -8,7 +8,7 @@ export class EtherscanGetTask extends GetTask {
 	}
 
 	static fetchERC20TokenBalanceTask(token, walletAddress) {
-		let serverUrl = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=";
+		let serverUrl = "https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddreddss=";
 	    serverUrl += token.contractAddress;
 	    serverUrl += "&address=";
 	    serverUrl += walletAddress;

@@ -68,9 +68,17 @@ export class AccountsManager {
     let parentObj = this
 
     // set updater
-    Networker.instance().setProgressCallback(function(obj) {
-      console.log(obj.progress);
-      statusUpdater(obj.progress * 100 + '%')
+    Networker
+    .instance()
+    .startNewTaskSequence()
+    .setProgressCallback(function(obj) {
+      if (obj.error != null) {
+        console.error("fatal error");
+        console.error(obj.error);
+      }
+      else {
+        statusUpdater(obj.progress * 100 + '%');
+      }
     });
 
     console.time('fetchBalances')

@@ -23,6 +23,10 @@ class Header extends React.Component {
     this.openShare = this.openShare.bind(this)
     this.share = this.share.bind(this)
     this.saveUserName = this.saveUserName.bind(this)
+    this.handleUploadStart = this.handleUploadStart.bind(this)
+    this.handleUploadError = this.handleUploadError.bind(this)
+    this.handleUploadSuccess = this.handleUploadSuccess.bind(this)
+    this.handleProgress = this.handleProgress.bind(this)
   }
 
   componentWillMount () {
@@ -110,11 +114,14 @@ class Header extends React.Component {
   handleUploadStart (file) {
     this.setState({isUploading: true, progress: 0})
   }
+
   handleProgress (progress) { return this.setState({progress}) }
+
   handleUploadError (error) {
     this.setState({isUploading: false, progress: 0})
     console.error(error)
   }
+
   handleUploadSuccess (filename) {
     this.setState({avatar: filename, progress: 100, isUploading: false, uploaded: true})
     firebase.storage().ref('images')

@@ -38,8 +38,6 @@ class HomePage extends React.Component {
 
   componentWillMount () {
     this.props.coinActions.loadFront()
-    this.props.chartActions.loadChart()
-    this.props.balancesActions.loadBalances()
     this.startPoll()
   }
 
@@ -98,6 +96,7 @@ class HomePage extends React.Component {
   refreshChart () {
     this.props.chartActions.setLoadedChart(false)
     this.props.chartActions.loadChart()
+    this.props.balancesActions.loadBalances()
   }
 
   render () {

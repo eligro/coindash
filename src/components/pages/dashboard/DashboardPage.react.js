@@ -95,6 +95,7 @@ class HomePage extends React.Component {
 
   refreshChart () {
     this.props.chartActions.setLoadedChart(false)
+    this.props.chartActions.clearCharts()
     this.props.chartActions.loadChart()
     this.props.balancesActions.loadBalances()
   }

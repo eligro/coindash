@@ -27,6 +27,10 @@ export function chartText (text) {
   return {type: types.SET_STATUS_TEXT, text}
 }
 
+export function balanceError (text) {
+  return {type: types.BALANCE_ERROR, text}
+}
+
 export function chartError (text) {
   return {type: types.CHART_ERROR, text}
 }
@@ -66,7 +70,7 @@ export function loadChart () {
                 function (obj) { // status updater
                   if (obj.error != null) {
                     console.error(obj.error)
-                    dispatch(chartText(obj.error))
+                    dispatch(chartError(obj.error))
                   } else {
                     let progress = obj.progress * 100 ;
                     progress = Math.round(progress * 100) / 100
@@ -75,7 +79,7 @@ export function loadChart () {
                 },
                 function (data) {
                   if (data == null) {
-                    dispatch(chartError('No Balance Found'))
+                    dispatch(balanceError('No Balance Found'))
                   }
                 // Calc 7 days delta
                   manager.calcDeltaByDays(data, 7,

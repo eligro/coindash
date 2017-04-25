@@ -10,6 +10,7 @@ export const CLEAR_CHARTS = 'CLEAR_CHARTS'
 export const SET_CHART_LOADED = 'SET_CHART_LOADED'
 export const SET_STATUS_TEXT = 'SET_STATUS_TEXT'
 export const CHART_ERROR = 'CHART_ERROR'
+export const BALANCE_ERROR = 'BALANCE_ERROR'
 
 /* balances */
 export const LOAD_BALANCES_SUCCESS = 'LOAD_BALANCES_SUCCESS'

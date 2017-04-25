@@ -13,7 +13,7 @@ import * as coinActions from '../../../actions/coins.actions'
 import * as chartActions from '../../../actions/chart.actions'
 import * as balancesActions from '../../../actions/balances.actions'
 
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
@@ -22,7 +22,9 @@ class HomePage extends React.Component {
   constructor (props, context) {
     super(props, context)
 
-    this.state = {selectedChart: 1}
+    this.state = {selectedChart: 1, showError: false }
+
+    this.closeError = this.closeError.bind(this)
     this.chartSelected = this.chartSelected.bind(this)
     this.refreshChart = this.refreshChart.bind(this)
   }
@@ -39,6 +41,8 @@ class HomePage extends React.Component {
   componentWillMount () {
     this.props.coinActions.loadFront()
     this.startPoll()
+    if(this.props.chartError)
+      this.setState({showError: true})
   }
 
   componentDidMount () {
@@ -98,6 +102,13 @@ class HomePage extends React.Component {
     this.props.chartActions.clearCharts()
     this.props.chartActions.loadChart()
     this.props.balancesActions.loadBalances()
+
+    if(this.props.chartError)
+      this.setState({showError: true})
+  }
+
+  closeError (event) {
+    this.setState({showError: false})
   }
 
   render () {
@@ -116,7 +127,7 @@ class HomePage extends React.Component {
                 </Button>
               </OverlayTrigger>
             </div>
-            <Balances balances={this.props.balances} error={this.props.error} />
+            <Balances balances={this.props.balances} error={this.props.balanceError} />
           </div>
           <div className='chart-cont'>
             <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
@@ -133,6 +144,18 @@ class HomePage extends React.Component {
             <Positions front={this.props.front} />
           </div>
         </div>
+
+        <Modal show={this.state.showError} onHide={this.closeError}>
+          <Modal.Header closeButton>
+            <Modal.Title>Error</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.props.chartError}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeError}>Got it</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
@@ -147,7 +170,8 @@ function mapStateToProps (state, ownProps) {
     front: state.coins.front,
     exchanges: state.exchanges,
     statusText: state.charts.statusText,
-    error: state.charts.error
+    balanceError: state.charts.balanceError,
+    chartError: state.charts.error
   }
 }
 

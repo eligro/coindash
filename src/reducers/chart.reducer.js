@@ -46,8 +46,12 @@ export default function chartReducer (state = {}, action) {
         statusText: action.text
       })
 
+      case types.BALANCE_ERROR:
+      return Object.assign({}, state, {
+        balanceError: action.text
+      })
+
     case types.CHART_ERROR:
-      console.log('CHART_ERROR')
       return Object.assign({}, state, {
         error: action.text
       })

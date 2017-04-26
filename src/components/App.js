@@ -5,7 +5,8 @@ import 'bootstrap/dist/css/bootstrap-theme.css'
 import './App.css'
 import './common/navbar/Navbar.css'
 
-import Leftnav from './common/leftnav/Leftnav.react'
+// import Leftnav from './common/leftnav/Leftnav.react'
+import Sidenav from './common/sidenav/Sidenav.react'
 
 // import Navbar from './common/navbar/Navbar.react';
 import Header from './common/Header.react'
@@ -16,7 +17,7 @@ class App extends Component {
       <div className='App'>
         <Header extension={this.props.extension} />
         <div className='main-container container-fluid'>
-          <Leftnav />
+          <Sidenav />
           {this.props.children}
         </div>
       </div>

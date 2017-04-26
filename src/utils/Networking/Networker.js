@@ -53,7 +53,7 @@ export class Networker {
 
               if (task.validateResponse(data) === false) {
                 parentObj.generalFaliure = true
-                parentObj.fireGeneralError(task.getError(data))
+                parentObj.fireGeneralError(task, task.getError(data))
                 reject(task.getError(data))
               } else {
                 resolve(data)
@@ -65,7 +65,7 @@ export class Networker {
         .catch((error) => {
           if (parentObj.generalFaliure === false) {
             parentObj.generalFaliure = true
-            parentObj.fireGeneralError(error)
+            parentObj.fireGeneralError(task, error)
           }
           reject(error)
         })
@@ -81,11 +81,12 @@ export class Networker {
     }
   }
 
-  fireGeneralError (error) {
+  fireGeneralError (task, error) {
     if (this.progressCallback) {
       this.progressCallback({
         'progress': (this.completedTasks().length / this.tasks.length),
-        'error': error
+        'error': error,
+        'task': task
       })
     }
   }

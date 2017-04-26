@@ -69,7 +69,7 @@ export function loadChart () {
       manager.dayStatusFromDate(spanTime,
                 function (obj) { // status updater
                   if (obj.error != null) {
-                    console.error(obj.error)
+                    console.error(obj)
                     dispatch(chartError(obj.error))
                   } else {
                     let progress = obj.progress * 100 ;

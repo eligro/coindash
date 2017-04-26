@@ -8,6 +8,8 @@ import AssetAllocationChart from '../../common/charts/stocks/AssetAllocationChar
 import Balances from './Balances.react'
 import Positions from './Positions.react'
 import ChartNavigation from './ChartNavigation.react'
+import AddTokenForm from './AddTokenForm.react'
+import { ETHWallet } from '../../../utils/Accounts/Ethereum/ETHWallet'
 
 import * as coinActions from '../../../actions/coins.actions'
 import * as chartActions from '../../../actions/chart.actions'
@@ -16,17 +18,20 @@ import * as balancesActions from '../../../actions/balances.actions'
 import { Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
+
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
 class HomePage extends React.Component {
   constructor (props, context) {
     super(props, context)
 
-    this.state = {selectedChart: 1, showError: false }
+    this.state = {selectedChart: 1, showError: false, showAddToken: false, token: {address: '', symbol: '', decimal: '', ico_contract_address: ''} }
 
     this.closeError = this.closeError.bind(this)
-    this.chartSelected = this.chartSelected.bind(this)
-    this.refreshChart = this.refreshChart.bind(this)
+    this.openAddToken = this.openAddToken.bind(this);
+    this.closeAddToken = this.closeAddToken.bind(this);
+    this.chartSelected = this.chartSelected.bind(this);
+    this.refreshChart = this.refreshChart.bind(this);
   }
 
   componentWillReceiveProps (nextProps) {
@@ -111,6 +116,18 @@ class HomePage extends React.Component {
     this.setState({showError: false})
   }
 
+  openAddToken(event){
+    this.setState({showAddToken: true});
+  }
+
+  closeAddToken (event) {
+    this.setState({showAddToken: false})
+  }
+
+  addToken (event) {
+    ETHWallet.addToken(this.state.token);
+  }
+
   render () {
     const tooltip = (
       <Tooltip id='tooltip'>Add Custom Token</Tooltip>
@@ -122,7 +139,7 @@ class HomePage extends React.Component {
             <div className='header'>
               <h3>Balances</h3>
               <OverlayTrigger placement='bottom' overlay={tooltip}>
-                <Button bsStyle='primary'>
+                <Button bsStyle='primary' onClick={this.openAddToken} >
                   <FontAwesome name='plus' />
                 </Button>
               </OverlayTrigger>
@@ -154,6 +171,19 @@ class HomePage extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.closeError}>Got it</Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.showAddToken} onHide={this.closeAddToken}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Token</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddTokenForm token={this.state.token}/>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => { this.addToken(); this.closeAddToken() }}>Add</Button>
+            <Button onClick={this.closeAddToken}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       </div>

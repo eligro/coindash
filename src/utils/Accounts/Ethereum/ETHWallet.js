@@ -28,31 +28,55 @@ export class ETHWallet {
 
   // tokens
 
-  // addToken(token) {
-
-  //   this.addToken(token.symbol, token.contractAddress, token.decimal);
-
-  // }
-
-  // addToken(symbol, address, decimal) {
-
-  //   console.log("adding token with symbol: " + symbol + ", address: " + address + ", decimal: " + decimal);
-
-  //   var tokens = Wallet.savedTokens()
-
-  //   tokens.push({
-
-  //         address: address,
-
-  //         symbol: symbol,
-
-  //         decimal: decimal
-
-  //       });
-
-  //   localStorage.setItem("localTokens",JSON.stringify(tokens));
+  // static addToken(token) {
+  //   console.log(token)
+  //   this.addToken(token.address, token.symbol, token.decimal, token.contractAddress);
 
   // }
+
+  static addToken(token) {
+
+    console.log("adding token with address: " + token.address + ", symbol: " + token.symbol + ", contractAddress: " + token.ico_contract_address + ", decimal: " + token.decimal);
+
+    var tokens = ETHWallet.allTokens()
+    console.log(tokens)
+
+    var contains = false;
+    for (var i = tokens.length - 1; i >= 0; i--) {
+      if(ETHWallet.checkToken(token, tokens[i])){
+        contains = true;
+        console.log("token exist...")
+        break;
+      }
+    }
+
+    if(!contains){
+      console.log("adding token...")
+      tokens.push({
+
+          address: token.address,
+
+          symbol: token.symbol,
+
+          decimal: token.decimal,
+
+          contractAddress: token.ico_contract_address
+
+        });
+
+      localStorage.setItem("localTokens",JSON.stringify(tokens));
+    }
+
+  }
+
+  static checkToken (addedToken, token) {
+    if(addedToken.address == token.contractAddress 
+      && addedToken.symbol == token.symbol
+      && addedToken.contractAddress == token.ico_address)
+
+      return true;
+    return false;
+  }
 
   static allTokens () {
     return ETHWallet.savedTokens().concat(Token.hardcodedTokes())

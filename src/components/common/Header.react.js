@@ -146,7 +146,7 @@ class Header extends React.Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav pullRight>
-            <LinkContainer onClick={this.openShare} to='#'>
+            <LinkContainer className='disabled' onClick={this.openShare} to='#'>
               <NavItem eventKey={1}>Share</NavItem>
             </LinkContainer>
             <LinkContainer onClick={this.openHelp} to='#'>

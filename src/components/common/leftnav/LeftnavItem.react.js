@@ -12,7 +12,8 @@ export default class LeftnavItem extends React.Component {
   }
 
   redirectToPage () {
-    browserHistory.push(this.props.item.route)
+    if(this.props.item.route != '/copyCrypto' && this.props.item.route != '/about')
+      browserHistory.push(this.props.item.route)
   }
 
   render () {

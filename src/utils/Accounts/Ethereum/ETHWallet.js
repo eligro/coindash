@@ -41,30 +41,28 @@ export class ETHWallet {
     var tokens = ETHWallet.allTokens()
     console.log(tokens)
 
+    // check no duplicate tokens
     var contains = false;
     for (var i = tokens.length - 1; i >= 0; i--) {
       if(ETHWallet.checkToken(token, tokens[i])){
         contains = true;
-        console.log("token exist...")
         break;
       }
     }
 
     if(!contains){
+      let customTokens = localStorage.getItem('localTokens') != null ? JSON.parse(localStorage.getItem('localTokens')) : []
+
       console.log("adding token...")
-      tokens.push({
+      customTokens.push({
+        "address":token.address,
+        "symbol":token.symbol,
+        "decimal":token.decimal,
+        "ico_contract_address" : token.ico_contract_address,
+        "type":"custom"
+      });
 
-          address: token.address,
-
-          symbol: token.symbol,
-
-          decimal: token.decimal,
-
-          contractAddress: token.ico_contract_address
-
-        });
-
-      localStorage.setItem("localTokens",JSON.stringify(tokens));
+      localStorage.setItem("localTokens",JSON.stringify(customTokens));
     }
 
   }

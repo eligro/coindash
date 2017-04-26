@@ -1,5 +1,6 @@
 import React from 'react'
 import {Nav, NavItem} from 'react-bootstrap'
+import { Line, Circle } from 'rc-progress'
 
 import './ChartNavigation.css'
 
@@ -26,11 +27,17 @@ class ChartNavigation extends React.Component {
   }
 
   render () {
+    var progressBar;
+    if(this.props.statusText != '100%'){
+      progressBar = <div className='status-cont'>
+                      <div className=''> {this.props.statusText} </div>
+                      <Line percent={this.props.statusText.substring(0, this.props.statusText.length - 2)} strokeWidth="4" strokeColor="#FFFFFF" />
+                    </div>
+    }
+
     return (
       <div className='chart-navigation'>
-        <div className='status-cont'>
-          <p className='title'> {this.props.statusText} </p>
-        </div>
+        {progressBar}
         <div className='btn-cont'>
           <button className='btn' onClick={this.handleRefresh}>
             <FontAwesome name='refresh' size='2x' />
@@ -38,7 +45,7 @@ class ChartNavigation extends React.Component {
         </div>
         <Nav className='navbar-cont' bsStyle='pills' activeKey={this.state.activeKey} onSelect={(selectedKey) => { this.handleSelect(selectedKey) }}>
           <NavItem eventKey={1} title='item1'>Performance</NavItem>
-          <NavItem eventKey={2} title='Item2'>Risk</NavItem>
+          {/* <NavItem eventKey={2} title='Item2'>Risk</NavItem> */}
           <NavItem eventKey={3} title='Item3'>Allocation Table</NavItem>
         </Nav>
 

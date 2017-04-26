@@ -42,7 +42,7 @@ class Header extends React.Component {
   }
 
   openShare (event) {
-    this.setState({ showShare: true })
+    // this.setState({ showShare: true })
   }
 
   closeShare (event) {

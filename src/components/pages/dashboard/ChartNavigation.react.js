@@ -30,8 +30,8 @@ class ChartNavigation extends React.Component {
     var progressBar;
     if(this.props.statusText != '100%'){
       progressBar = <div className='status-cont'>
-                      <div className=''> {this.props.statusText} </div>
-                      <Line percent={this.props.statusText.substring(0, this.props.statusText.length - 2)} strokeWidth="4" strokeColor="#FFFFFF" />
+                      <div className=''> {this.props.statusText} %</div>
+                      <Line percent={this.props.statusText} strokeWidth="4" strokeColor="#FFFFFF" />
                     </div>
     }
 

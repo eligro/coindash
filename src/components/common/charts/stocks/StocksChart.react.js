@@ -34,12 +34,12 @@ class StocksChart extends React.Component {
   }
 
   getChartConfig () {
-    const btcData = this.props.chartData.btcAggDelta
+    const marketData = this.props.chartData.btcAggDelta
     const portfolioData = this.props.chartData.portfolioAggDelta
     var dayDataByDate = this.props.dayDataByDate
 
         // sort in ascending order
-    btcData.sort(function (a, b) {
+    marketData.sort(function (a, b) {
       let v1 = a[0]
       let v2 = b[0]
 
@@ -57,7 +57,7 @@ class StocksChart extends React.Component {
 
     seriesOptions[0] = {
       name: 'BTC ($)',
-      data: btcData,
+      data: marketData,
       tooltip: {
         valueDecimals: 2
       },
@@ -96,6 +96,7 @@ class StocksChart extends React.Component {
           let portfolioValue = this.points[1]
 
           let date = new Date(portfolioValue.x)
+          let firstDay = new Date(portfolioData[0][0])
 
                     // prepare balances
           let balances = dayDataByDate[portfolioValue.x].balances
@@ -103,13 +104,15 @@ class StocksChart extends React.Component {
           for (let i = 0; i < balances.length; i++) {
             let balance = balances[i]
             if (balance.balance > 0) {
-              balancesStr += '<br/>' + balance.symbol + '  ' + Math.round(balance.balance * 100) / 100 + ' (' + Math.round(balance.fiatValue * 100) / 100 + ' ' + balance.fiatCurrency + ')'
+              balancesStr += '<br/>   *' + balance.symbol + '  ' + Math.round(balance.balance * 100) / 100 + ' (' + Math.round(balance.fiatValue * 100) / 100 + ' ' + balance.fiatCurrency + ')'
             }
           }
 
-          let ret = '<b>' + date.toLocaleDateString() + '</b><br/><b>Aggregated delta: ' + Math.round((portfolioValue.y - 1) * 100)
-          ret += '% (' + Math.round(dayDataByDate[portfolioValue.x].dayFiatValue * 100) / 100 + ' USD)</b>' + balancesStr
-          ret += '<br/></br><b>Market: ' + Math.round((benchmarkValue.y - 1) * 100) + '%</b>'
+          let ret = "<b>Portfolio Value " + Math.round(dayDataByDate[portfolioValue.x].dayFiatValue * 100) / 100 + ' USD (' + date.toLocaleDateString() + ')</b>';
+          ret += '<br/><b>Portfolio Overall Performance: ' + Math.round((portfolioValue.y - 1) * 100) + '% (' +  firstDay.toLocaleDateString() + ' - ' + date.toLocaleDateString() + ')'
+          ret += '<br/>|<br/>Balances:'
+          ret +=  balancesStr
+          ret += '<br/>|<br/><b>Market Overall Performance: ' + Math.round((benchmarkValue.y - 1) * 100) + '% (' +  firstDay.toLocaleDateString() + ' - ' + date.toLocaleDateString() + ')</b>'
 
           return ret
         }

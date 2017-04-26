@@ -9,7 +9,7 @@ import './common/navbar/Navbar.css'
 import Sidenav from './common/sidenav/Sidenav.react'
 
 // import Navbar from './common/navbar/Navbar.react';
-import Header from './common/Header.react'
+import Header from './common/header2/Header2.react'
 
 class App extends Component {
   render () {

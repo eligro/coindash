@@ -1,0 +1,36 @@
+.App header .navbar.navbar-custom {
+  background: none;
+  color: #FFF;
+  margin: 0;
+  border-radius: 0;
+  padding: 15px;
+}
+@media (min-width: 1200px) {
+  .App header .navbar.navbar-custom .container {
+    width: 100%;
+    padding-left: 30px;
+  }
+}
+.App header .navbar.navbar-custom .navbar-header { }
+.App header .navbar.navbar-custom .navbar-header .navbar-brand {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  opacity: 0.9;
+}
+.App header .navbar.navbar-custom .navbar-header .navbar-brand svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+.App header .navbar.navbar-custom .navbar-header .navbar-brand svg path {
+  fill: #FFF;
+}
+.App header .navbar.navbar-custom .navbar-header .navbar-brand a,
+.App header .navbar.navbar-custom .navbar-header .navbar-brand a:hover {
+  display: block;
+  text-decoration: none;
+  color: #FFF;
+}
+.App header .navbar.navbar-custom { }
+.App header .navbar.navbar-custom { }

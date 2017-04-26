@@ -2,7 +2,9 @@
   color: #FFFF;
   width: 270px;
 }
-.sidenav ul {}
+.sidenav ul {
+  padding-left: 30px;
+}
 .sidenav ul li {}
 .sidenav ul li a {
   color: #6A727F;

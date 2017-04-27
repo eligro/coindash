@@ -25,7 +25,11 @@ class HomePage extends React.Component {
   constructor (props, context) {
     super(props, context)
 
+<<<<<<< HEAD
     this.state = {selectedChart: 1, closedError: false, showAddToken: false, token: {address: '', symbol: '', decimal: '', ico_contract_address: ''} }
+=======
+    this.state = {selectedChart: 1, showError: true, showAddToken: false, token: {address: '', symbol: '', decimal: '', ico_contract_address: ''} }
+>>>>>>> b8576237cb6bcb796e4bb5ef72899aa62dd60747
 
     this.closeError = this.closeError.bind(this)
     this.openAddToken = this.openAddToken.bind(this);
@@ -46,10 +50,15 @@ class HomePage extends React.Component {
   componentWillMount () {
     this.props.coinActions.loadFront()
     this.startPoll()
+<<<<<<< HEAD
+=======
+
+    // if(this.props.chartError)
+    //   this.setState({showError: true})
+>>>>>>> b8576237cb6bcb796e4bb5ef72899aa62dd60747
   }
 
   componentDidMount () {
-
         /*
         let manager = AccountsManager.hardcodedManager();
 
@@ -110,11 +119,16 @@ class HomePage extends React.Component {
   }
 
   closeError (event) {
+<<<<<<< HEAD
     this.setState({closedError: true})
   }
 
   shouldShowError () {
     return this.props.chartError != null && !this.state.closedError
+=======
+     this.setState({showError: false})
+
+>>>>>>> b8576237cb6bcb796e4bb5ef72899aa62dd60747
   }
 
   openAddToken(event){
@@ -163,7 +177,11 @@ class HomePage extends React.Component {
           </div>
         </div>
 
+<<<<<<< HEAD
         <Modal show={this.shouldShowError()} onHide={this.closeError}>
+=======
+        <Modal show={this.props.chartError && this.state.showError} onHide={this.closeError}>
+>>>>>>> b8576237cb6bcb796e4bb5ef72899aa62dd60747
           <Modal.Header closeButton>
             <Modal.Title>Error</Modal.Title>
           </Modal.Header>

@@ -5,3 +5,7 @@
 .extension-link {
     font-weight: bold;
 }
+
+.disabled{
+	opacity: 0.5;
+}

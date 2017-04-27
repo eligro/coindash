@@ -25,7 +25,7 @@ class HomePage extends React.Component {
   constructor (props, context) {
     super(props, context)
 
-    this.state = {selectedChart: 1, showError: false, showAddToken: false, token: {address: '', symbol: '', decimal: '', ico_contract_address: ''} }
+    this.state = {selectedChart: 1, closedError: false, showAddToken: false, token: {address: '', symbol: '', decimal: '', ico_contract_address: ''} }
 
     this.closeError = this.closeError.bind(this)
     this.openAddToken = this.openAddToken.bind(this);
@@ -46,8 +46,6 @@ class HomePage extends React.Component {
   componentWillMount () {
     this.props.coinActions.loadFront()
     this.startPoll()
-    if(this.props.chartError)
-      this.setState({showError: true})
   }
 
   componentDidMount () {
@@ -107,13 +105,16 @@ class HomePage extends React.Component {
     this.props.chartActions.clearCharts()
     this.props.chartActions.loadChart()
     this.props.balancesActions.loadBalances()
-
-    if(this.props.chartError)
-      this.setState({showError: true})
+    this.setState({closedError: false})
+    this.props.chartError = null
   }
 
   closeError (event) {
-    this.setState({showError: false})
+    this.setState({closedError: true})
+  }
+
+  shouldShowError () {
+    return this.props.chartError != null && !this.state.closedError
   }
 
   openAddToken(event){
@@ -162,7 +163,7 @@ class HomePage extends React.Component {
           </div>
         </div>
 
-        <Modal show={this.state.showError} onHide={this.closeError}>
+        <Modal show={this.shouldShowError()} onHide={this.closeError}>
           <Modal.Header closeButton>
             <Modal.Title>Error</Modal.Title>
           </Modal.Header>

@@ -1,9 +1,11 @@
 .sidenav {
   color: #FFFF;
   width: 270px;
+  flex: 0 0 auto;
 }
 .sidenav ul {
   padding-left: 30px;
+  list-style: none;
 }
 .sidenav ul li {}
 .sidenav ul li a {
@@ -16,6 +18,7 @@
   font-size: 13px;
   opacity: 0.90;
   transition: all 80ms ease-in-out;
+  padding: 10px 8px;
 }
 .sidenav ul li a:hover,
 .sidenav ul li a:focus,
@@ -30,6 +33,7 @@
   cursor: default;
   position: relative;
   color: #666;
+  opacity: 0.3;
 }
 .sidenav ul li a[disabled]:hover {
   color: #666;

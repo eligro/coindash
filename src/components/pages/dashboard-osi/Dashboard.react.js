@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import './DashboardPage.css'
+import './Dashboard.css'
 import StocksChart from '../../common/charts/stocks/StocksChart.react'
 import StocksChartRisk from '../../common/charts/stocks/StocksChartRisk.react'
 import AssetAllocationChart from '../../common/charts/stocks/AssetAllocationChart.react'
-import Balances from './Balances.react'
-import Positions from './Positions.react'
-import ChartNavigation from './ChartNavigation.react'
-import AddTokenForm from './AddTokenForm.react'
+import Balances from '../dashboard/Balances.react'
+import Positions from '../dashboard/Positions.react'
+import ChartNavigation from '../dashboard/ChartNavigation.react'
+import AddTokenForm from '../dashboard/AddTokenForm.react'
 import { ETHWallet } from '../../../utils/Accounts/Ethereum/ETHWallet'
 
 import * as coinActions from '../../../actions/coins.actions'
@@ -18,7 +18,10 @@ import * as balancesActions from '../../../actions/balances.actions'
 import { Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
+import Card from './Card/Card.react'
+import Moment from 'moment'
 
+console.log('Moment:', Moment)
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
 class HomePage extends React.Component {
@@ -136,18 +139,29 @@ class HomePage extends React.Component {
     return (
       <div className='page-container dashboard-page osi'>
         <div className='top-cont'>
-          <div className='balances-cont noise'>
+          <Card className="balances">
             <div className='header'>
-              <h3>Balances</h3>
-              <OverlayTrigger placement='bottom' overlay={tooltip}>
-                <Button bsStyle='primary' onClick={this.openAddToken} >
-                  <FontAwesome name='plus' />
-                </Button>
-              </OverlayTrigger>
+              <h3>Balance</h3>
+              {false &&
+                <div className='actions'>
+                  <OverlayTrigger placement='bottom' overlay={tooltip}>
+                    <Button bsStyle='primary' onClick={this.openAddToken} >
+                      <FontAwesome name='plus' />
+                    </Button>
+                  </OverlayTrigger>
+                </div>
+              }
             </div>
-            <Balances balances={this.props.balances} error={this.props.balanceError} />
-          </div>
-          <div className='chart-cont'>
+            <h2>{this.props.balances
+                .reduce((t, c) => t + c.value, 0)
+                .toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
+            <p>Your revenue is up <code>+{this.props.balance.lastMonth}%</code> in the last week</p>
+
+
+            {false && <Balances balances={this.props.balances} error={this.props.balanceError} />
+            }
+          </Card>
+          <div className='chart-cont card'>
             <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
             {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
             {this.state.selectedChart === 2 && <StocksChartRisk />}
@@ -192,7 +206,10 @@ class HomePage extends React.Component {
   }
 }
 
+
 function mapStateToProps (state, ownProps) {
+  const lastMonth = Moment().subtract(30, 'days')
+
   return {
     balances: state.balances,
     chartData: state.charts.chartData,
@@ -202,7 +219,14 @@ function mapStateToProps (state, ownProps) {
     exchanges: state.exchanges,
     statusText: state.charts.statusText,
     balanceError: state.charts.balanceError,
-    chartError: state.charts.error
+    chartError: state.charts.error,
+    balance: {
+      lastMonth: state.charts.chartData.portfolioAggDelta
+        .filter(([date, value]) => date > lastMonth) // only last 30 days
+        .filter((e, i, a) => i === 0 || i === a.length - 1) // first and last
+        .filter((e, i, a) => console.info('last month e,i,a', e, i, a) || true)
+        .reduce((t, [time, value]) => t > 0 ? value - t : value, 0)
+    }
   }
 }
 

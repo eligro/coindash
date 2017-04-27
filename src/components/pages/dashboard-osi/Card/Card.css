@@ -1,0 +1,33 @@
+.card {
+  background: rgba(23, 23, 23, 0.3);
+  margin: 15px 0 0 15px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(23, 24, 23, 0.3);
+  padding: 18px;
+  color: #FFF;
+
+}
+
+.card .header {
+  display: flex;
+}
+.card .header h1, .card .header h2, .card .header h3, .card .header h4, .card .header h5, .card .header h6 {
+  flex: 1 1 auto;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  color: rgba(212, 214, 217, 0.6);
+  text-transform: uppercase;
+  font-size: 15px;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+.card .header {
+}
+
+.card .header + h1, .card .header + h2, .card .header + h3, .card .header + h4, .card .header + h5, .card .header + h6 {
+  margin-top: 54px;
+  font-family: 'Comfortaa';
+  letter-spacing: 0.1em;
+  font-size: 34px;
+}

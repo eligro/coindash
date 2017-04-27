@@ -1,0 +1,18 @@
+
+.dashboard-page.osi { }
+.dashboard-page.osi .top-cont {
+  display: flex;
+}
+
+.dashboard-page.osi .top-cont .balances-cont {
+}
+
+.dashboard-page.osi .Card.balances {
+  width: 320px;
+}
+
+.dashboard-page.osi .top-cont .chart-cont {
+  position: relative; /* erase? */
+
+
+}

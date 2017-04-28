@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './components/App'
-import Dashboard from './components/pages/dashboard-osi/Dashboard.react'
+import Dashboard from './components/pages/dashboard/DashboardPage.react'
 import AccountPage from './components/pages/account/AccountPage.react'
 import CopyCryptoPage from './components/pages/copycrypto/CopyCryptoPage.react'
 import PeoplePage from './components/pages/copycrypto/people/PeoplePage.react'

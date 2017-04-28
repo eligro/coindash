@@ -72,11 +72,16 @@ var ExampleImage = React.createClass({
 
   _onLoad (/* string */ src) {
     ReadyPool[src] = true
-    if (this.isMounted() && src === this.props.src) {
-      this.setState({
-        src: src
-      })
-    }
+    // Commented due to warning:
+    // ------------
+    //   /src/components/pages/copycrypto/helpers/ExampleImage.js
+    //   75:9  warning  Do not use isMounted  react/no-is-mounted
+    // ------------
+    // if (this.isMounted() && src === this.props.src) {
+    //   this.setState({
+    //     src: src
+    //   })
+    // }
   }
 })
 

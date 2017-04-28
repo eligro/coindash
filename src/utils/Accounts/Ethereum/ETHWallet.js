@@ -34,46 +34,44 @@ export class ETHWallet {
 
   // }
 
-  static addToken(token) {
-
-    console.log("adding token with address: " + token.address + ", symbol: " + token.symbol + ", contractAddress: " + token.ico_contract_address + ", decimal: " + token.decimal);
+  static addToken (token) {
+    console.log('adding token with address: ' + token.address + ', symbol: ' + token.symbol + ', contractAddress: ' + token.ico_contract_address + ', decimal: ' + token.decimal)
 
     var tokens = ETHWallet.allTokens()
     console.log(tokens)
 
     // check no duplicate tokens
-    var contains = false;
+    var contains = false
     for (var i = tokens.length - 1; i >= 0; i--) {
-      if(ETHWallet.checkToken(token, tokens[i])){
-        contains = true;
-        break;
+      if (ETHWallet.checkToken(token, tokens[i])) {
+        contains = true
+        break
       }
     }
 
-    if(!contains){
+    if (!contains) {
       let customTokens = localStorage.getItem('localTokens') != null ? JSON.parse(localStorage.getItem('localTokens')) : []
 
-      console.log("adding token...")
+      console.log('adding token...')
       customTokens.push({
-        "address":token.address,
-        "symbol":token.symbol,
-        "decimal":token.decimal,
-        "ico_contract_address" : token.ico_contract_address,
-        "type":"custom"
-      });
+        'address': token.address,
+        'symbol': token.symbol,
+        'decimal': token.decimal,
+        'ico_contract_address': token.ico_contract_address,
+        'type': 'custom'
+      })
 
-      localStorage.setItem("localTokens",JSON.stringify(customTokens));
+      localStorage.setItem('localTokens', JSON.stringify(customTokens))
     }
-
   }
 
   static checkToken (addedToken, token) {
-    if(addedToken.address == token.contractAddress 
-      && addedToken.symbol == token.symbol
-      && addedToken.contractAddress == token.ico_address)
-
-      return true;
-    return false;
+    if (addedToken.address === token.contractAddress &&
+        addedToken.symbol === token.symbol &&
+        addedToken.contractAddress === token.ico_address) {
+      return true
+    }
+    return false
   }
 
   static allTokens () {

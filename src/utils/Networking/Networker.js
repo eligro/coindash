@@ -22,8 +22,8 @@ export class Networker {
   }
 
   startNewTaskSequence () {
-    this.generalFaliure = false;
-    this.tasks = [];
+    this.generalFaliure = false
+    this.tasks = []
     return this
   }
 
@@ -46,22 +46,22 @@ export class Networker {
       })
         .then((response) => task.postFetchingResponseTransformation(response))
         .then((data) => {
-            task.completed = true
+          task.completed = true
 
-            if (parentObj.generalFaliure == false) { // process only if no fatal faliure
-              parentObj.fireTaskCountChanged()
+          if (parentObj.generalFaliure === false) { // process only if no fatal faliure
+            parentObj.fireTaskCountChanged()
 
-              if (task.validateResponse(data) == false) {
-                parentObj.generalFaliure = true
-                parentObj.fireGeneralError(task, task.getError(data))
+            if (task.validateResponse(data) === false) {
+              parentObj.generalFaliure = true
+              parentObj.fireGeneralError(task, task.getError(data))
                 // reject(task.getError(data))
-              } else {
-                resolve(data)
-              }
             } else {
-              console.log('general error: not processing responses')
+              resolve(data)
             }
-          })
+          } else {
+            console.log('general error: not processing responses')
+          }
+        })
         .catch((error) => {
           if (parentObj.generalFaliure === false) {
             parentObj.generalFaliure = true

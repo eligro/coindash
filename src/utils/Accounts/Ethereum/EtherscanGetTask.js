@@ -13,8 +13,9 @@ export class EtherscanGetTask extends GetTask {
     serverUrl += walletAddress
     serverUrl += '&tag=latest&apikey='
     serverUrl += EtherscanGetTask.apiKey()
-
-    return new EtherscanGetTask(serverUrl)
+    let prom = new EtherscanGetTask(serverUrl)
+    console.info('Prom from EtherscanGetTask:', prom)
+    return prom
   }
 
   static fetchETHTokenBalanceTask (token, walletAddress) {

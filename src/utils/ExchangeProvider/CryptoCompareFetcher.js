@@ -3,8 +3,6 @@ import { ExchangeValuePoint, ExchangeDataPoint, TokenHistoricData } from './Exch
 import { Networker } from '../Networking/Networker'
 import { CryptoCompareGetTask } from './CryptoCompareGetTask'
 
-const { fetch } = window
-
 export default class CryptoCompareFetcher extends ExchangeDataFetcherBase {
   fetch (token, callback, errorCallBack) {
     let parentObj = this

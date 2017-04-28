@@ -12,7 +12,7 @@ export class ETHWallet {
   }
 
   constructor (walletAddresses) {
-    this.walletAddresses = walletAddresses
+    this.walletAddresses = [...walletAddresses.map(a => a.trim())]
   }
 
   getAccounts () {
@@ -66,9 +66,9 @@ export class ETHWallet {
   }
 
   static checkToken (addedToken, token) {
-    if (addedToken.address === token.contractAddress &&
-        addedToken.symbol === token.symbol &&
-        addedToken.contractAddress === token.ico_address) {
+    if (addedToken.address == token.contractAddress
+      && addedToken.symbol == token.symbol
+      && addedToken.contractAddress == token.ico_address) {
       return true
     }
     return false

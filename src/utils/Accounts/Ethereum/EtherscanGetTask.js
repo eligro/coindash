@@ -14,7 +14,6 @@ export class EtherscanGetTask extends GetTask {
     serverUrl += '&tag=latest&apikey='
     serverUrl += EtherscanGetTask.apiKey()
     let prom = new EtherscanGetTask(serverUrl)
-    console.info('Prom from EtherscanGetTask:', prom)
     return prom
   }
 

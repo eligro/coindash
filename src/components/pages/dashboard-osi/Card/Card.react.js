@@ -6,9 +6,7 @@ class Card extends Component {
     let { className, ...props } = this.props
     className = ['Card', className].join(' ')
     return (
-      <div className='card'>
-        <div {...props} className={className}>{this.props.children}</div>
-      </div>
+      <div {...props} className={className}>{this.props.children}</div>
     )
   }
 }

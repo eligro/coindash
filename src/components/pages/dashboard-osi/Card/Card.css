@@ -1,4 +1,4 @@
-.card {
+.Card {
   background: rgba(23, 23, 23, 0.3);
   margin: 15px 0 0 15px;
   border-radius: 3px;
@@ -9,19 +9,14 @@
   display: flex;
   flex-direction: column;
 }
-.card .Card {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-}
 
-.card card-header {
+.Card card-header {
   display: flex;
   margin: -20px;
   margin-bottom: 0;
   align-items: center;
 }
-.card card-header h1, .card card-header h2, .card card-header h3, .card card-header h4, .card card-header h5, .card card-header h6 {
+.Card card-header h1, .Card card-header h2, .Card card-header h3, .Card card-header h4, .Card card-header h5, .Card card-header h6 {
   flex: 1 1 auto;
   text-align: left;
   padding: 0;
@@ -32,8 +27,8 @@
   font-family: 'Open Sans';
   font-weight: 700;
 }
-.card card-header .actions {}
-.card card-header .actions button {
+.Card card-header .actions {}
+.Card card-header .actions button {
   background: rgba(255, 255, 255, 0);
   border-radius: 100%;
   border: none;
@@ -42,16 +37,16 @@
   color: rgba(255, 255, 255, 0.5);
   outline: none;
 }
-.card card-header .actions button:focus,
-.card card-header .actions button:active {
+.Card card-header .actions button:focus,
+.Card card-header .actions button:active {
   outline: none;
 }
-.card card-header .actions button:hover {
+.Card card-header .actions button:hover {
   background: rgba(255, 255, 255, 0.3);
 }
-.card card-header {}
+.Card card-header {}
 
-.card card-header + h1, .card card-header + h2, .card card-header + h3, .card card-header + h4, .card card-header + h5, .card card-header + h6 {
+.Card card-header + h1, .Card card-header + h2, .Card card-header + h3, .Card card-header + h4, .Card card-header + h5, .Card card-header + h6 {
   margin-top: 54px;
   font-family: 'Comfortaa';
   letter-spacing: 0.1em;
@@ -59,26 +54,26 @@
   text-align: left;
   color: rgba(255,255,255,0.89);
 }
-.card p {
+.Card p {
   text-align: left;
   color: rgba(255, 255, 255, 0.7);
 }
-.card code {
+.Card code {
   background: none;
   font-size: 1.2em;
   font-family: 'Open Sans';
   font-weight: 600;
   color: #02FDDE;
 }
-.card card-footer {
+.Card card-footer {
   border-top: 1px solid rgba(255,255,255,0.1);
   display: flex;
   margin: 0 -38px -38px;
 }
-.card card-footer > * {
+.Card card-footer > * {
   flex: 1;
   padding: 38px;
 }
-.card card-footer > *:not(:last-child){
+.Card card-footer > *:not(:last-child){
   border-right: 1px solid rgba(255,255,255,0.1);
 }

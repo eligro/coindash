@@ -15,8 +15,7 @@ import * as coinActions from '../../../actions/coins.actions'
 import * as chartActions from '../../../actions/chart.actions'
 import * as balancesActions from '../../../actions/balances.actions'
 
-import { Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap'
-import FontAwesome from 'react-fontawesome'
+import { Button, Modal } from 'react-bootstrap'
 
 import Card from './Card/Card.react'
 import Moment from 'moment'
@@ -143,12 +142,14 @@ class HomePage extends React.Component {
       <div className='page-container dashboard-page osi'>
         <div className='top-cont'>
           <BalanceCard {...this.props} openAddToken={this.openAddToken} />
-          <div className='chart-cont card'>
-            <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
-            {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
-            {this.state.selectedChart === 2 && <StocksChartRisk />}
-            {this.state.selectedChart === 3 && <AssetAllocationChart balances={this.props.balances}/>}
-          </div>
+          <Card className='charts'>
+            <div className='chart-cont card'>
+              <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
+              {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
+              {this.state.selectedChart === 2 && <StocksChartRisk />}
+              {this.state.selectedChart === 3 && <AssetAllocationChart balances={this.props.balances}/>}
+            </div>
+          </Card>
         </div>
         <div className='bottom-cont'>
           <div className='positions-header'>

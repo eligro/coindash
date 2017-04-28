@@ -7,6 +7,8 @@ import { currencyFormat, Flex } from '../Dashboard.react'
 import Balances from '../../dashboard/Balances.react'
 import ScrollArea from 'react-scrollbar'
 
+import './BalanceCard.css'
+
 const Valuable = props => (<OverlayTrigger placement='top' overlay={<Tooltip id='{props.className}-valuable'>Your {props.className} valuable token</Tooltip>}>
   <div className={props.className}>
 
@@ -36,8 +38,21 @@ export default (props) => {
         .reduce((t, c) => t + c.value, 0)
         .toLocaleString(...currencyFormat)}</h2>
       <p>Your portfolio is composed of <code>{props.balance.tokens}</code> tokens.</p>
+
       <ScrollArea className='tokens-a'>
         <ul className='tokens'>
+          {props.balances.sort((a, b) => a.value < b.value).map((b, i) => (
+            <li className={`token token-${b.title}`}>
+              <Circle percent={b.value / total * 100} strokeWidth='18' strokeColor={altColors[props.balances.length][i]} trailWidth='18' strokeLinecap='square' trailColor='rgba(255,255,255,0.2)' />
+              <div className='details'>
+                <value-amount>
+                  <amount>{b.amount.toLocaleString()}</amount>
+                  <value>{b.value.toLocaleString(...currencyFormat)}</value>
+                </value-amount>
+                <label>{b.title}</label>
+              </div>
+            </li>
+          ))}
           {props.balances.sort((a, b) => a.value < b.value).map((b, i) => (
             <li className={`token token-${b.title}`}>
               <Circle percent={b.value / total * 100} strokeWidth='18' strokeColor={altColors[props.balances.length][i]} trailWidth='18' strokeLinecap='square' trailColor='rgba(255,255,255,0.2)' />

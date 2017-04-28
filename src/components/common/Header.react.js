@@ -50,9 +50,7 @@ class Header extends React.Component {
   }
 
   isShowHelp () {
-    const allowedHosts = ['orymeli:3000']
-    const isAllowedHost = !(allowedHosts.indexOf(window.location.host) === -1)
-    return this.props.extension.version === '0.0.0' && (this.state.showHelp === null || this.state.showHelp) && !isAllowedHost
+    return this.props.extension.version === '0.0.0' && (this.state.showHelp === null || this.state.showHelp)
   }
 
   saveUserName (event) {

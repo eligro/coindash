@@ -1,6 +1,6 @@
 import React from 'react'
 import {Nav, NavItem} from 'react-bootstrap'
-import { Line } from 'rc-progress'
+import { Line, Circle } from 'rc-progress'
 
 import './ChartNavigation.css'
 
@@ -27,12 +27,12 @@ class ChartNavigation extends React.Component {
   }
 
   render () {
-    var progressBar
-    if (+this.props.statusText < 100) {
+    var progressBar;
+    if(this.props.statusText != '100'){
       progressBar = <div className='status-cont'>
-        <div className=''> {this.props.statusText} %</div>
-        <Line percent={this.props.statusText} strokeWidth='4' strokeColor='#FFFFFF' />
-      </div>
+                      <div className=''> {this.props.statusText} %</div>
+                      <Line percent={this.props.statusText} strokeWidth="4" strokeColor="#FFFFFF" />
+                    </div>
     }
 
     return (

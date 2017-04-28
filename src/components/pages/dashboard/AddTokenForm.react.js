@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup, ControlLabel, FormControl, Checkbox } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Checkbox } from 'react-bootstrap'
 
 class AddTokenForm extends React.Component {
   constructor (props, context) {
@@ -7,27 +7,27 @@ class AddTokenForm extends React.Component {
 
     this.state = { token: this.props.token, checked: false }
 
-    this.textboxChange = this.textboxChange.bind(this)
-    this.addressChange = this.addressChange.bind(this)
-    this.symbolChange = this.symbolChange.bind(this)
-    this.decimalChange = this.decimalChange.bind(this)
-    this.contractAddressChange = this.contractAddressChange.bind(this)
+    this.textboxChange = this.textboxChange.bind(this);
+    this.addressChange = this.addressChange.bind(this);
+    this.symbolChange = this.symbolChange.bind(this);
+    this.decimalChange = this.decimalChange.bind(this);
+    this.contractAddressChange = this.contractAddressChange.bind(this);
   }
 
   getAddressValidationState () {
-    return 'success'
+        return 'success'
   }
 
   getSymbolValidationState () {
-    return 'success'
+        return 'success'
   }
 
   getDecimalValidationState () {
-    return 'success'
+        return 'success'
   }
 
   getContractValidationState () {
-    return 'success'
+        return 'success'
   }
 
   onFormSubmit (event) {
@@ -67,15 +67,16 @@ class AddTokenForm extends React.Component {
   }
 
   render () {
-    var contractField
-    if (this.state.checked) {
-      contractField = <FormGroup controlId='formContract' validationState={this.getContractValidationState()}>
-        <ControlLabel>ICO Contract Address</ControlLabel>
-        <FormControl type='text'
-          placeholder='Enter Valid ICO Contract Address'
-          onChange={this.contractAddressChange} />
-      </FormGroup>
-    }
+
+    var contractField;
+    if(this.state.checked){
+        contractField = <FormGroup controlId='formContract' validationState={this.getContractValidationState()}>
+          <ControlLabel>ICO Contract Address</ControlLabel>
+          <FormControl type='text'
+            placeholder='Enter Valid ICO Contract Address'
+            onChange={this.contractAddressChange}/>
+        </FormGroup>
+      }
     return (
       <form onSubmit={this.onFormSubmit}>
 
@@ -83,23 +84,23 @@ class AddTokenForm extends React.Component {
           <ControlLabel>Address</ControlLabel>
           <FormControl type='text'
             placeholder='Enter Valid Address'
-            onChange={this.addressChange} />
+            onChange={this.addressChange}/>
         </FormGroup>
 
         <FormGroup controlId='formSymbol' validationState={this.getSymbolValidationState()}>
           <ControlLabel>Symbol</ControlLabel>
           <FormControl type='text'
             placeholder='Enter Valid Symbol'
-            onChange={this.symbolChange} />
+            onChange={this.symbolChange}/>
         </FormGroup>
 
         <FormGroup controlId='formDecimal' validationState={this.getDecimalValidationState()}>
           <ControlLabel>Decimals</ControlLabel>
           <FormControl type='text'
             placeholder='Enter Decimals'
-            onChange={this.decimalChange} />
+            onChange={this.decimalChange}/>
         </FormGroup>
-
+        
         <Checkbox checked={this.state.checked} onChange={this.textboxChange}>ICO Contract Address</Checkbox>
         {contractField}
       </form>

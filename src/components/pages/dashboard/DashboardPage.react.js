@@ -133,9 +133,9 @@ class HomePage extends React.Component {
       <Tooltip id='tooltip'>Add Custom Token</Tooltip>
     )
     return (
-      <div className='page-container dashboard-page osi'>
+      <div className='page-container dashboard-page'>
         <div className='top-cont'>
-          <div className='balances-cont noise'>
+          <div className='balances-cont'>
             <div className='header'>
               <h3>Balances</h3>
               <OverlayTrigger placement='bottom' overlay={tooltip}>

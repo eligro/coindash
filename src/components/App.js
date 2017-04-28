@@ -7,6 +7,7 @@ import './common/navbar/Navbar.css'
 
 import Leftnav from './common/leftnav/Leftnav.react'
 
+// import Navbar from './common/navbar/Navbar.react';
 import Header from './common/Header.react'
 
 class App extends Component {

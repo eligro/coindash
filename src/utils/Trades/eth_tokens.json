@@ -108,12 +108,6 @@
     "type":"default"
   },
   {
-    "address":"0xc66ea802717bfb9833400264dd12c2bceaa34a6d",
-    "symbol":"MKR",
-    "decimal":18,
-    "type":"default"
-  },
-  {
     "address":"0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1",
     "ico_contract_address":"0x3bf541f87056d134e0109be1be92978b26cb09e0",
     "symbol":"MLN",

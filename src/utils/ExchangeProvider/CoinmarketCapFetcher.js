@@ -1,5 +1,7 @@
 import { ExchangeDataFetcherBase } from './ExchangeDataFetcherBase'
 import { ExchangeValuePoint, ExchangeDataPoint, TokenHistoricData } from './ExchangeProvider'
+import { Networker } from '../Networking/Networker'
+import { CoinmarketcapGetTask } from './CryptoCompareGetTask'
 
 // debugging
 // import EthData from './CoinMarketCapETHRaw.json'
@@ -65,6 +67,32 @@ export default class CoinMarketCapFetcher extends ExchangeDataFetcherBase {
   }
 
   fetchRaw (token, callback) {
+    Networker
+     .instance()
+     .start(CoinmarketcapGetTask.fetchRawTask(token))
+      .then((data) => {
+        historyData = data.Data
+
+          // getch current balance of token and append it
+          // https://min-api.cryptocompare.com/data/price?fsym=MLN&tsyms=USD
+          Networker
+            .instance()
+            .start(CoinmarketcapGetTask.fetchCurrentBalanceTask(token))
+            .then((data) => {
+              
+            })
+            .catch((error) => {
+              console.error(error)
+              // alert("Some problems with the account, try again later");
+            })
+      })
+      .catch((error) => {
+        console.error(error)
+        // alert("Some problems with the account, try again later");
+      })
+
+
+      
     let url = 'http://coinmarketcap.northpole.ro/api/v5/history/' + token.symbol + '_2017.json'
     fetch(url, {
       method: 'get'

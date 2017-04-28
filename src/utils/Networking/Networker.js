@@ -45,16 +45,16 @@ export class Networker {
         method: task.method
       })
         .then((response) => task.postFetchingResponseTransformation(response))
-          .then((data) => {
+        .then((data) => {
             task.completed = true
 
-            if (parentObj.generalFaliure === false) { // process only if no fatal faliure
+            if (parentObj.generalFaliure == false) { // process only if no fatal faliure
               parentObj.fireTaskCountChanged()
 
-              if (task.validateResponse(data) === false) {
+              if (task.validateResponse(data) == false) {
                 parentObj.generalFaliure = true
                 parentObj.fireGeneralError(task, task.getError(data))
-                reject(task.getError(data))
+                // reject(task.getError(data))
               } else {
                 resolve(data)
               }
@@ -66,8 +66,8 @@ export class Networker {
           if (parentObj.generalFaliure === false) {
             parentObj.generalFaliure = true
             parentObj.fireGeneralError(task, error)
+            // reject(error)
           }
-          reject(error)
         })
     })
   }

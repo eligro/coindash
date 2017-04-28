@@ -3,15 +3,25 @@
   margin: 15px 0 0 15px;
   border-radius: 3px;
   box-shadow: 1px 1px 2px rgba(23, 24, 23, 0.3);
-  padding: 18px;
+  padding: 38px;
   color: #FFF;
-
-}
-
-.card .header {
+  font-family: 'Open Sans';
   display: flex;
+  flex-direction: column;
 }
-.card .header h1, .card .header h2, .card .header h3, .card .header h4, .card .header h5, .card .header h6 {
+.card .Card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.card card-header {
+  display: flex;
+  margin: -20px;
+  margin-bottom: 0;
+  align-items: center;
+}
+.card card-header h1, .card card-header h2, .card card-header h3, .card card-header h4, .card card-header h5, .card card-header h6 {
   flex: 1 1 auto;
   text-align: left;
   padding: 0;
@@ -22,12 +32,53 @@
   font-family: 'Open Sans';
   font-weight: 700;
 }
-.card .header {
+.card card-header .actions {}
+.card card-header .actions button {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 100%;
+  border: none;
+  transition: all 120ms ease-in-out;
+  text-shadow: none;
+  color: rgba(255, 255, 255, 0.5);
+  outline: none;
 }
+.card card-header .actions button:focus,
+.card card-header .actions button:active {
+  outline: none;
+}
+.card card-header .actions button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.card card-header {}
 
-.card .header + h1, .card .header + h2, .card .header + h3, .card .header + h4, .card .header + h5, .card .header + h6 {
+.card card-header + h1, .card card-header + h2, .card card-header + h3, .card card-header + h4, .card card-header + h5, .card card-header + h6 {
   margin-top: 54px;
   font-family: 'Comfortaa';
   letter-spacing: 0.1em;
   font-size: 34px;
+  text-align: left;
+  color: rgba(255,255,255,0.89);
+}
+.card p {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+}
+.card code {
+  background: none;
+  font-size: 1.2em;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: #02FDDE;
+}
+.card card-footer {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  margin: 0 -38px -38px;
+}
+.card card-footer > * {
+  flex: 1;
+  padding: 38px;
+}
+.card card-footer > *:not(:last-child){
+  border-right: 1px solid rgba(255,255,255,0.1);
 }

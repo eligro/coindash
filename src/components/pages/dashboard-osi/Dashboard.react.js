@@ -24,6 +24,12 @@ import Moment from 'moment'
 console.log('Moment:', Moment)
 // import {AccountsManager} from '../../../utils/Accounts/AccountsManager';
 
+export const currencyFormat = ['en-US', { style: 'currency', currency: 'USD' }]
+export const Flex = () => <div style={{flex: '1 1 auto'}} />
+
+import BalanceCard from './cards/BalanceCard.react'
+
+
 class HomePage extends React.Component {
   constructor (props, context) {
     super(props, context)
@@ -133,34 +139,10 @@ class HomePage extends React.Component {
   }
 
   render () {
-    const tooltip = (
-      <Tooltip id='tooltip'>Add Custom Token</Tooltip>
-    )
     return (
       <div className='page-container dashboard-page osi'>
         <div className='top-cont'>
-          <Card className="balances">
-            <div className='header'>
-              <h3>Balance</h3>
-              {false &&
-                <div className='actions'>
-                  <OverlayTrigger placement='bottom' overlay={tooltip}>
-                    <Button bsStyle='primary' onClick={this.openAddToken} >
-                      <FontAwesome name='plus' />
-                    </Button>
-                  </OverlayTrigger>
-                </div>
-              }
-            </div>
-            <h2>{this.props.balances
-                .reduce((t, c) => t + c.value, 0)
-                .toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
-            <p>Your revenue is up <code>+{this.props.balance.lastMonth}%</code> in the last week</p>
-
-
-            {false && <Balances balances={this.props.balances} error={this.props.balanceError} />
-            }
-          </Card>
+          <BalanceCard {...this.props} openAddToken={this.openAddToken} />
           <div className='chart-cont card'>
             <ChartNavigation handleSelectCB={this.chartSelected} statusText={this.props.statusText} handleRefreshCB={this.refreshChart} />
             {this.state.selectedChart === 1 && <StocksChart chartData={this.props.chartData} dayDataByDate={this.props.portfolioDayDataByDate} exchanges={this.props.exchanges} />}
@@ -209,6 +191,8 @@ class HomePage extends React.Component {
 
 function mapStateToProps (state, ownProps) {
   const lastMonth = Moment().subtract(30, 'days')
+  let sorted = [...state.balances.sort((a, b) => a.value > b.value ? 1 : -1)]
+  let [most, least] = [sorted.pop(), sorted.find(e => e.value >= 0.01)]
 
   return {
     balances: state.balances,
@@ -221,11 +205,14 @@ function mapStateToProps (state, ownProps) {
     balanceError: state.charts.balanceError,
     chartError: state.charts.error,
     balance: {
-      lastMonth: state.charts.chartData.portfolioAggDelta
-        .filter(([date, value]) => date > lastMonth) // only last 30 days
-        .filter((e, i, a) => i === 0 || i === a.length - 1) // first and last
-        .filter((e, i, a) => console.info('last month e,i,a', e, i, a) || true)
-        .reduce((t, [time, value]) => t > 0 ? value - t : value, 0)
+      // lastMonth: state.charts.chartData.portfolioAggDelta
+      //   .filter(([date, value]) => date > lastMonth) // only last 30 days
+      //   .filter((e, i, a) => i === 0 || i === a.length - 1) // first and last
+      //   .filter((e, i, a) => console.info('last month e,i,a', e, i, a) || true)
+      //   .reduce((t, [time, value]) => t > 0 ? value - t : value, 0),
+      tokens: state.balances.length,
+      most,
+      least
     }
   }
 }

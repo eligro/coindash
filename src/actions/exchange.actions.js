@@ -19,3 +19,11 @@ export function deleteExchange (index) {
 
     // return {type: types.DELETE_EXCHANGE, index};
 }
+
+export function updateExchange (index, processed) {
+  return (dispatch) => {
+    dispatch({type: types.UPDATE_EXCHANGE, index, processed})
+  }
+
+    // return {type: types.DELETE_EXCHANGE, index};
+}

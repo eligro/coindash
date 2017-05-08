@@ -75,7 +75,7 @@ export class ETHChainAccount extends Account {
             ret.push(d)
           }
         } else if (tx.value > 0) { // value transfer
-          if (tx.from === parentObj.ethAccount) { // withdrawl
+          if (tx.from.toLowerCase() == parentObj.ethAccount.toLowerCase()) { // withdrawl
             ret.push(new WithdrawlDeposit(
               WithdrawlDeposit.Types().Withdrawl,
               parseInt(tx.timeStamp, 10),

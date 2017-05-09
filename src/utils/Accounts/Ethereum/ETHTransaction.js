@@ -15,7 +15,7 @@ export class ERC20Data {
 
   constructor (type, account, value, tx, timestamp) {
     this.type = type
-    this.account = account
+    this.account = account // to where we bought in/ transfered
     this.value = value
     this.timestamp = timestamp
     this.tx = tx
@@ -45,6 +45,7 @@ export class ERC20Data {
                 this.tx.tokenTransaction,
                 parseFloat(this.value),
                 this.account,
+                account,
                 this.tx
               )
       } else {
@@ -54,6 +55,7 @@ export class ERC20Data {
                 this.tx.tokenTransaction,
                 parseFloat(this.value),
                 this.account,
+                account,
                 this.tx
               )
       }
@@ -75,7 +77,8 @@ export class ETHTransaction {
     input,
     contractAddress,
     confirmations,
-    nonce) {
+    nonce,
+    isError) {
     this.timeStamp = timeStamp
     this.from = from
     this.to = to
@@ -88,6 +91,7 @@ export class ETHTransaction {
     this.nonce = nonce
     this.blockNumber = blockNumber
     this.hash = hash
+    this.isError = isError
 
     // if this tx is for a token contract this var will hold that token
     this.tokenTransaction = null
@@ -147,7 +151,8 @@ export class ETHTransaction {
         data.input,
         data.contractAddress,
         data.confirmations,
-        data.nonce
+        data.nonce,
+        data.isError
       )
   }
 }

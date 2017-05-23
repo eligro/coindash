@@ -78,7 +78,6 @@ export class AccountsManager {
     console.time('fetchBalances')
     nevent({action: 'Days Status', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
-      if (!data.length) { callback(null) }
       balances = data
 
       executed += 1

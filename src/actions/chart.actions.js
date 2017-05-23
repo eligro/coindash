@@ -1,103 +1,105 @@
-import * as types from './action.const'
-import ChartAPI from '../api/mockChartsApi'
-import {ETHWallet} from '../utils/Accounts/Ethereum/ETHWallet'
-import {PoloniexAccount} from '../utils/Accounts/Poloniex/PoloniexAccount'
+import * as types from "./action.const";
+import ChartAPI from "../api/mockChartsApi";
+import { ETHWallet } from "../utils/Accounts/Ethereum/ETHWallet";
+import { PoloniexAccount } from "../utils/Accounts/Poloniex/PoloniexAccount";
 
-import {AccountsManager} from '../utils/Accounts/AccountsManager'
+import { AccountsManager } from "../utils/Accounts/AccountsManager";
 
-export function loadChartSuccess (data) {
-  return {type: types.LOAD_CHART_SUCCESS, data}
+export function loadChartSuccess(data) {
+  return { type: types.LOAD_CHART_SUCCESS, data };
 }
 
-export function loadChartRiskSuccess (data) {
-  return {type: types.LOAD_CHART_RISK_SUCCESS, data}
+export function loadChartRiskSuccess(data) {
+  return { type: types.LOAD_CHART_RISK_SUCCESS, data };
 }
 
-export function loadedChartWithState (state) {
-  return {type: types.SET_CHART_LOADED, state}
+export function loadedChartWithState(state) {
+  return { type: types.SET_CHART_LOADED, state };
 }
 
-export function setLoadedChart (state) {
+export function setLoadedChart(state) {
   return (dispatch, getState) => {
-    dispatch(loadedChartWithState(state))
-  }
+    dispatch(loadedChartWithState(state));
+  };
 }
 
-export function chartText (text) {
-  return {type: types.SET_STATUS_TEXT, text}
+export function chartText(text) {
+  return { type: types.SET_STATUS_TEXT, text };
 }
 
-export function balanceError (text) {
-  return {type: types.BALANCE_ERROR, text}
+export function balanceError(text) {
+  return { type: types.BALANCE_ERROR, text };
 }
 
-export function chartError (text) {
-  return {type: types.CHART_ERROR, text}
+export function chartError(text) {
+  return { type: types.CHART_ERROR, text };
 }
 
-export function loadChart () {
+export function loadChart() {
   return (dispatch, getState) => {
     if (getState().charts.chartLoaded === true) {
-      console.log('chart already loaded, do not load again')
-      dispatch(chartText(''))
-      return
+      console.log("chart already loaded, do not load again");
+      dispatch(chartText(""));
+      return;
     }
 
-    dispatch(chartText('Fetching data ...'))
-    console.log('started chart loading')
+    dispatch(chartText("Fetching data ..."));
+    console.log("started chart loading");
 
-    let ethTokens = getState().exchanges.filter(i => i.type === 'ethereum').map(i => i.token)
-    var accounts = []
+    let ethTokens = getState().exchanges
+      .filter(i => i.type === "ethereum")
+      .map(i => i.token);
+    var accounts = [];
 
     if (ethTokens.length) {
-      let wallet = new ETHWallet(ethTokens)
-      accounts = wallet.getAccounts()
+      let wallet = new ETHWallet(ethTokens);
+      accounts = wallet.getAccounts();
     }
 
-    getState().exchanges.filter(i => i.type === 'polonix').forEach(i => {
-      let poloniexAccount = new PoloniexAccount(i.token, i.secret)
-      accounts.push(poloniexAccount)
-    })
+    accounts = [...accounts, getState().exchanges
+        .filter(i => i.type === "polonix")
+        .forEach(i => new PoloniexAccount(i.token, i.secret))]
+    console.log('wolp')
 
     if (accounts.length) {
-      let manager = new AccountsManager(accounts)
-      let day = 24 * 60 * 60
-      let today = Math.floor(Date.now() / 1000)
+      let manager = new AccountsManager(accounts);
+      let day = 24 * 60 * 60;
+      let today = Math.floor(Date.now() / 1000);
 
-      let spanTime = today - 90 * day
+      let spanTime = today - 90 * day;
 
-      manager.dayStatusFromDate(spanTime,
-                function (obj) { // status updater
-                  if (obj.error != null) {
-                    console.error(obj)
-                    dispatch(chartError(obj.error))
-                  } else {
-                    let progress = obj.progress * 100 ;
-                    progress = Math.round(progress * 100) / 100
-                    dispatch(chartText(progress))
-                  }
-                },
-                function (data) {
-                  if (data == null) {
-                    dispatch(balanceError('No Balance Found'))
-                  }
-                // Calc 7 days delta
-                  manager.calcDeltaByDays(data, 7,
-                    function (shortDelta) {
-                      data.shortDelta = shortDelta
-                    })
-                // Calc 365 days delta
-                  manager.calcDeltaByDays(data, 365,
-                    function (longDelta) {
-                      data.longDelta = longDelta
-                    })
+      manager.dayStatusFromDate(
+        spanTime,
+        function(obj) {
+          // status updater
+          if (obj.error != null) {
+            console.error(obj);
+            dispatch(chartError(obj.error));
+          } else {
+            let progress = obj.progress * 100;
+            progress = Math.round(progress * 100) / 100;
+            dispatch(chartText(progress));
+          }
+        },
+        function(data) {
+          if (data == null) {
+            dispatch(balanceError("No Balance Found"));
+          }
+          // Calc 7 days delta
+          manager.calcDeltaByDays(data, 7, function(shortDelta) {
+            data.shortDelta = shortDelta;
+          });
+          // Calc 365 days delta
+          manager.calcDeltaByDays(data, 365, function(longDelta) {
+            data.longDelta = longDelta;
+          });
 
-                  console.log('finished loading charts')
-                  dispatch(loadedChartWithState(true))
-                  dispatch(loadChartSuccess(data))
+          console.log("finished loading charts");
+          dispatch(loadedChartWithState(true));
+          dispatch(loadChartSuccess(data));
 
-                // print
-                /*
+          // print
+          /*
                  for(let i in data) {
                  let day = data[i];
                  let usdValue = day.dayFiatValue;
@@ -119,12 +121,14 @@ export function loadChart () {
 
                  }
                  */
-                })
-    } else { // no account
-      console.log('No accounts found, not loading charts')
-      dispatch(chartText(''))
+        }
+      );
+    } else {
+      // no account
+      console.log("No accounts found, not loading charts");
+      dispatch(chartText(""));
     }
-  }
+  };
 }
 
 /* export function loadChart() {
@@ -137,16 +141,18 @@ export function loadChart () {
     }
 } */
 
-export function clearCharts () {
-  return {type: types.CLEAR_CHARTS}
+export function clearCharts() {
+  return { type: types.CLEAR_CHARTS };
 }
 
-export function loadChartRisk () {
-  return (dispatch) => {
-    return ChartAPI.getRiskChart().then(data => {
-      dispatch(loadChartRiskSuccess(data))
-    }).catch(error => {
-      throw (error)
-    })
-  }
+export function loadChartRisk() {
+  return dispatch => {
+    return ChartAPI.getRiskChart()
+      .then(data => {
+        dispatch(loadChartRiskSuccess(data));
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
 }

@@ -2,12 +2,14 @@
   {
     "address":"0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7",
     "symbol":"1ST",
+    "ico_initial_price_usd": 0.15,
     "decimal":18,
     "type":"default"
   },
   {
     "address":"0xAc709FcB44a43c35F0DA4e3163b117A17F3770f5",
     "symbol":"ARC",
+    "ico_initial_price_usd": 0.094,
     "decimal":18,
     "type":"default"
   },
@@ -160,6 +162,7 @@
     "address":"0xe7775a6e9bcf904eb39da2b68c5efb4f9360e08c",
     "ico_contract_address":"0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C",
     "symbol":"TaaS",
+    "ico_initial_price_usd": 0.82,
     "decimal":6,
     "type":"default"
   },

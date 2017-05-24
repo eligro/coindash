@@ -35,7 +35,8 @@ export default class CoinMarketCapFetcher extends ExchangeDataFetcherBase {
 
       let marketCap = this.dicToValueArray(data.marketCap)
 
-      let price = this.dicToValueArray(data.price)
+      // let price = this.dicToValueArray(data.price)
+      let price = [new ExchangeValuePoint('usd', data.price.usd)]
 
       let volume24H = this.dicToValueArray(data.volume24)
 

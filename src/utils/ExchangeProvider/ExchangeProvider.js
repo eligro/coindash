@@ -120,14 +120,23 @@ d1.getDate() === targetDate.getDate()
         }
         let dataPoint = historicalData.dataPoints.find(isSameDate)
 
-        if (dataPoint === undefined) { // no data point
-          console.log('no data point')
-          callback([])
+        if (dataPoint == undefined) { // no data point
+          console.log('no data point for ' + token.symbol + ' at ' + targetDate)
+          
+          dataPoint = new ExchangeDataPoint(
+              dayTime,
+              [new ExchangeValuePoint('usd', 0)]
+              , null, null, null, null, null
+            )
+
+          // callback([])
+          // return 
         }
 
         let isSameCurrensy = function (exchangeValuePoint) {
           return exchangeValuePoint.currency.toUpperCase() === currency.toUpperCase()
         }
+
 
         day.valuePoint = dataPoint.price.find(isSameCurrensy)
         day.fiatPrice = day.valuePoint.value
@@ -155,6 +164,7 @@ d1.getDate() === targetDate.getDate()
   }
 
 // Utils
+
   aggregateBalances (timestamp, targetCurrency, tokens, idx, data, callback) {
     if (tokens.length === idx) {
       callback(data)

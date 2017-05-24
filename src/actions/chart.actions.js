@@ -56,11 +56,6 @@ export function loadChart() {
       accounts = wallet.getAccounts();
     }
 
-    accounts = [...accounts, getState().exchanges
-        .filter(i => i.type === "polonix")
-        .forEach(i => new PoloniexAccount(i.token, i.secret))]
-    console.log('wolp')
-
     if (accounts.length) {
       let manager = new AccountsManager(accounts);
       let day = 24 * 60 * 60;

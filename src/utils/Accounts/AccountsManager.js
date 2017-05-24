@@ -8,6 +8,7 @@ import { Token } from '../../utils/Trades/Token'
 import { ExchangeProvider } from '../../utils/ExchangeProvider/ExchangeProvider'
 import analytics from '../../components/analytics'
 import { Networker } from '../Networking/Networker'
+import BigNumber from 'bignumber.js'
 
 const nevent = ({action, label, nonInteraction = true}) => analytics.event({ category: 'Account', action, label, nonInteraction })
 
@@ -57,6 +58,10 @@ export class AccountsManager {
   }
 
   dayStatusFromDate (fromDate, statusUpdater, callback) {
+
+    BigNumber.config({ ERRORS: false })
+
+
     let executed = 0
     let executions = 3
 
@@ -78,7 +83,6 @@ export class AccountsManager {
     console.time('fetchBalances')
     nevent({action: 'Days Status', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
-      if (!data.length) { callback(null) }
       balances = data
 
       executed += 1
@@ -152,7 +156,6 @@ export class AccountsManager {
     }
 
     // today has the current balance
-    console.log(currentBalances)
     days[0].balances = currentBalances
 
     // append trades, open deposits and withdrawals

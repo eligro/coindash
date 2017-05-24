@@ -2,7 +2,7 @@ import { GetTask } from '../Networking/GetTask'
 
 export class CryptoCompareGetTask extends GetTask {
   static fetchRawTask (token) {
-    let url = 'https://min-api.cryptocompare.com/data/histoday?fsym=' + token.symbol + '&tsym=USD&limit=1000'
+    let url = 'https://min-api.cryptocompare.com/data/histoday?fsym=' + token.symbol.toUpperCase() + '&tsym=USD&limit=1000'
 
     let ret = new CryptoCompareGetTask(url)
     ret.type = 'history_data'
@@ -11,7 +11,7 @@ export class CryptoCompareGetTask extends GetTask {
   }
 
   static fetchCurrentBalanceTask (token) {
-    let url = 'https://min-api.cryptocompare.com/data/price?fsym=' + token.symbol + '&tsyms=USD'
+    let url = 'https://min-api.cryptocompare.com/data/price?fsym=' + token.symbol.toUpperCase() + '&tsyms=USD'
 
     let ret = new CryptoCompareGetTask(url)
     ret.type = 'current_price'

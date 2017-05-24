@@ -18,7 +18,8 @@ export class ETHHelper {
      .start(EtherscanGetTask.fetchERC20TokenBalanceTask(token, walletAddress))
       .then((data) => {
         if (data.status === '1') {
-          token.balance = new BigNumber(data.result).div(token.getValueOfUnit('ether'))
+          token.balance = new BigNumber(data.result).div(new BigNumber(10).pow(token.decimal))
+
           callback(token, token.balance)
         } else {
           callback(token, new BigNumber(0))

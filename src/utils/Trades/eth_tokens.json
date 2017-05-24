@@ -14,12 +14,6 @@
     "type":"default"
   },
   {
-    "address":"0x74c1e4b8cae59269ec1d85d3d4f324396048f4ac",
-    "symbol":"BeerCoin 🍺 ",
-    "decimal":0,
-    "type":"default"
-  },
-  {
     "address":"0x1e797Ce986C3CFF4472F7D38d5C4aba55DfEFE40",
     "symbol":"BCDN",
     "decimal":15,
@@ -28,24 +22,21 @@
   {
     "address":"0xaef38fbfbf932d1aef3b808bc8fbd8cd8e1f8bc5",
     "symbol":"CRB",
+    "ico_initial_price_usd": 0.00875,
     "decimal":8,
     "type":"default"
   },
   {
     "address":"0xe4c94d45f7aef7018a5d66f44af780ec6023378e",
     "symbol":"CryptoCarbon",
+    "ico_initial_price_usd": 3.67,
     "decimal":6,
-    "type":"default"
-  },
-  {
-    "address":"0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
-    "symbol":"DAO",
-    "decimal":16,
     "type":"default"
   },
   {
     "address":"0xe0b7927c4af23765cb51314a0e0521a9645f0e2a",
     "symbol":"DGD",
+    "ico_initial_price_usd": 31.9,
     "decimal":9,
     "type":"default"
   },
@@ -58,6 +49,7 @@
   {
     "address":"0x08711D3B02C8758F2FB3ab4e80228418a7F8e39c",
     "symbol":"EDG",
+    "ico_initial_price_usd": 0.0425,
     "decimal":0,
     "type":"default"
   },
@@ -86,7 +78,7 @@
     "type":"default"
   },
   {
-    "address":"0x9734c136f5c63531b60d02548bca73a3d72e024d",
+    "address":"0xcbcc0f036ed4788f63fc0fee32873d6a7487b908",
     "symbol":"HMQ",
     "decimal":18,
     "type":"default"
@@ -188,6 +180,72 @@
     "address":"0x4DF812F6064def1e5e029f1ca858777CC98D2D81",
     "symbol":"XAUR",
     "decimal":8,
+    "type":"default"
+  },
+  {
+    "address":"0x607F4C5BB672230e8672085532f7e901544a7375",
+    "symbol":"RLC",
+    "decimal":9,
+    "type":"default"
+  },
+  {
+    "address":"0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b",
+    "symbol":"TRST",
+    "decimal":6,
+    "type":"default"
+  },
+  {
+    "address":"0x667088b212ce3d06a1b553a7221E1fD19000d9aF",
+    "symbol":"WINGS",
+    "decimal":18,
+      "type":"default"
+  },
+  {
+    "address":"0x6810e776880c02933d47db1b9fc05908e5386b96",
+    "symbol":"GNO",
+    "decimal":18,
+    "type":"default"
+  },
+  {
+    "address":"0xaaaf91d9b90df800df4f55c205fd6989c977e73a",
+    "symbol":"TKN",
+    "decimal":8,
+    "type":"default"
+  },
+  {
+    "address":"0xc1e6c6c681b286fb503b36a9dd6c1dbff85e73cf",
+    "symbol":"JET",
+    "decimal":18,
+    "type":"default"
+  }, 
+    {
+    "address":"0x1d921eed55a6a9ccaa9c79b1a4f7b25556e44365",
+    "symbol":"GT",
+    "decimal":0,
+    "type":"default"
+  },
+    {
+    "address":"0x1dce4fa03639b7f0c38ee5bb6065045edcf9819a",
+    "symbol":"SRC",
+    "decimal":8,
+    "type":"default"
+  },
+  {
+    "address":"0x1a95b271b0535d15fa49932daba31ba612b52946",
+    "symbol":"MNE",
+    "decimal":8,
+    "type":"default"
+  },
+  {
+    "address":"0x960b236a07cf122663c4303350609a66a7b288c0",
+    "symbol":"ANT",
+    "decimal":18,
+    "type":"default"
+  },
+  {
+    "address":"0xd248b0d48e44aaf9c49aea0312be7e13a6dc1468",
+    "symbol":"SGT",
+    "decimal":1,
     "type":"default"
   }
 ]

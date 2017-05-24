@@ -1,5 +1,6 @@
 
 import CryptoCompareFetcher from './CryptoCompareFetcher'
+import CoinMarketCapFetcher from './CoinmarketCapFetcher'
 import BigNumber from 'bignumber.js'
 
 export class ExchangeValuePoint {
@@ -63,8 +64,8 @@ export const ETH = 'ETH'
 
 export class ExchangeProvider {
   static instance () {
-// return new ExchangeProvider(new CoinMarketCapFetcher());
-    return new ExchangeProvider(new CryptoCompareFetcher())
+    return new ExchangeProvider(new CoinMarketCapFetcher());
+    // return new ExchangeProvider(new CryptoCompareFetcher())
   }
 
   constructor (fetcher) {

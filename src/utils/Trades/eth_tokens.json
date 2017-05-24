@@ -158,6 +158,7 @@
   },
   {
     "address":"0xe7775a6e9bcf904eb39da2b68c5efb4f9360e08c",
+    "ico_contract_address":"0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C",
     "symbol":"TaaS",
     "decimal":6,
     "type":"default"

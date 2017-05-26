@@ -74,6 +74,9 @@ export class ExchangeProvider {
   }
 
 // API
+  /*
+    giving a days array, will calculate the fiat daily value of token balances
+  */
   valueForDays (days, callback) {
     this.aggregateDays(days, 0, callback)
   }
@@ -83,6 +86,9 @@ export class ExchangeProvider {
     this.aggregateBalances(timestamp, 'usd', tokens, 0, [], callback)
   }
 
+  /*
+    given a token, this will return a day by day token price data
+  */
   getTokenDayStatus (token, currency, fromDate, callback) {
     let days = []
     let dayTime = 24 * 60 * 60
@@ -115,8 +121,8 @@ export class ExchangeProvider {
         let isSameDate = function (dataPoint) {
           let d1 = new Date(dataPoint.timestamp * 1000)
           return d1.getYear() === targetDate.getYear() &&
-d1.getMonth() === targetDate.getMonth() &&
-d1.getDate() === targetDate.getDate()
+                d1.getMonth() === targetDate.getMonth() &&
+                d1.getDate() === targetDate.getDate()
         }
         let dataPoint = historicalData.dataPoints.find(isSameDate)
 
@@ -125,20 +131,22 @@ d1.getDate() === targetDate.getDate()
           
           dataPoint = new ExchangeDataPoint(
               dayTime,
-              [new ExchangeValuePoint('usd', 0)]
+              [new ExchangeValuePoint('usd', token.ico_initial_price_usd)]
               , null, null, null, null, null
             )
-
-          // callback([])
-          // return 
         }
 
         let isSameCurrensy = function (exchangeValuePoint) {
           return exchangeValuePoint.currency.toUpperCase() === currency.toUpperCase()
         }
 
-
         day.valuePoint = dataPoint.price.find(isSameCurrensy)
+
+        // check value is not 0, default to ico initial price
+        if (day.valuePoint.value == 0) {
+          day.valuePoint.value = token.ico_initial_price_usd
+        }
+
         day.fiatPrice = day.valuePoint.value
       }
 
@@ -164,7 +172,9 @@ d1.getDate() === targetDate.getDate()
   }
 
 // Utils
-
+  /*
+    giving a list of tokens and timestamp, find usd value of balances for every token.
+  */
   aggregateBalances (timestamp, targetCurrency, tokens, idx, data, callback) {
     if (tokens.length === idx) {
       callback(data)
@@ -180,26 +190,38 @@ d1.getDate() === targetDate.getDate()
       var isSameDate = function (dataPoint) {
         let d1 = new Date(dataPoint.timestamp * 1000)
         return d1.getYear() === targetDate.getYear() &&
-d1.getMonth() === targetDate.getMonth() &&
-d1.getDate() === targetDate.getDate()
+              d1.getMonth() === targetDate.getMonth() &&
+              d1.getDate() === targetDate.getDate()
       }
       var dataPoint = historicalData.dataPoints.find(isSameDate)
 
       if (dataPoint === undefined) { // no data point
-        console.log('no data point')
-        data.push({
-          'token': token,
-          'balance': 0,
-          'currency': 'usd'
-        })
-        parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback)
-        return
+        // console.log('no data point')
+        // data.push({
+        //   'token': token,
+        //   'balance': token.ico_initial_price_usd,
+        //   'currency': 'usd'
+        // })
+        // parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback)
+        // return
+
+        console.log('no data point for ' + token.symbol + ' at ' + targetDate)
+        dataPoint = new ExchangeDataPoint(
+              timestamp,
+              [new ExchangeValuePoint('usd', token.ico_initial_price_usd)]
+              , null, null, null, null, null
+            )
       }
 
       var isSameCurrensy = function (exchangeValuePoint) {
         return exchangeValuePoint.currency.toUpperCase() === targetCurrency.toUpperCase()
       }
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
+
+      // check value is not 0, default to ico initial price
+      if (exchangeValuePoint.value == 0) {
+        exchangeValuePoint.value = token.ico_initial_price_usd
+      }
 
       let currentValue = token.balance === 0 ? 0 : token.balance.times(exchangeValuePoint.value).toNumber()
       data.push({
@@ -209,10 +231,14 @@ d1.getDate() === targetDate.getDate()
       })
       parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback)
     }, function (error) {
-      console.log('token without history', error)
+      console.log('token without history, defaulting to ico initial value', error)
+
+      let exchangeValuePoint = new ExchangeValuePoint('usd', token.ico_initial_price_usd)
+      let currentValue = token.balance === 0 ? 0 : token.balance.times(exchangeValuePoint.value).toNumber()
+
       data.push({
         'token': token,
-        'balance': 0,
+        'balance': currentValue,
         'currency': 'usd'
       })
       parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback)
@@ -311,20 +337,31 @@ d1.getDate() === targetDate.getDate()
       var isSameDate = function (dataPoint) {
         let d1 = new Date(dataPoint.timestamp * 1000)
         return d1.getYear() === targetDate.getYear() &&
-d1.getMonth() === targetDate.getMonth() &&
-d1.getDate() === targetDate.getDate()
+              d1.getMonth() === targetDate.getMonth() &&
+              d1.getDate() === targetDate.getDate()
       }
       var dataPoint = historicalData.dataPoints.find(isSameDate)
 
       if (dataPoint === undefined) { // no data point
-        console.log('no data point')
-        return parentObj.aggregateTokens(tokens, timestamp, ++count, totalValue, targetCurrency, callback)
+        console.log('no data point for ' + tokens[count].symbol + ' at ' + targetDate)
+        dataPoint = new ExchangeDataPoint(
+              timestamp,
+              [new ExchangeValuePoint('usd', tokens[count].ico_initial_price_usd)]
+              , null, null, null, null, null
+            )
       }
 
       var isSameCurrensy = function (exchangeValuePoint) {
         return exchangeValuePoint.currency.toUpperCase() === targetCurrency.toUpperCase()
       }
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
+
+
+      // check value is not 0, default to ico initial price
+      if (exchangeValuePoint.value == 0) {
+        exchangeValuePoint.value = tokens[count].ico_initial_price_usd
+      }
+
 
       let currentValue = tokens[count].balance === 0 ? 0 : tokens[count].balance.times(exchangeValuePoint.value).toNumber()
       tokens[count].fiatCurrency = targetCurrency

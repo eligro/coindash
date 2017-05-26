@@ -95,6 +95,7 @@ export class Token {
               dic.symbol,
               dic.decimal)
     ret.ico_address = dic.ico_contract_address
+    ret.ico_initial_price_usd = dic.ico_initial_price_usd
     if (dic.balance != null) {
       ret.balance = new BigNumber(dic.balance)
     }
@@ -107,7 +108,8 @@ export class Token {
       'symbol': this.symbol,
       'decimal': this.decimal,
       'userAddress': this.userAddress,
-      'balance': this.balance
+      'balance': this.balance,
+      'ico_initial_price_usd' : this.ico_initial_price_usd
     }
   }
 

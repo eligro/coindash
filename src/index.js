@@ -1,34 +1,71 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 import configureStore from './store/configureStore'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 // import routes from './routes'
 import routes from 'osi/routes'
+import localforage from 'localforage'
 import './index.css'
 import analytics from './components/analytics'
+import { persistStore } from 'redux-persist'
 
 import '../node_modules/fixed-data-table/dist/fixed-data-table.css'
 
-import {getExtensionVersion} from './actions/extension.actions'
-
 const { localStorage } = window
-const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
+// const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
 
-const store = configureStore(persistedState)
+const store = configureStore()
 
 store.subscribe(() => {
   localStorage.setItem('reduxState', JSON.stringify(store.getState()))
 })
 
-store.dispatch(getExtensionVersion())
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: 'CoinDash',
+})
 
 // Register analytics listener
 browserHistory.listen(analytics.listener)
 
+class RouterProvider extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      rehydrated: false
+    }
+  }
+
+  componentWillMount () {
+    persistStore(store, { storage: localforage }, () => {
+      this.setState({ rehydrated: true })
+    })
+  }
+
+  render () {
+    return (
+      <Router history={browserHistory} routes={routes} />
+    )
+  }
+}
+
+
+function mapStateToProps (state, ownProps) {
+  return {
+    user: state.user
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {}
+}
+
+const AppProviderWithRedux = connect(mapStateToProps, mapDispatchToProps)(RouterProvider)
+
 render(
   <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
+    <AppProviderWithRedux />
   </Provider>,
     document.getElementById('root')
 )

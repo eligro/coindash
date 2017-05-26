@@ -44,10 +44,9 @@ class RouterProvider extends Component {
   }
 
   render () {
-    return <Routes history={browserHistory} user={this.props.user} />
+    return <Routes history={browserHistory} />
   }
 }
-console.log('Routes:', Routes)
 
 function mapStateToProps (state, ownProps) {
   return {

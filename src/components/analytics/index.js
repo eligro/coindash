@@ -14,7 +14,7 @@ const set = ReactGA.set
 
 ReactGA.initialize(config.googleAnalytics)
 ReactGA.set({ version: packageJson.version })
-ReactGA.event({ category: 'Version', label: packageJson.version })
+ReactGA.event({ category: 'Version', label: packageJson.version, action: 'report' })
 
 const listener = location => {
   ReactGA.set({ page: location.pathname })

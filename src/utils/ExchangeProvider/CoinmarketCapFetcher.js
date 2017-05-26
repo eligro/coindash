@@ -68,38 +68,11 @@ export default class CoinMarketCapFetcher extends ExchangeDataFetcherBase {
   }
 
   fetchRaw (token, callback) {
-    var historyData = null
-
     Networker
      .instance()
      .start(CoinmarketcapGetTask.fetchRawTask(token))
       .then((data) => {
         callback(data)
-        // historyData = data
-
-        //   // getch current balance of token and append it
-        //   // https://min-api.cryptocompare.com/data/price?fsym=MLN&tsyms=USD
-        //   Networker
-        //     .instance()
-        //     .start(CoinmarketcapGetTask.fetchCurrentBalanceTask(token))
-        //     .then((data) => {
-        //       let lastHistoricalDataPoint = historyData.history[historyData.history.length - 1]
-        //       let lastDataPointDate = new Date(lastHistoricalDataPoint.time * 1000)
-        //       let currentDate = new Date()
-        //       let sameDay = lastDataPointDate.getYear() === currentDate.getYear() &&
-        //               lastDataPointDate.getMonth() === currentDate.getMonth() &&
-        //               lastDataPointDate.getDate() === currentDate.getDate()
-
-        //       if (sameDay) {
-        //         historyData.history[historyData.history.length - 1].marketCap = data.marketCap
-        //       } else {
-        //         historyData.history[new Date().getTime() / 1000] = data
-        //       }
-        //     })
-        //     .catch((error) => {
-        //       console.error(error)
-        //       // alert("Some problems with the account, try again later");
-        //     })
       })
       .catch((error) => {
         console.error(error)

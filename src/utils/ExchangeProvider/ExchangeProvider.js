@@ -1,6 +1,5 @@
 
 import CryptoCompareFetcher from './CryptoCompareFetcher'
-import CoinMarketCapFetcher from './CoinmarketCapFetcher'
 import BigNumber from 'bignumber.js'
 
 export class ExchangeValuePoint {
@@ -126,9 +125,9 @@ export class ExchangeProvider {
         }
         let dataPoint = historicalData.dataPoints.find(isSameDate)
 
-        if (dataPoint == undefined) { // no data point
+        if (dataPoint === undefined) { // no data point
           console.log('no data point for ' + token.symbol + ' at ' + targetDate)
-          
+
           dataPoint = new ExchangeDataPoint(
               dayTime,
               [new ExchangeValuePoint('usd', token.ico_initial_price_usd)]
@@ -143,7 +142,7 @@ export class ExchangeProvider {
         day.valuePoint = dataPoint.price.find(isSameCurrensy)
 
         // check value is not 0, default to ico initial price
-        if (day.valuePoint.value == 0) {
+        if (day.valuePoint.value === 0) {
           day.valuePoint.value = token.ico_initial_price_usd
         }
 
@@ -219,7 +218,7 @@ export class ExchangeProvider {
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
       // check value is not 0, default to ico initial price
-      if (exchangeValuePoint.value == 0) {
+      if (exchangeValuePoint.value === 0) {
         exchangeValuePoint.value = token.ico_initial_price_usd
       }
 
@@ -242,7 +241,6 @@ export class ExchangeProvider {
         'currency': 'usd'
       })
       parentObj.aggregateBalances(timestamp, targetCurrency, tokens, idx + 1, data, callback)
-      return
     })
   }
 
@@ -356,12 +354,10 @@ export class ExchangeProvider {
       }
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
-
       // check value is not 0, default to ico initial price
-      if (exchangeValuePoint.value == 0) {
+      if (exchangeValuePoint.value === 0) {
         exchangeValuePoint.value = tokens[count].ico_initial_price_usd
       }
-
 
       let currentValue = tokens[count].balance === 0 ? 0 : tokens[count].balance.times(exchangeValuePoint.value).toNumber()
       tokens[count].fiatCurrency = targetCurrency

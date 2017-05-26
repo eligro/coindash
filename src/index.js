@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import configureStore from './store/configureStore'
 import { Provider, connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { browserHistory, Router } from 'react-router'
 // import routes from './routes'
-import Routes from 'osi/routes'
+import routes from 'osi/routes'
 import localforage from 'localforage'
 import './index.css'
 import analytics from './components/analytics'
@@ -44,14 +44,16 @@ class RouterProvider extends Component {
   }
 
   render () {
-    return <Routes history={browserHistory} />
+    return (
+      <Router history={browserHistory}>
+        {routes}
+      </Router>
+    )
   }
 }
 
 function mapStateToProps (state, ownProps) {
-  return {
-    user: state.user || {loggedIn : true}
-  }
+  return {}
 }
 
 function mapDispatchToProps (dispatch) {

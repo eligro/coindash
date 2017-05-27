@@ -11,6 +11,11 @@ import analytics from './components/analytics'
 import { persistStore } from 'redux-persist'
 
 import '../node_modules/fixed-data-table/dist/fixed-data-table.css'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin()
 
 const { localStorage } = window
 // const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
@@ -23,7 +28,7 @@ store.subscribe(() => {
 
 localforage.config({
   driver: localforage.INDEXEDDB,
-  name: 'CoinDash',
+  name: 'CoinDash'
 })
 
 // Register analytics listener

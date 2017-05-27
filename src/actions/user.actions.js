@@ -25,8 +25,10 @@ export function login (email, password) {
   return (dispatch) => {
     return firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then(data => { dispatch(loginSuccess(data)) })
-      .catch(error => { dispatch(loginFailed(error)) })
+      .then((data) => {
+        dispatch(loginSuccess(data))
+        return data
+      })
   }
 }
 
@@ -34,8 +36,9 @@ export function logout () {
   return (dispatch) => {
     return firebase.auth()
       .signOut()
-      .then(() => { dispatch(logoutSuccess()) })
-      .catch(error => { dispatch(logoutFailed(error)) })
+      .then(() => {
+        dispatch(logoutSuccess())
+      })
   }
 }
 

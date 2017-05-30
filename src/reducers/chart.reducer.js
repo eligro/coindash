@@ -25,7 +25,7 @@ export default function chartReducer (state = {}, action) {
         // preformanceData: portfolioPerfo,
         shortDelta: action.data.shortDelta,
         longDelta: action.data.longDelta,
-        // raw_data: action.data
+        raw_data: action.data
       })
 
     case types.LOAD_CHART_RISK_SUCCESS:

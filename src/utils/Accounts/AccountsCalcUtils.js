@@ -44,6 +44,10 @@ export class AccountsCalcUtils {
     return days
   }
 
+  /*
+    Given a list of days with deposits, withdrawals and the current balance. 
+    This will calculate the balance of previous days.
+  */
   static calcBalances (days) {
     for (let dayIdx = 0; dayIdx < days.length; dayIdx++) {
       if (dayIdx + 1 >= days.length) break
@@ -59,9 +63,15 @@ export class AccountsCalcUtils {
         let lhsTokenFromBalances = AccountsCalcUtils.tokenFromList(balancesCpy, trade.lhsToken)
         let rhsTokenFromBalances = AccountsCalcUtils.tokenFromList(balancesCpy, trade.rhsToken)
 
+        /*  IN CASE LHS/ RHS TOKEN IS NOT IN balancesCpy
+            in this case we add the tokn to balancesCpy which will be set as the 
+            balance list for dayIdx + 1 (the preivous day)
+        */
+
         if (trade.type === Trade.Types().Buy) { // buy
           if (lhsTokenFromBalances == null) {
             lhsTokenFromBalances = Token.fromSymbol(trade.lhsToken.symbol)
+            // token balance will be 0 since we bought using all the balance
             balancesCpy.push(lhsTokenFromBalances)
           }
           if (rhsTokenFromBalances == null) {
@@ -69,15 +79,16 @@ export class AccountsCalcUtils {
             rhsTokenFromBalances.balance = new BigNumber(trade.rhsValue)
             balancesCpy.push(rhsTokenFromBalances)
 
+
             /*
               the rhs token is the one bought using the lhs token.
               If there is no token on the list for whatever reason we add it because from
               this day forward it should be on the list
             */
-            AccountsCalcUtils.addTokenToAllOlderBalances(
-              rhsTokenFromBalances,
-              dayIdx,
-              days)
+            // AccountsCalcUtils.addTokenToAllOlderBalances(
+            //   rhsTokenFromBalances,
+            //   dayIdx,
+            //   days)
           }
 
           if (trade.source === Trade.Source().ETH_Blockchain) { // ICO buyin
@@ -98,13 +109,14 @@ export class AccountsCalcUtils {
               If there is no token on the list for whatever reason we add it because from
               this day forward it should be on the list
             */
-            AccountsCalcUtils.addTokenToAllOlderBalances(
-              lhsTokenFromBalances,
-              dayIdx,
-              days)
+            // AccountsCalcUtils.addTokenToAllOlderBalances(
+            //   lhsTokenFromBalances,
+            //   dayIdx,
+            //   days)
           }
           if (rhsTokenFromBalances == null) {
             rhsTokenFromBalances = Token.fromSymbol(trade.rhsToken.symbol)
+            // balance will be 0 since we sold all the balance
             balancesCpy.push(rhsTokenFromBalances)
           }
 
@@ -128,10 +140,10 @@ export class AccountsCalcUtils {
           /*
             Deposited tokens which are not on the list should be added from this day forward
           */
-          AccountsCalcUtils.addTokenToAllOlderBalances(
-              tmpToken,
-              dayIdx,
-              days)
+          // AccountsCalcUtils.addTokenToAllOlderBalances(
+          //     tmpToken,
+          //     dayIdx,
+          //     days)
         } else {
           token.reduceFromBalance(new BigNumber(deposit.amount))
         }
@@ -176,13 +188,19 @@ export class AccountsCalcUtils {
     return null
   }
 
-  static addTokenToAllOlderBalances (token, idxDay, days) {
-    for (let i = idxDay - 1; i >= 0; i--) {
-      let day = days[i]
-      let balancesCpy = AccountsCalcUtils.copyTokenList(day.balances)
-      balancesCpy.push(token)
+  // static addTokenToAllOlderBalances (token, idxDay, days) {
+  //   console.log("\naddTokenToAllOlderBalances");
+  //   console.log(token);
+  //   console.log(idxDay);
+  //   console.log(days);
+  //   console.log("\n");
 
-      day.balances = balancesCpy
-    }
-  }
+  //   for (let i = idxDay; i >= 0; i--) {
+  //     let day = days[i]
+  //     let balancesCpy = AccountsCalcUtils.copyTokenList(day.balances)
+  //     balancesCpy.push(token)
+
+  //     day.balances = balancesCpy
+  //   }
+  // }
 }

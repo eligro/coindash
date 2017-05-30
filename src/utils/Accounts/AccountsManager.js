@@ -156,8 +156,6 @@ export class AccountsManager {
     }
 
     // today has the current balance
-    console.log("currentBalances");
-    console.log(currentBalances);
     days[0].balances = currentBalances
 
     // append trades, open deposits and withdrawals

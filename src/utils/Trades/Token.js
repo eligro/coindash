@@ -174,6 +174,9 @@ export class Token {
 
   reduceFromBalance (amount) {
     this.balance = this.balance.minus(amount)
+    if (this.balance.isNegative()) { // messes up the delta calculation.. better to zero it if negative.
+      this.balance = new BigNumber(0);
+    }
   }
 
   weiBalance () {

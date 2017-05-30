@@ -22,7 +22,7 @@ export default function chartReducer (state = {}, action) {
       return Object.assign({}, state, {
         chartData: {btcAggDelta, portfolioAggDelta},
         portfolioDayDataByDate: portfolioDayDataByDate,
-        preformanceData: portfolioPerfo,
+        // preformanceData: portfolioPerfo,
         shortDelta: action.data.shortDelta,
         longDelta: action.data.longDelta,
         raw_data: action.data

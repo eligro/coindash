@@ -28,7 +28,7 @@ export class EtherscanGetTask extends GetTask {
 
   static fetchTxsForAccountTask (account) {
     let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-    let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey='
+    let suffix = '&sort=desc&apikey='
     let serverUrl = prefix + account + suffix + EtherscanGetTask.apiKey()
 
     return new EtherscanGetTask(serverUrl)
@@ -36,7 +36,7 @@ export class EtherscanGetTask extends GetTask {
 
   static fetchTokenContractTxListTask (token) {
     let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
-    let suffix = '&startblock=0&endblock=99999999&sort=asc&apikey='
+    let suffix = '&sort=desc&apikey='
     let serverUrl = prefix + token.contractAddress + suffix + EtherscanGetTask.apiKey()
 
     return new EtherscanGetTask(serverUrl)
@@ -48,7 +48,10 @@ export class EtherscanGetTask extends GetTask {
   }
 
   validateResponse (response) {
-    return response.status === '1'
+    /*
+        We don't want to fail the request simply because no txs were found
+    */
+    return response.status === '1' || (response.status === '0' && response.message === "No transactions found")
   }
 
   getError (response) {

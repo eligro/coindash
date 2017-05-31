@@ -19,31 +19,33 @@ export class AccountsCalcUtils {
       // the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
       // let previousDayCorrectedValue = previousDay.dayFiatValue + previousDay.withdrawalsFiatValue - previousDay.depositsFiatValue;
       let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue
-      day.delta = (todayCorrectedValue - previousDay.dayFiatValue) / previousDay.dayFiatValue
 
-      day.aggregatedDelta = previousDay.aggregatedDelta * (1 + day.delta)
+      // we do not want to the nominator to be 0 and divide it so just set to 0
+      if (todayCorrectedValue - previousDay.dayFiatValue == 0) {
+        day.delta = 0;
+      }
+      else {
+        day.delta = (todayCorrectedValue - previousDay.dayFiatValue) / previousDay.dayFiatValue
+      }
+      
+
+      // if for some reason the previous day's aggregated delta is 0 it will make
+      // an infinite loop where all days will have 0 as aggregated delta.
+      if (previousDay.aggregatedDelta == 0) {
+        day.aggregatedDelta = day.delta
+      }
+      else {
+        day.aggregatedDelta = previousDay.aggregatedDelta * (1 + day.delta)
+      }
     }
-
-    // let baseScale = days[days.length - 1].dayFiatValue;
-    // for(let dayIdx = days.length - 1; dayIdx >= 0; dayIdx--) {
-    //   let day = days[dayIdx];
-    //   let nextDay = days[dayIdx - 1];
-
-    //   if (dayIdx > 0) {
-    //     // the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
-    //     let nextDayCorrectedValue = nextDay.dayFiatValue + nextDay.withdrawalsFiatValue - nextDay.depositsFiatValue;
-    //     let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue;
-    //     // let diff = nextDay.dayFiatValue - (day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue);
-    //     day.delta = (nextDayCorrectedValue - todayCorrectedValue) / todayCorrectedValue;
-
-    //   }
-
-    //   day.aggregatedDelta = day.dayFiatValue / baseScale;
-    // }
 
     return days
   }
 
+  /*
+    Given a list of days with deposits, withdrawals and the current balance. 
+    This will calculate the balance of previous days.
+  */
   static calcBalances (days) {
     for (let dayIdx = 0; dayIdx < days.length; dayIdx++) {
       if (dayIdx + 1 >= days.length) break
@@ -59,25 +61,21 @@ export class AccountsCalcUtils {
         let lhsTokenFromBalances = AccountsCalcUtils.tokenFromList(balancesCpy, trade.lhsToken)
         let rhsTokenFromBalances = AccountsCalcUtils.tokenFromList(balancesCpy, trade.rhsToken)
 
+        /*  IN CASE LHS/ RHS TOKEN IS NOT IN balancesCpy
+            in this case we add the tokn to balancesCpy which will be set as the 
+            balance list for dayIdx + 1 (the preivous day)
+        */
+
         if (trade.type === Trade.Types().Buy) { // buy
           if (lhsTokenFromBalances == null) {
             lhsTokenFromBalances = Token.fromSymbol(trade.lhsToken.symbol)
+            // token balance will be 0 since we bought using all the balance
             balancesCpy.push(lhsTokenFromBalances)
           }
           if (rhsTokenFromBalances == null) {
             rhsTokenFromBalances = Token.fromSymbol(trade.rhsToken.symbol)
             rhsTokenFromBalances.balance = new BigNumber(trade.rhsValue)
             balancesCpy.push(rhsTokenFromBalances)
-
-            /*
-              the rhs token is the one bought using the lhs token.
-              If there is no token on the list for whatever reason we add it because from
-              this day forward it should be on the list
-            */
-            AccountsCalcUtils.addTokenToAllOlderBalances(
-              rhsTokenFromBalances,
-              dayIdx,
-              days)
           }
 
           if (trade.source === Trade.Source().ETH_Blockchain) { // ICO buyin
@@ -92,19 +90,10 @@ export class AccountsCalcUtils {
             lhsTokenFromBalances = Token.fromSymbol(trade.lhsToken.symbol)
             lhsTokenFromBalances.balance = new BigNumber(trade.lhsValue)
             balancesCpy.push(lhsTokenFromBalances)
-
-            /*
-              the lhs token is the one sold to using the rhs token.
-              If there is no token on the list for whatever reason we add it because from
-              this day forward it should be on the list
-            */
-            AccountsCalcUtils.addTokenToAllOlderBalances(
-              lhsTokenFromBalances,
-              dayIdx,
-              days)
           }
           if (rhsTokenFromBalances == null) {
             rhsTokenFromBalances = Token.fromSymbol(trade.rhsToken.symbol)
+            // balance will be 0 since we sold all the balance
             balancesCpy.push(rhsTokenFromBalances)
           }
 
@@ -119,19 +108,12 @@ export class AccountsCalcUtils {
 
         let token = AccountsCalcUtils.tokenFromList(balancesCpy, deposit.token)
         if (token == null) {
+          // a deposited token not found? don't see how this is possible but will leave it for now here
           token = Token.fromSymbol(deposit.token.symbol)
           balancesCpy.push(token) // if we did not have it before, add it with balance 0
 
           let tmpToken = Token.fromSymbol(deposit.token.symbol)
           tmpToken.balance = new BigNumber(deposit.amount)
-
-          /*
-            Deposited tokens which are not on the list should be added from this day forward
-          */
-          AccountsCalcUtils.addTokenToAllOlderBalances(
-              tmpToken,
-              dayIdx,
-              days)
         } else {
           token.reduceFromBalance(new BigNumber(deposit.amount))
         }
@@ -143,6 +125,8 @@ export class AccountsCalcUtils {
 
         let token = AccountsCalcUtils.tokenFromList(balancesCpy, withr.token)
         if (token == null) {
+          // if the withdrawan token is not in the balance list it means it was withdrawan entirely 
+          // so we add it to the previous day's balances
           token = Token.fromSymbol(withr.token.symbol)
           token.balance = new BigNumber(withr.amount)
           balancesCpy.push(token)
@@ -174,15 +158,5 @@ export class AccountsCalcUtils {
       }
     }
     return null
-  }
-
-  static addTokenToAllOlderBalances (token, idxDay, days) {
-    for (let i = idxDay - 1; i >= 0; i--) {
-      let day = days[i]
-      let balancesCpy = AccountsCalcUtils.copyTokenList(day.balances)
-      balancesCpy.push(token)
-
-      day.balances = balancesCpy
-    }
   }
 }

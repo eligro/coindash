@@ -16,8 +16,8 @@ export default function chartReducer (state = {}, action) {
 
       const btcAggDelta = action.data.market.map(i => [i.timestamp * 1000, i.aggregatedDelta])
 
-            // preformance chart
-      const portfolioPerfo = action.data.portfolio.map(i => [ i.timestamp * 1000, i.dayFiatValue ])
+      // preformance chart
+      // const portfolioPerfo = action.data.portfolio.map(i => [ i.timestamp * 1000, i.dayFiatValue ])
 
       return Object.assign({}, state, {
         chartData: {btcAggDelta, portfolioAggDelta},
@@ -46,7 +46,7 @@ export default function chartReducer (state = {}, action) {
         statusText: action.text
       })
 
-      case types.BALANCE_ERROR:
+    case types.BALANCE_ERROR:
       return Object.assign({}, state, {
         balanceError: action.text
       })

@@ -1,5 +1,4 @@
 import { Token } from '../../Trades/Token'
-// import { ETHTransaction } from './ETHTransaction';
 import { ETHChainAccount } from './ETHChainAccount'
 const { localStorage } = window
 
@@ -26,14 +25,6 @@ export class ETHWallet {
     return ret
   }
 
-  // tokens
-
-  // static addToken(token) {
-  //   console.log(token)
-  //   this.addToken(token.address, token.symbol, token.decimal, token.contractAddress);
-
-  // }
-
   static addToken (token) {
     console.log('adding token with address: ' + token.address + ', symbol: ' + token.symbol + ', contractAddress: ' + token.ico_contract_address + ', decimal: ' + token.decimal)
 
@@ -52,7 +43,6 @@ export class ETHWallet {
     if (!contains) {
       let customTokens = localStorage.getItem('localTokens') != null ? JSON.parse(localStorage.getItem('localTokens')) : []
 
-      console.log('adding token...')
       customTokens.push({
         'address': token.address,
         'symbol': token.symbol,

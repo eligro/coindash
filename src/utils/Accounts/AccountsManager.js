@@ -9,7 +9,7 @@ import { ExchangeProvider } from '../../utils/ExchangeProvider/ExchangeProvider'
 import analytics from '../../components/analytics'
 import { Networker } from '../Networking/Networker'
 import BigNumber from 'bignumber.js'
-
+import { recordEvent, recordEvents } from 'osi/analytics'
 const nevent = ({action, label, nonInteraction = true}) => analytics.event({ category: 'Account', action, label, nonInteraction })
 
 export class AccountsManager {
@@ -31,10 +31,28 @@ export class AccountsManager {
 
   // API
   getBalances (callback) {
+    recordEvent('get balances', {action: 'start'})
     nevent({action: 'Get Balances', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
       let exchangeProvider = ExchangeProvider.instance()
       exchangeProvider.getBalances(data, function (balances) {
+        let reportedTokens = {
+          tokens: data.map((token, index) => ({
+            contractAddress: token.contractAddress,
+            userAddress: token.userAddress,
+            icoAddress: token.ico_address,
+            decimal: token.decimal,
+            icoPrice: token.ico_initial_price_usd,
+            symbol: token.symbol,
+            balance: token.balance.toFixed(4),
+            value: {
+              balance: balances[index].balance,
+              currency: balances[index].currency
+            }
+          }))
+        }
+        recordEvents(reportedTokens)
+
         // prepare for standard objects
         let ret = []
         for (let i in balances) {
@@ -51,6 +69,7 @@ export class AccountsManager {
         }
 
         nevent({action: 'Get Balances', label: 'Balances received'})
+        recordEvent('get balances', {action: 'end'})
 
         callback(ret)
       })
@@ -58,9 +77,7 @@ export class AccountsManager {
   }
 
   dayStatusFromDate (fromDate, statusUpdater, callback) {
-
     BigNumber.config({ ERRORS: false })
-
 
     let executed = 0
     let executions = 3

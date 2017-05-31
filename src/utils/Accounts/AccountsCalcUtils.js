@@ -21,20 +21,17 @@ export class AccountsCalcUtils {
       let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue
 
       // we do not want to the nominator to be 0 and divide it so just set to 0
-      if (todayCorrectedValue - previousDay.dayFiatValue == 0) {
-        day.delta = 0;
-      }
-      else {
+      if (todayCorrectedValue - previousDay.dayFiatValue === 0) {
+        day.delta = 0
+      } else {
         day.delta = (todayCorrectedValue - previousDay.dayFiatValue) / previousDay.dayFiatValue
       }
-      
 
       // if for some reason the previous day's aggregated delta is 0 it will make
       // an infinite loop where all days will have 0 as aggregated delta.
-      if (previousDay.aggregatedDelta == 0) {
+      if (previousDay.aggregatedDelta === 0) {
         day.aggregatedDelta = day.delta
-      }
-      else {
+      } else {
         day.aggregatedDelta = previousDay.aggregatedDelta * (1 + day.delta)
       }
     }
@@ -43,7 +40,7 @@ export class AccountsCalcUtils {
   }
 
   /*
-    Given a list of days with deposits, withdrawals and the current balance. 
+    Given a list of days with deposits, withdrawals and the current balance.
     This will calculate the balance of previous days.
   */
   static calcBalances (days) {
@@ -62,7 +59,7 @@ export class AccountsCalcUtils {
         let rhsTokenFromBalances = AccountsCalcUtils.tokenFromList(balancesCpy, trade.rhsToken)
 
         /*  IN CASE LHS/ RHS TOKEN IS NOT IN balancesCpy
-            in this case we add the tokn to balancesCpy which will be set as the 
+            in this case we add the tokn to balancesCpy which will be set as the
             balance list for dayIdx + 1 (the preivous day)
         */
 
@@ -125,7 +122,7 @@ export class AccountsCalcUtils {
 
         let token = AccountsCalcUtils.tokenFromList(balancesCpy, withr.token)
         if (token == null) {
-          // if the withdrawan token is not in the balance list it means it was withdrawan entirely 
+          // if the withdrawan token is not in the balance list it means it was withdrawan entirely
           // so we add it to the previous day's balances
           token = Token.fromSymbol(withr.token.symbol)
           token.balance = new BigNumber(withr.amount)

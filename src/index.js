@@ -10,6 +10,7 @@ import './index.css'
 import analytics from './components/analytics'
 import { persistStore } from 'redux-persist'
 
+import { listener as analyticsListener } from 'osi/analytics'
 import '../node_modules/fixed-data-table/dist/fixed-data-table.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -17,7 +18,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
-const { localStorage } = window
 // const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
 
 const store = configureStore()
@@ -32,7 +32,8 @@ localforage.config({
 })
 
 // Register analytics listener
-browserHistory.listen(analytics.listener)
+browserHistory.listen(analytics.listener) // google
+browserHistory.listen(analyticsListener) // keen.io
 
 class RouterProvider extends Component {
   constructor (props) {

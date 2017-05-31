@@ -1,6 +1,6 @@
 {
   "name": "coindash-client",
-  "version": "0.3.5-4",
+  "version": "0.3.5-5",
   "private": true,
   "dependencies": {
     "bignumber.js": "^3.0.1",
@@ -12,6 +12,7 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.2",
     "jStat": "^1.5.3",
+    "keen-tracking": "^1.1.3",
     "localforage": "^1.5.0",
     "material-ui": "^0.18.1",
     "moment": "^2.17.1",

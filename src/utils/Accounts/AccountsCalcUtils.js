@@ -16,6 +16,16 @@ export class AccountsCalcUtils {
       let day = days[dayIdx]
       let previousDay = days[dayIdx + 1]
 
+      /*
+        In case the previous day fiat value is 0 it means there is no balance so we can't really calculate an
+        aggregated value.
+      */
+      if (previousDay.dayFiatValue == 0) {
+        day.delta = 0;
+        day.aggregatedDelta = 1;
+        continue;
+      }
+
       // the corrected value is considering the day's balances amount adjuted for the deposits and withdrawals
       // let previousDayCorrectedValue = previousDay.dayFiatValue + previousDay.withdrawalsFiatValue - previousDay.depositsFiatValue;
       let todayCorrectedValue = day.dayFiatValue - day.depositsFiatValue + day.withdrawalsFiatValue

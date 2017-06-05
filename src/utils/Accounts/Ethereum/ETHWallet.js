@@ -25,6 +25,16 @@ export class ETHWallet {
     return ret
   }
 
+  static updateToken (token) {
+    let tokens = ETHWallet.allTokens()
+
+    let t = tokens.find(t => t.symbol === token.symbol && t.address === token.address)
+
+    t = {...t, ...token}
+
+    localStorage.setItem('localTokens', JSON.stringify(tokens))
+  }
+
   static addToken (token) {
     console.log('adding token with address: ' + token.address + ', symbol: ' + token.symbol + ', contractAddress: ' + token.ico_contract_address + ', decimal: ' + token.decimal)
 
@@ -56,6 +66,17 @@ export class ETHWallet {
     }
   }
 
+  static removeToken (token) {
+    let tokens = localStorage.getItem('localTokens')
+    let customTokens = tokens != null ? JSON.parse(tokens) : []
+
+    if (customTokens && customTokens.length) {
+      customTokens = customTokens.filter(t => t.symbol !== token.symbol && t.address !== token.address)
+    }
+
+    localStorage.setItem('localTokens', JSON.stringify(customTokens))
+  }
+
   static checkToken (addedToken, token) {
     if (addedToken.address === token.contractAddress &&
       addedToken.symbol === token.symbol &&
@@ -76,8 +97,10 @@ export class ETHWallet {
 
     for (let i in dics) {
       let d = dics[i]
+      let k = new Token.FromDic(d)
+      k.isCustom = true
 
-      ret.push(new Token.FromDic(d))
+      ret.push(k)
     }
 
     return ret

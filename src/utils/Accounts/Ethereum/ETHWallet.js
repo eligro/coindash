@@ -48,6 +48,7 @@ export class ETHWallet {
         'symbol': token.symbol,
         'decimal': token.decimal,
         'ico_contract_address': token.ico_contract_address,
+        'ico_initial_price_usd': token.ico_initial_price_usd,
         'type': 'custom'
       })
 

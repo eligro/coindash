@@ -23,9 +23,9 @@ export default function chartReducer (state = {}, action) {
         chartData: {btcAggDelta, portfolioAggDelta},
         portfolioDayDataByDate: portfolioDayDataByDate,
         // preformanceData: portfolioPerfo,
-        shortDelta: action.data.shortDelta,
-        longDelta: action.data.longDelta,
-        raw_data: action.data
+        // shortDelta: action.data.shortDelta,
+        // longDelta: action.data.longDelta,
+        // raw_data: action.data
       })
 
     case types.LOAD_CHART_RISK_SUCCESS:

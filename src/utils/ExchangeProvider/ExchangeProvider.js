@@ -217,8 +217,12 @@ export class ExchangeProvider {
       }
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
+      if (exchangeValuePoint == null) {
+        exchangeValuePoint == new ExchangeValuePoint(targetCurrency, 0);
+      }
+
       // check value is not 0, default to ico initial price
-      if (exchangeValuePoint.value === 0) {
+      if (exchangeValuePoint.value == 0) {
         exchangeValuePoint.value = token.ico_initial_price_usd
       }
 
@@ -354,8 +358,14 @@ export class ExchangeProvider {
       }
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
+      console.log("start");
+
+      if (exchangeValuePoint == null || exchangeValuePoint == undefined) {
+        exchangeValuePoint == new ExchangeValuePoint(targetCurrency, 0);
+      }
+
       // check value is not 0, default to ico initial price
-      if (exchangeValuePoint.value === 0) {
+      if (exchangeValuePoint.value == 0) {
         exchangeValuePoint.value = tokens[count].ico_initial_price_usd
       }
 

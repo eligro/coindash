@@ -6,7 +6,8 @@ export default function userReducer (state = {}, action) {
       return Object.assign({}, state, {
         loggedIn: true,
         email: action.data.email,
-        error: false
+        error: false,
+        profile: action.data
       })
 
     case types.LOGIN_FAILED:

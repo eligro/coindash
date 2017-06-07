@@ -26,7 +26,16 @@ export function login (email, password) {
     return firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then((data) => {
-        dispatch(loginSuccess(data))
+        let user = {
+          name: data.displayName,
+          email: data.email,
+          photoUrl: data.photoURL,
+          emailVerified: data.emailVerified,
+          uid: data.uid,
+          provider: data.providerData.map(p => ({...p}))
+        }
+
+        dispatch(loginSuccess(user))
         return data
       })
   }

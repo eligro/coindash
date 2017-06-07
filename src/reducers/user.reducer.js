@@ -28,6 +28,6 @@ export default function userReducer (state = {}, action) {
       })
 
     default:
-      return state;
+      return state
   }
 }

@@ -1,5 +1,5 @@
 import * as types from './action.const'
-import firebase from '../utils/database.react.js'
+import Auth from 'osi/auth'
 
 export function loginSuccess (data) {
   return {type: types.LOGIN_SUCCESS, data}
@@ -23,7 +23,7 @@ export function clearError () {
 
 export function login (email, password) {
   return (dispatch) => {
-    return firebase.auth()
+    return Auth
       .signInWithEmailAndPassword(email, password)
       .then((data) => {
         let user = {
@@ -43,8 +43,7 @@ export function login (email, password) {
 
 export function logout () {
   return (dispatch) => {
-    return firebase.auth()
-      .signOut()
+    return Auth.signOut()
       .then(() => {
         dispatch(logoutSuccess())
       })

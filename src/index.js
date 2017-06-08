@@ -3,7 +3,6 @@ import { render } from 'react-dom'
 import configureStore from './store/configureStore'
 import { Provider, connect } from 'react-redux'
 import { browserHistory, Router } from 'react-router'
-// import routes from './routes'
 import routes from 'osi/routes'
 import localforage from 'localforage'
 import './index.css'
@@ -18,13 +17,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
-// const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
-
 const store = configureStore()
-
-// store.subscribe(() => {
-//   localStorage.setItem('reduxState', JSON.stringify(store.getState()))
-// })
 
 localforage.config({
   driver: localforage.INDEXEDDB,

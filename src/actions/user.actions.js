@@ -59,7 +59,7 @@ export function loginProvider (provider) {
           emailVerified: profile.emailVerified,
           uid: profile.uid,
           refreshToken: profile.refreshToken,
-          provider: data.providerData.map(p => ({...p})),
+          provider: profile.providerData.map(p => ({...p})),
           credential
         }
 

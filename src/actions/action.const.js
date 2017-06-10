@@ -37,3 +37,4 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 /* Admin */
 export const ADMIN_ON = 'ADMIN_ON'
+export const ADMIN_OFF = 'ADMIN_OFF'

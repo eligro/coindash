@@ -35,6 +35,8 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAILED = 'LOGOUT_FAILED'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 
+export const SET_DARK_THEME = 'SET_DARK_THEME'
+
 /* Admin */
 export const ADMIN_ON = 'ADMIN_ON'
 export const ADMIN_OFF = 'ADMIN_OFF'

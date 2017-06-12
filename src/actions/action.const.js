@@ -40,3 +40,9 @@ export const SET_DARK_THEME = 'SET_DARK_THEME'
 /* Admin */
 export const ADMIN_ON = 'ADMIN_ON'
 export const ADMIN_OFF = 'ADMIN_OFF'
+
+/* Portfolio */
+export const CREATE_PORTFOLIO = 'CREATE_PORTFOLIO'
+export const ADD_PORTFOLIO = 'ADD_PORTFOLIO'
+export const ADD_USER_PORTFOLIO = 'ADD_USER_PORTFOLIO'
+export const CLEAR_PORTFOLIOS = 'CLEAR_PORTFOLIOS'

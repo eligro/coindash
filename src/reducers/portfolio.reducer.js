@@ -45,7 +45,7 @@ export default function portfolioReducer (state = baseState, action) {
       })
     case REHYDRATE:
     case types.CLEAR_PORTFOLIOS:
-      return baseState
+      return {...baseState}
 
     default:
       return state

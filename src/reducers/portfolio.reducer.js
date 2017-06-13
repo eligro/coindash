@@ -7,6 +7,7 @@ const baseState = {
 }
 
 export default function portfolioReducer (state = {}, action) {
+  let portfolios
   switch (action.type) {
     case types.CREATE_PORTFOLIO:
       return Object.assign({}, state, {
@@ -20,12 +21,26 @@ export default function portfolioReducer (state = {}, action) {
         ]
       })
     case types.ADD_USER_PORTFOLIO:
-      console.info('add user portfolio:', action, state)
-      let portfolios = state.userPortfolios.filter(p => p.pfid !== action.portfolio.pfid)
+      portfolios = state.userPortfolios.filter(p => p.pfid !== action.portfolio.pfid)
       return Object.assign({}, state, {
         userPortfolios: [
           ...portfolios,
           action.portfolio
+        ]
+      })
+    case types.ADD_USER_PORTFOLIOS:
+      const pids = action.portfolios.map(pf => pf.portfolio.pid)
+      portfolios = state.portfolios.filter(pf => pids.indexOf(pf.portfolio.pid) === -1)
+
+      const userPortfolios = state.userPortfolios.filter(e => pids.indexOf(e) === -1)
+      return Object.assign({}, state, {
+        userPortfolios: [
+          ...userPortfolios,
+          ...pids
+        ],
+        portfolios: [
+          ...portfolios,
+          ...action.portfolios
         ]
       })
     case REHYDRATE:

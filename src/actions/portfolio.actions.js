@@ -19,6 +19,9 @@ export function addUserPortfolio (portfolio) {
   return {type: types.ADD_USER_PORTFOLIO, portfolio}
 }
 
+export function addUserPortfolios (portfolios) {
+  return {type: types.ADD_USER_PORTFOLIOS, portfolios}
+}
 
 export function newPortfolio (portfolio) {
   return dispatch => {
@@ -30,7 +33,7 @@ export function newPortfolio (portfolio) {
 
     return Portman.createPortfolio(newPortfolio)
       .then(res => {
-        console.log('result of createPortfolio:', res)
+        // console.log('result of createPortfolio:', res)
         dispatch(addPortfolio(newPortfolio))
         return res
         // dispatch(createPortfolio(portfolio))
@@ -40,12 +43,7 @@ export function newPortfolio (portfolio) {
 
 export function loadUserPortfolios (uid) {
   return dispatch => Portman.getUserPortfolios(uid)
-    .then(userPortfolios => {
-      userPortfolios.map(upf => {
-        dispatch(addUserPortfolio(upf))
-      })
-      return userPortfolios
-    })
+    .then(userPortfolios => dispatch(addUserPortfolios(userPortfolios)))
 }
 
 export function resetPortfolios () {

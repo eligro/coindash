@@ -6,7 +6,7 @@ const baseState = {
   userPortfolios: []
 }
 
-export default function portfolioReducer (state = {}, action) {
+export default function portfolioReducer (state = baseState, action) {
   let portfolios
   switch (action.type) {
     case types.CREATE_PORTFOLIO:

@@ -33,8 +33,8 @@ export function newPortfolio (portfolio) {
 
     return Portman.createPortfolio(newPortfolio)
       .then(res => {
-        // console.log('result of createPortfolio:', res)
-        dispatch(addPortfolio(newPortfolio))
+        console.log('result of createPortfolio:', res)
+        dispatch(addPortfolio(res))
         return res
         // dispatch(createPortfolio(portfolio))
       })

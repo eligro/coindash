@@ -7,6 +7,7 @@ import extension from './extension.reducer'
 import copyCrypto from './copyCrypto.reducer'
 import user from './user.reducer'
 import admin from './admin.reducer'
+import portfolio from './portfolio.reducer'
 import { LOGOUT_SUCCESS } from '../actions/action.const'
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   extension,
   copyCrypto,
   user,
-  admin
+  admin,
+  portfolio
 })
 
 const appReducer = (state, action) => {

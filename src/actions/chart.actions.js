@@ -125,8 +125,15 @@ export function loadChart () {
   }
 }
 
-export function calcPortfolio () {
+export function calcPortfolio (addressList) {
   return (dispatch, getState) => {
+    if (addressList) {
+      console.info('---------------------------------')
+      console.info('addressList:', addressList)
+      // remove block to continue
+      return false
+    }
+
     if (getState().charts.chartLoaded === true) {
       dispatch(chartText(''))
       return

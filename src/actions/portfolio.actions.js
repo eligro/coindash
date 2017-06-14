@@ -23,6 +23,10 @@ export function addUserPortfolios (portfolios) {
   return {type: types.ADD_USER_PORTFOLIOS, portfolios}
 }
 
+export function addAddressToPortfolio (data) {
+  return {type: types.ADD_ADDRESS_TO_PORTFOLIO, data}
+}
+
 export function newPortfolio (portfolio) {
   return dispatch => {
     let newPortfolio = {
@@ -50,4 +54,9 @@ export function resetPortfolios () {
   return dispatch => {
     return dispatch(clearPortfolios())
   }
+}
+
+export function associateAddressToPortfolio (pid, address) {
+  return dispatch => Portman.associateAddressWithPortfolio(pid, address)
+    .then(result => dispatch(addAddressToPortfolio({pid, address})))
 }

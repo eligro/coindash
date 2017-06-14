@@ -125,6 +125,96 @@ export function loadChart () {
   }
 }
 
+export function calcPortfolio () {
+  return (dispatch, getState) => {
+    if (getState().charts.chartLoaded === true) {
+      dispatch(chartText(''))
+      return
+    }
+
+    dispatch(chartText('Fetching data ...'))
+
+    let ethTokens = getState().exchanges
+      .filter(i => i.type === 'ethereum')
+      .map(i => i.token)
+    var accounts = []
+
+    if (ethTokens.length) {
+      let wallet = new ETHWallet(ethTokens)
+      accounts = wallet.getAccounts()
+    }
+    console.log('started chart loading', accounts)
+
+    if (accounts.length) {
+      let manager = new AccountsManager(accounts)
+      let day = 24 * 60 * 60
+      let today = Math.floor(Date.now() / 1000)
+
+      let spanTime = today - 90 * day
+
+      manager.dayStatusFromDate(
+        spanTime,
+        function (obj) {
+          // status updater
+          if (obj.error != null) {
+            console.error(obj)
+            dispatch(chartError(obj.error))
+          } else {
+            let progress = obj.progress * 100
+            progress = Math.round(progress * 100) / 100
+            dispatch(chartText(progress))
+          }
+        },
+        function (data) {
+          if (data == null) {
+            dispatch(balanceError('No Balance Found'))
+          }
+          // Calc 7 days delta
+          manager.calcDeltaByDays(data, 7, function (shortDelta) {
+            data.shortDelta = shortDelta
+          })
+          // Calc 365 days delta
+          manager.calcDeltaByDays(data, 365, function (longDelta) {
+            data.longDelta = longDelta
+          })
+
+          console.log('finished loading charts')
+          dispatch(loadedChartWithState(true))
+          dispatch(loadChartSuccess(data))
+
+          // print
+          /*
+                 for(let i in data) {
+                 let day = data[i];
+                 let usdValue = day.dayFiatValue;
+                 let depoValue = day.depositsFiatValue;
+                 let withValue = day.withdrawalsFiatValue;
+                 let delta = day.delta;
+
+                 let date = new Date(day.timestamp*1000);
+                 let str = date.toISOString() + "\n";
+                 str += "day $" + usdValue + "\n";
+                 str += "deposits $" + depoValue + "\n";
+                 str += "withdrawals $" + withValue + "\n";
+                 str += "delta %" + delta + "\n";
+
+                 for(let x in day.balances) {
+                 let t = day.balances[x];
+                 str += t.symbol + " " + t.prettyBalance() + "\n";
+                 }
+
+                 }
+                 */
+        }
+      )
+    } else {
+      // no account
+      console.log('No accounts found, not loading charts')
+      dispatch(chartText(''))
+    }
+  }
+}
+
 /* export function loadChart() {
     return (dispatch) => {
         return ChartAPI.getChart().then(data => {

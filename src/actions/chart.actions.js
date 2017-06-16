@@ -1,6 +1,7 @@
 import * as types from './action.const'
 import ChartAPI from '../api/mockChartsApi'
 import { ETHWallet } from '../utils/Accounts/Ethereum/ETHWallet'
+import * as Portman from 'osi/components/portman'
 
 import { AccountsManager } from '../utils/Accounts/AccountsManager'
 
@@ -34,6 +35,21 @@ export function chartError (text) {
   return { type: types.CHART_ERROR, text }
 }
 
+export function beginCalculations (pid) {
+  return { type: types.PORTFOLIO_CALCULATION_BEGIN, pid }
+}
+
+export function finishCalculations ({pid, data}) {
+  return { type: types.PORTFOLIO_CALCULATION_FINISH, pid, data }
+}
+
+export function calcError ({pid, error}) {
+  return { type: types.PORTFOLIO_CALCULATION_ERROR, pid, error }
+}
+
+export function calcUpdateProcess ({pid, progress}) {
+  return { type: types.PORTFOLIO_CALCULATION_UPDATE, pid, progress }
+}
 export function loadChart () {
   return (dispatch, getState) => {
     if (getState().charts.chartLoaded === true) {
@@ -125,31 +141,22 @@ export function loadChart () {
   }
 }
 
-export function calcPortfolio (addressList) {
+export function calcPortfolio (pid, addressList) {
   return (dispatch, getState) => {
-    if (addressList) {
-      console.info('---------------------------------')
-      console.info('addressList:', addressList)
-      // remove block to continue
-      return false
-    }
+    console.info('pid calcPortfolio', pid, addressList)
 
-    if (getState().charts.chartLoaded === true) {
-      dispatch(chartText(''))
-      return
-    }
+    console.info('---------------------------------')
+    console.info('addressList:', addressList)
 
-    dispatch(chartText('Fetching data ...'))
+    dispatch(beginCalculations(pid))
+    let ethAddresses = addressList.map(e => e.address)
+    let accounts = []
 
-    let ethTokens = getState().exchanges
-      .filter(i => i.type === 'ethereum')
-      .map(i => i.token)
-    var accounts = []
-
-    if (ethTokens.length) {
-      let wallet = new ETHWallet(ethTokens)
+    if (ethAddresses.length) {
+      let wallet = new ETHWallet(ethAddresses)
       accounts = wallet.getAccounts()
     }
+
     console.log('started chart loading', accounts)
 
     if (accounts.length) {
@@ -165,16 +172,16 @@ export function calcPortfolio (addressList) {
           // status updater
           if (obj.error != null) {
             console.error(obj)
-            dispatch(chartError(obj.error))
+            dispatch(calcError({pid, error: obj}))
           } else {
             let progress = obj.progress * 100
             progress = Math.round(progress * 100) / 100
-            dispatch(chartText(progress))
+            dispatch(calcUpdateProcess({pid, progress}))
           }
         },
         function (data) {
           if (data == null) {
-            dispatch(balanceError('No Balance Found'))
+            dispatch(calcError({pid, error: 'No balances found'}))
           }
           // Calc 7 days delta
           manager.calcDeltaByDays(data, 7, function (shortDelta) {
@@ -186,32 +193,14 @@ export function calcPortfolio (addressList) {
           })
 
           console.log('finished loading charts')
-          dispatch(loadedChartWithState(true))
-          dispatch(loadChartSuccess(data))
+          // dispatch(loadedChartWithState(true))
 
-          // print
-          /*
-                 for(let i in data) {
-                 let day = data[i];
-                 let usdValue = day.dayFiatValue;
-                 let depoValue = day.depositsFiatValue;
-                 let withValue = day.withdrawalsFiatValue;
-                 let delta = day.delta;
+          console.log('data is ready for firebase:', data)
+          // store the data in firebase
+          Portman.updatePortfolioCalculations(pid, data)
+            .then(_ => dispatch(finishCalculations({pid, data})))
 
-                 let date = new Date(day.timestamp*1000);
-                 let str = date.toISOString() + "\n";
-                 str += "day $" + usdValue + "\n";
-                 str += "deposits $" + depoValue + "\n";
-                 str += "withdrawals $" + withValue + "\n";
-                 str += "delta %" + delta + "\n";
-
-                 for(let x in day.balances) {
-                 let t = day.balances[x];
-                 str += t.symbol + " " + t.prettyBalance() + "\n";
-                 }
-
-                 }
-                 */
+          // dispatch(loadChartSuccess(data))
         }
       )
     } else {

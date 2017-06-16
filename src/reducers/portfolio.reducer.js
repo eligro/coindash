@@ -3,7 +3,9 @@ import { REHYDRATE } from 'redux-persist/constants'
 
 const baseState = {
   portfolios: [],
-  userPortfolios: []
+  userPortfolios: [],
+  process: {},
+  calculations: {}
 }
 
 export default function portfolioReducer (state = baseState, action) {
@@ -43,7 +45,79 @@ export default function portfolioReducer (state = baseState, action) {
           ...action.portfolios
         ]
       })
+
+    case types.LOAD_PORTFOLIO_CALCULATIONS:
+      return Object.assign({}, state, {
+        process: {
+          ...state.process,
+          [action.pid]: {
+            ...(state.process[action.pid] || {}),
+            fetching: false
+          }
+        },
+        calculations: {
+          ...state.calculations,
+          [action.pid]: action.data
+        }
+      })
+
+    case types.PORTFOLIO_CALCULATION_BEGIN:
+    case types.PORTFOLIO_CALCULATION_FINISH:
+    case types.PORTFOLIO_CALCULATION_UPDATE:
+    case types.PORTFOLIO_CALCULATION_ERROR:
+      const process = state.process[action.pid] || {}
+      const { log = [] } = process
+      // console.log('what is stuff?', pid, process, log)
+      const logEntry = {
+        timestamp: Date.now(),
+        type: action.type
+      }
+      const calculations = {
+        ...state.calculations
+      }
+
+      let isComplete = false
+
+      if (action.type === types.PORTFOLIO_CALCULATION_ERROR) {
+        logEntry.error = action.error
+      }
+      if (action.type === types.PORTFOLIO_CALCULATION_UPDATE) {
+        logEntry.progress = action.progress
+      }
+      if (action.type === types.PORTFOLIO_CALCULATION_FINISH) {
+        logEntry.progress = action.progress
+        calculations[action.pid] = action.data
+        isComplete = true
+      }
+
+      return Object.assign({}, state, {
+        calculations,
+        process: {
+          ...state.process,
+          [action.pid]: {
+            ...process,
+            [isComplete ? 'completed' : 'started']: !isComplete,
+            log: [
+              ...log,
+              logEntry
+            ]
+          }
+        }
+      })
+
+    case types.BEGIN_FETCHING_PORTFOLIO:
+      return Object.assign({}, state, {
+        process: {
+          ...state.process,
+          [action.pid]: {
+            ...(state.process[action.pid] || {}),
+            fetching: true
+          }
+        }
+      })
+
     case REHYDRATE:
+      // return object
     case types.CLEAR_PORTFOLIOS:
       return {...baseState}
 

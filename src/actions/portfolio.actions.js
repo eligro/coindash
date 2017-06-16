@@ -27,6 +27,15 @@ export function addAddressToPortfolio (data) {
   return {type: types.ADD_ADDRESS_TO_PORTFOLIO, data}
 }
 
+export function addPortfolioCalculations ({pid, data}) {
+  console.log('portfolio calculations brought:', pid, data)
+  return {type: types.LOAD_PORTFOLIO_CALCULATIONS, pid, data}
+}
+
+export function beginFetchingPortfolio (pid) {
+  return {type: types.BEGIN_FETCHING_PORTFOLIO, pid}
+}
+
 export function newPortfolio (portfolio) {
   return dispatch => {
     let newPortfolio = {
@@ -59,4 +68,17 @@ export function resetPortfolios () {
 export function associateAddressToPortfolio (pid, address) {
   return dispatch => Portman.associateAddressWithPortfolio(pid, address)
     .then(result => dispatch(addAddressToPortfolio({pid, address})))
+}
+
+export const loadPortfolioCalculations = (portfolio) => {
+  console.log('portfolio:', portfolio)
+  console.log('portfolio.portfolio.pid:', portfolio.portfolio.pid)
+  return dispatch => {
+    dispatch(beginFetchingPortfolio(portfolio.portfolio.pid))
+    return Portman.getPortfolioCalculations(portfolio.pfid)
+      .then(result => dispatch(addPortfolioCalculations({
+        pid: portfolio.portfolio.pid,
+        data: result
+      })))
+  }
 }

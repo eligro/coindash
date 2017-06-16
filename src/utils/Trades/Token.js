@@ -41,8 +41,6 @@ export class Token {
     this.ico_address = ''
     this.fiatCurrency = 'usd'
     this.fiatValue = 0
-
-    this.unitMap = {...unitMap}
   }
 
   static hardcodedTokes () {
@@ -191,7 +189,7 @@ export class Token {
 
   getValueOfUnit (unit) {
     unit = unit ? unit.toLowerCase() : 'ether'
-    var unitValue = this.unitMap[unit]
+    var unitValue = unitMap[unit]
     if (unitValue === undefined) {
       throw new Error('Unit value cannot be set to undefined')
     }

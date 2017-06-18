@@ -11,6 +11,10 @@ const baseState = {
 export default function portfolioReducer (state = baseState, action) {
   let portfolios
   switch (action.type) {
+    case types.BEGIN_USER_PORTFOLIOS_FETCHING:
+      return Object.assign({}, state, {
+        userPortfoliosFetching: true
+      })
     case types.CREATE_PORTFOLIO:
       return Object.assign({}, state, {
         portfolio: action.data
@@ -25,6 +29,8 @@ export default function portfolioReducer (state = baseState, action) {
     case types.ADD_USER_PORTFOLIO:
       portfolios = state.userPortfolios.filter(p => p.pfid !== action.portfolio.pfid)
       return Object.assign({}, state, {
+        hasUserPortfolios: !!action.portfolio,
+        userPortfoliosFetching: false,
         userPortfolios: [
           ...portfolios,
           action.portfolio
@@ -36,6 +42,8 @@ export default function portfolioReducer (state = baseState, action) {
 
       const userPortfolios = state.userPortfolios.filter(e => pids.indexOf(e) === -1)
       return Object.assign({}, state, {
+        hasUserPortfolios: userPortfolios.length > 0,
+        userPortfoliosFetching: false,
         userPortfolios: [
           ...userPortfolios,
           ...pids
@@ -115,9 +123,13 @@ export default function portfolioReducer (state = baseState, action) {
           }
         }
       })
+    case types.NO_USER_PORTFOLIOS_FOUND:
+      return Object.assign({}, state, {
+        hasUserPortfolios: false,
+        userPortfoliosFetching: false
+      })
 
     case REHYDRATE:
-      // return object
     case types.CLEAR_PORTFOLIOS:
       return {...baseState}
 

@@ -143,11 +143,6 @@ export function loadChart () {
 
 export function calcPortfolio (pid, addressList) {
   return (dispatch, getState) => {
-    console.info('pid calcPortfolio', pid, addressList)
-
-    console.info('---------------------------------')
-    console.info('addressList:', addressList)
-
     dispatch(beginCalculations(pid))
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
@@ -156,8 +151,6 @@ export function calcPortfolio (pid, addressList) {
       let wallet = new ETHWallet(ethAddresses)
       accounts = wallet.getAccounts()
     }
-
-    console.log('started chart loading', accounts)
 
     if (accounts.length) {
       let manager = new AccountsManager(accounts)
@@ -210,16 +203,6 @@ export function calcPortfolio (pid, addressList) {
     }
   }
 }
-
-/* export function loadChart() {
-    return (dispatch) => {
-        return ChartAPI.getChart().then(data => {
-            dispatch(loadChartSuccess(data));
-        }).catch(error => {
-            throw(error);
-        })
-    }
-} */
 
 export function clearCharts () {
   return { type: types.CLEAR_CHARTS }

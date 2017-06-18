@@ -36,6 +36,14 @@ export function beginFetchingPortfolio (pid) {
   return {type: types.BEGIN_FETCHING_PORTFOLIO, pid}
 }
 
+export function noUserPortfolios () {
+  return {type: types.NO_USER_PORTFOLIOS_FOUND}
+}
+
+export function beginUserPortfolios (uid) {
+  return {type: types.BEGIN_USER_PORTFOLIOS_FETCHING, uid}
+}
+
 export function newPortfolio (portfolio) {
   return dispatch => {
     let newPortfolio = {
@@ -54,8 +62,13 @@ export function newPortfolio (portfolio) {
 }
 
 export function loadUserPortfolios (uid) {
-  return dispatch => Portman.getUserPortfolios(uid)
-    .then(userPortfolios => dispatch(addUserPortfolios(userPortfolios)))
+  return dispatch => {
+    dispatch(beginUserPortfolios(uid))
+    return Portman.getUserPortfolios(uid)
+    .then(userPortfolios => {
+      userPortfolios.length ? dispatch(addUserPortfolios(userPortfolios)) : dispatch(noUserPortfolios())
+    })
+  }
 }
 
 export function resetPortfolios () {

@@ -46,7 +46,6 @@ export function newPortfolio (portfolio) {
 
     return Portman.createPortfolio(newPortfolio)
       .then(res => {
-        console.log('result of createPortfolio:', res)
         dispatch(addPortfolio(res))
         return res
         // dispatch(createPortfolio(portfolio))
@@ -71,8 +70,6 @@ export function associateAddressToPortfolio (pid, address) {
 }
 
 export const loadPortfolioCalculations = (portfolio) => {
-  console.log('portfolio:', portfolio)
-  console.log('portfolio.portfolio.pid:', portfolio.portfolio.pid)
   return dispatch => {
     dispatch(beginFetchingPortfolio(portfolio.portfolio.pid))
     return Portman.getPortfolioCalculations(portfolio.pfid)

@@ -6,6 +6,7 @@ import coins from './coins.reducer'
 import extension from './extension.reducer'
 import copyCrypto from './copyCrypto.reducer'
 import user from './user.reducer'
+import admin from './admin.reducer'
 import { LOGOUT_SUCCESS } from '../actions/action.const'
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   coins,
   extension,
   copyCrypto,
-  user
+  user,
+  admin
 })
 
 const appReducer = (state, action) => {

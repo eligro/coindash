@@ -13,6 +13,11 @@ import { listener as analyticsListener } from 'osi/analytics'
 import '../node_modules/fixed-data-table/dist/fixed-data-table.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+// Redirect to HTTPS
+if (window.location.protocol !== 'https:' && window.location.host.match(/coindash\.io$/)) {
+  window.location = `https://${window.location.hostname}${window.location.path || ''}`
+}
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()

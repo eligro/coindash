@@ -27,7 +27,7 @@ export class EtherscanGetTask extends GetTask {
   }
 
   static fetchTxsForAccountTask (account) {
-    let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
+    let prefix = 'https://api.etherscan.io/api?module=account&action=txlist&address='
     let suffix = '&sort=desc&apikey='
     let serverUrl = prefix + account + suffix + EtherscanGetTask.apiKey()
 
@@ -35,7 +35,7 @@ export class EtherscanGetTask extends GetTask {
   }
 
   static fetchTokenContractTxListTask (token) {
-    let prefix = 'http://api.etherscan.io/api?module=account&action=txlist&address='
+    let prefix = 'https://api.etherscan.io/api?module=account&action=txlist&address='
     let suffix = '&sort=desc&apikey='
     let serverUrl = prefix + token.contractAddress + suffix + EtherscanGetTask.apiKey()
 

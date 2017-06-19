@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Route protection for `/dashboard` routes
+- New header and user
+- Users can now login with Google
+- Users will now redirect to HTTPS protocol on coindash.io domains
 
 ### Changed
 - Improved authentication flow

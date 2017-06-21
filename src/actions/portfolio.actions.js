@@ -42,6 +42,10 @@ export function beginUserPortfolios (uid) {
   return {type: types.BEGIN_USER_PORTFOLIOS_FETCHING, uid}
 }
 
+export function setActivePortfolio (pid) {
+  return {type: types.SET_ACTIVE_PORTFOLIO, pid}
+}
+
 export function newPortfolio (portfolio) {
   return dispatch => {
     let newPortfolio = {
@@ -89,4 +93,8 @@ export const loadPortfolioCalculations = (portfolio) => {
         data: result
       })))
   }
+}
+
+export function makePortfolioActive (pid) {
+  return dispatch => dispatch(setActivePortfolio(pid))
 }

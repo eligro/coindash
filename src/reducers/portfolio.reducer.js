@@ -131,10 +131,17 @@ export default function portfolioReducer (state = baseState, action) {
         userPortfoliosFetching: false,
         lastUpdate: Date.now()
       })
+    case types.SET_ACTIVE_PORTFOLIO:
+      return Object.assign({}, state, {
+        activePortfolio: action.pid
+      })
 
     case REHYDRATE:
+      const { activePortfolio } = state
+      return { ...baseState, activePortfolio }
+
     case types.CLEAR_PORTFOLIOS:
-      return {...baseState}
+      return { ...baseState }
 
     default:
       return state

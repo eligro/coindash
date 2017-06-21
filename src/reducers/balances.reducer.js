@@ -7,7 +7,6 @@ const baseState = {
 
 export default function balancesReducer (state = {...baseState}, {pid, data, error, ...action}) {
   let pState = (pid && state.byPid && state.byPid[pid]) || {}
-  let balances = []
   switch (action.type) {
     case types.LOAD_BALANCES_SUCCESS:
       return [...action.data]
@@ -47,6 +46,20 @@ export default function balancesReducer (state = {...baseState}, {pid, data, err
         }
       })
 
+    case types.CALC_BALANCES_FETCH_NO_RESULT:
+      return Object.assign({}, state, {
+        byPid: {
+          ...state.byPid,
+          [pid]: {
+            ...pState,
+            fetching: false,
+            completed: true,
+            data: null,
+            updateOn: Date.now()
+          }
+        }
+      })
+
     case types.CALC_BALANCES_ADD:
       return Object.assign({}, state, {
         byPid: {
@@ -72,7 +85,7 @@ export default function balancesReducer (state = {...baseState}, {pid, data, err
 
     case persist.REHYDRATE:
     case types.CLEAR_BALANCES:
-      return []
+      return {...baseState}
 
     default:
       return state

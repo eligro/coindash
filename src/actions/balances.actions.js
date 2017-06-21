@@ -28,6 +28,9 @@ export function calcBalancesError ({pid, error}) {
 export function calcBalancesFetch (pid) {
   return {type: types.CALC_BALANCES_FETCH, pid}
 }
+export function fetchBalancesNoResult (pid) {
+  return {type: types.CALC_BALANCES_FETCH_NO_RESULT, pid}
+}
 
 export function loadBalances () {
   return (dispatch, getState) => {
@@ -85,7 +88,14 @@ export function fetchBalances (pid) {
     dispatch(calcBalancesFetch(pid))
     return Portman.getPFIDByPID(pid)
     .then(pfid => Portman.getPortfolioBalances(pfid))
-    .then(data => dispatch(calcBalancesAdd({pid, data})))
+    .then(data => {
+      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+      console.info('Data from fetchBalances', data)
+      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+      dispatch(data ? calcBalancesAdd({pid, data}) : fetchBalancesNoResult(pid))
+    })
   }
 }
 export function clearBalances () {

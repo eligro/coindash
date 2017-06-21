@@ -1,0 +1,9 @@
+deployment:
+  staging:
+    branch: dev
+    heroku:
+      appname: coindash-stage
+  production:
+    branch: master
+    heroku:
+      appname: coindash-stage

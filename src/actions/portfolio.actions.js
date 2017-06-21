@@ -3,7 +3,6 @@ import Auth from 'osi/auth'
 import User from 'osi/user'
 import * as Portman from 'osi/components/portman'
 
-
 export function createPortfolio (data) {
   return {type: types.CREATE_PORTFOLIO, data}
 }
@@ -28,7 +27,6 @@ export function addAddressToPortfolio (data) {
 }
 
 export function addPortfolioCalculations ({pid, data}) {
-  console.log('portfolio calculations brought:', pid, data)
   return {type: types.LOAD_PORTFOLIO_CALCULATIONS, pid, data}
 }
 

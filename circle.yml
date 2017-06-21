@@ -9,4 +9,4 @@ deployment:
       appname: coindash-stage
 test:
   override:
-    - echo "test"
+    - echo "You can't fail a test if you don't do a test in the first place"

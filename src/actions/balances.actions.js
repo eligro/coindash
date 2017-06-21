@@ -89,12 +89,7 @@ export function fetchBalances (pid) {
     return Portman.getPFIDByPID(pid)
     .then(pfid => Portman.getPortfolioBalances(pfid))
     .then(data => {
-      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-      console.info('Data from fetchBalances', data)
-      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-      console.info('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-      dispatch(data ? calcBalancesAdd({pid, data}) : fetchBalancesNoResult(pid))
+      dispatch(data && data.data && data.data.length ? calcBalancesAdd({pid, data}) : fetchBalancesNoResult(pid))
     })
   }
 }

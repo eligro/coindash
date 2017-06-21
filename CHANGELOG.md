@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## Unreleased
+### Added
+- Portfolios flow
+- Sync portfolio to cloud
+
+
+## [0.3.7] - 2017-06-19
 ### Added
 - Route protection for `/dashboard` routes
 - New header and user

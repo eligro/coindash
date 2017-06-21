@@ -7,3 +7,6 @@ deployment:
     branch: master
     heroku:
       appname: coindash-stage
+test:
+  override:
+    - echo "test"

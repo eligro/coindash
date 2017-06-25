@@ -159,6 +159,21 @@ export default function portfolioReducer (state = baseState, action) {
         userPortfolios: [ ...upfs ]
       })
 
+    case types.DELETE_ADDRESS_PORTFOLIO_SUCCESS:
+      let pf = state.portfolios.find(p => p.portfolio.pid !== action.pid)
+      let { [action.userKey]: deleted, ...addresses } = pf.portfolio
+
+      return Object.assign({}, state, {
+        portfolios: [
+          ...state.portfolios.filter(p => p.portfolio.pid !== action.pid),
+          Object.assign({}, pf, { portfolio: {
+            ...pf.portfolio,
+            addresses,
+            deletedAddress: [deleted]
+          } })
+        ]
+      })
+
     case REHYDRATE:
       const { activePortfolio } = state
       return { ...baseState, activePortfolio }

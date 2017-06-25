@@ -1,0 +1,18 @@
+// Can't use the nice '~react-md/src/scss/react-md' since this isn't being bundled with webpack
+@import '../node_modules/react-md/src/scss/react-md';
+@import './node_modules/osi/themes/coindash_dark.scss';
+@import './node_modules/osi/themes/coindash_light.scss';
+
+body {
+  #root {
+    .app-wrap {
+      &.light-theme {
+        @include light-theme();
+      }
+      &.dark-theme {
+        @include dark-theme();
+      }
+      .App {}
+    }
+  }
+}

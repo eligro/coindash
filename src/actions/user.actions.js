@@ -21,6 +21,10 @@ export function clearError () {
   return {type: types.CLEAR_ERROR}
 }
 
+export function setDarkTheme (dark) {
+  return {type: types.SET_DARK_THEME, dark}
+}
+
 export function loadUser (data) {
   return dispatch => {
     let user = {
@@ -83,5 +87,11 @@ export function logout () {
 export function resetError () {
   return (dispatch) => {
     dispatch(clearError())
+  }
+}
+
+export function changeToDark (isDark) {
+  return (dispatch) => {
+    dispatch(setDarkTheme(isDark))
   }
 }

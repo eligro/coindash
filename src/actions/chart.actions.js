@@ -1,6 +1,7 @@
 import * as types from './action.const'
 import ChartAPI from '../api/mockChartsApi'
 import { ETHWallet } from '../utils/Accounts/Ethereum/ETHWallet'
+import * as Portman from 'osi/components/portman'
 
 import { AccountsManager } from '../utils/Accounts/AccountsManager'
 
@@ -34,6 +35,21 @@ export function chartError (text) {
   return { type: types.CHART_ERROR, text }
 }
 
+export function beginCalculations (pid) {
+  return { type: types.PORTFOLIO_CALCULATION_BEGIN, pid }
+}
+
+export function finishCalculations ({pid, data}) {
+  return { type: types.PORTFOLIO_CALCULATION_FINISH, pid, data }
+}
+
+export function calcError ({pid, error}) {
+  return { type: types.PORTFOLIO_CALCULATION_ERROR, pid, error }
+}
+
+export function calcUpdateProcess ({pid, progress}) {
+  return { type: types.PORTFOLIO_CALCULATION_UPDATE, pid, progress }
+}
 export function loadChart () {
   return (dispatch, getState) => {
     if (getState().charts.chartLoaded === true) {
@@ -125,15 +141,68 @@ export function loadChart () {
   }
 }
 
-/* export function loadChart() {
-    return (dispatch) => {
-        return ChartAPI.getChart().then(data => {
-            dispatch(loadChartSuccess(data));
-        }).catch(error => {
-            throw(error);
-        })
+export function calcPortfolio (pid, addressList) {
+  return (dispatch, getState) => {
+    dispatch(beginCalculations(pid))
+    let ethAddresses = addressList.map(e => e.address)
+    let accounts = []
+
+    if (ethAddresses.length) {
+      let wallet = new ETHWallet(ethAddresses)
+      accounts = wallet.getAccounts()
     }
-} */
+
+    if (accounts.length) {
+      let manager = new AccountsManager(accounts)
+      let day = 24 * 60 * 60
+      let today = Math.floor(Date.now() / 1000)
+
+      let spanTime = today - 90 * day
+
+      manager.dayStatusFromDate(
+        spanTime,
+        function (obj) {
+          // status updater
+          if (obj.error != null) {
+            console.error(obj)
+            dispatch(calcError({pid, error: obj}))
+          } else {
+            let progress = obj.progress * 100
+            progress = Math.round(progress * 100) / 100
+            dispatch(calcUpdateProcess({pid, progress}))
+          }
+        },
+        function (data) {
+          if (data == null) {
+            dispatch(calcError({pid, error: 'No balances found'}))
+          }
+          // Calc 7 days delta
+          manager.calcDeltaByDays(data, 7, function (shortDelta) {
+            data.shortDelta = shortDelta
+          })
+          // Calc 365 days delta
+          manager.calcDeltaByDays(data, 365, function (longDelta) {
+            data.longDelta = longDelta
+          })
+
+          console.log('finished loading charts')
+          // dispatch(loadedChartWithState(true))
+
+          console.log('data is ready for firebase:', data)
+          // store the data in firebase
+          Portman.updatePortfolioCalculations(pid, data)
+            .then(_ => dispatch(finishCalculations({pid, data})))
+
+          // dispatch(loadChartSuccess(data))
+        }
+      )
+    } else {
+      // no account
+      console.log('No accounts found, not loading charts')
+      dispatch(chartText(''))
+    }
+  }
+}
 
 export function clearCharts () {
   return { type: types.CLEAR_CHARTS }

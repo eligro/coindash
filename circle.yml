@@ -6,7 +6,7 @@ deployment:
   production:
     branch: master
     heroku:
-      appname: coindash-stage
+      appname: coindash
 test:
   override:
     - echo "You can't fail a test if you don't do a test in the first place"

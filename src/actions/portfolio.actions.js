@@ -26,6 +26,10 @@ export function addAddressToPortfolio (data) {
   return {type: types.ADD_ADDRESS_TO_PORTFOLIO, data}
 }
 
+export function addTokenToPortfolio (data) {
+  return {type: types.ADD_TOKEN_TO_PORTFOLIO, data}
+}
+
 export function addPortfolioCalculations ({pid, data}) {
   return {type: types.LOAD_PORTFOLIO_CALCULATIONS, pid, data}
 }

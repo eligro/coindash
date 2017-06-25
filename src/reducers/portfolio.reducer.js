@@ -10,6 +10,7 @@ const baseState = {
 
 export default function portfolioReducer (state = baseState, action) {
   let portfolios
+  const process = (action.pid && state.process[action.pid]) || {}
   switch (action.type) {
     case types.BEGIN_USER_PORTFOLIOS_FETCHING:
       return Object.assign({}, state, {
@@ -75,7 +76,6 @@ export default function portfolioReducer (state = baseState, action) {
     case types.PORTFOLIO_CALCULATION_FINISH:
     case types.PORTFOLIO_CALCULATION_UPDATE:
     case types.PORTFOLIO_CALCULATION_ERROR:
-      const process = state.process[action.pid] || {}
       const { log = [] } = process
       // console.log('what is stuff?', pid, process, log)
       const logEntry = {
@@ -134,6 +134,44 @@ export default function portfolioReducer (state = baseState, action) {
     case types.SET_ACTIVE_PORTFOLIO:
       return Object.assign({}, state, {
         activePortfolio: action.pid
+      })
+
+    case types.DELETE_PORTFOLIO:
+      return Object.assign({}, state, {
+        process: {
+          ...state.process,
+          [action.pid]: {
+            ...(state.process[action.pid] || {}),
+            deleting: true
+          }
+        }
+      })
+
+    case types.DELETE_PORTFOLIO_SUCCESS:
+      let processes = Object.keys(state.process)
+        .filter((p, k) => k !== action.pid)
+      let pfs = state.portfolios.filter(p => p.portfolio.pid !== action.pid)
+      let upfs = state.userPortfolios.filter(pid => pid !== action.pid)
+
+      return Object.assign({}, state, {
+        portfolios: [ ...pfs ],
+        process: { ...processes },
+        userPortfolios: [ ...upfs ]
+      })
+
+    case types.DELETE_ADDRESS_PORTFOLIO_SUCCESS:
+      let pf = state.portfolios.find(p => p.portfolio.pid !== action.pid)
+      let { [action.userKey]: deleted, ...addresses } = pf.portfolio
+
+      return Object.assign({}, state, {
+        portfolios: [
+          ...state.portfolios.filter(p => p.portfolio.pid !== action.pid),
+          Object.assign({}, pf, { portfolio: {
+            ...pf.portfolio,
+            addresses,
+            deletedAddress: [deleted]
+          } })
+        ]
       })
 
     case REHYDRATE:

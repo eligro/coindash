@@ -46,6 +46,27 @@ export function setActivePortfolio (pid) {
   return {type: types.SET_ACTIVE_PORTFOLIO, pid}
 }
 
+export function deletePortfolio (uid) {
+  return {type: types.DELETE_PORTFOLIO, uid}
+}
+
+export function deletePortfolioSuccess (pid) {
+  return {type: types.DELETE_PORTFOLIO_SUCCESS, pid}
+}
+
+export function deleteAddressFromPortfolio (uid) {
+  return {type: types.DELETE_ADDRESS_PORTFOLIO, uid}
+}
+
+export function deleteAddressPortfolioSuccess (pf, address, userKey) {
+  return {type: types.DELETE_ADDRESS_PORTFOLIO_SUCCESS, pf, address, userKey}
+}
+
+
+
+
+
+
 export function newPortfolio (portfolio) {
   return dispatch => {
     let newPortfolio = {
@@ -79,6 +100,14 @@ export function resetPortfolios () {
   }
 }
 
+export function removePortfolio (pf) {
+  return dispatch => {
+    dispatch(deletePortfolio(pf.portfolio.pid))
+    return Portman.deletePortfolio(pf)
+      .then(_ => dispatch(deletePortfolioSuccess(pf.portfolio.pid)))
+  }
+}
+
 export function associateAddressToPortfolio (pid, address) {
   return dispatch => Portman.associateAddressWithPortfolio(pid, address)
     .then(result => dispatch(addAddressToPortfolio({pid, address})))
@@ -97,4 +126,11 @@ export const loadPortfolioCalculations = (portfolio) => {
 
 export function makePortfolioActive (pid) {
   return dispatch => dispatch(setActivePortfolio(pid))
+}
+
+export function removeAddressFromPortfolio (pf, address, userKey) {
+  return dispatch => {
+    return Portman.deletePortfolioAddress(pf, address, userKey)
+      .then(_ => dispatch(deleteAddressFromPortfolio(pf, address, userKey)))
+  }
 }

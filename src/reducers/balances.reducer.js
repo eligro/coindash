@@ -55,7 +55,7 @@ export default function balancesReducer (state = {...baseState}, {pid, data, err
             fetching: false,
             completed: true,
             data: null,
-            updateOn: Date.now()
+            updatedOn: Date.now()
           }
         }
       })

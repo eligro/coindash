@@ -26,7 +26,7 @@ export function addAddressToPortfolio (data) {
   return {type: types.ADD_ADDRESS_TO_PORTFOLIO, data}
 }
 
-export function addTokenToPortfolio (data) {
+export function addTokenToPortfolio (pid, data) {
   return {type: types.ADD_TOKEN_TO_PORTFOLIO, data}
 }
 
@@ -116,13 +116,17 @@ export function associateAddressToPortfolio (pid, address) {
   return dispatch => Portman.associateAddressWithPortfolio(pid, address)
     .then(result => dispatch(addAddressToPortfolio({pid, address})))
 }
+export function associateTokenToPortfolio (pid, token) {
+  return dispatch => Portman.associateTokenWithPortfolio(pid, token)
+    .then(result => dispatch(addTokenToPortfolio({pid, token})))
+}
 
-export const loadPortfolioCalculations = (portfolio) => {
+export const loadPortfolioCalculations = (pid) => {
   return dispatch => {
-    dispatch(beginFetchingPortfolio(portfolio.portfolio.pid))
-    return Portman.getPortfolioCalculations(portfolio.pfid)
+    dispatch(beginFetchingPortfolio(pid))
+    return Portman.getPortfolioCalculations(pid)
       .then(result => dispatch(addPortfolioCalculations({
-        pid: portfolio.portfolio.pid,
+        pid: pid,
         data: result
       })))
   }

@@ -96,7 +96,6 @@ export default function portfolioReducer (state = baseState, action) {
       }
       if (action.type === types.PORTFOLIO_CALCULATION_FINISH) {
         logEntry.progress = action.progress
-        calculations[action.pid] = action.data
         isComplete = true
       }
 
@@ -106,7 +105,8 @@ export default function portfolioReducer (state = baseState, action) {
           ...state.process,
           [action.pid]: {
             ...process,
-            [isComplete ? 'completed' : 'started']: !isComplete,
+            started: !isComplete,
+            completed: isComplete,
             log: [
               ...log,
               logEntry

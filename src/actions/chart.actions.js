@@ -2,6 +2,8 @@ import * as types from './action.const'
 import ChartAPI from '../api/mockChartsApi'
 import { ETHWallet } from '../utils/Accounts/Ethereum/ETHWallet'
 import * as Portman from 'osi/components/portman'
+import * as portfolioActions from './portfolio.actions'
+
 
 import { AccountsManager } from '../utils/Accounts/AccountsManager'
 
@@ -191,7 +193,10 @@ export function calcPortfolio (pid, addressList) {
           console.log('data is ready for firebase:', data)
           // store the data in firebase
           Portman.updatePortfolioCalculations(pid, data)
-            .then(_ => dispatch(finishCalculations({pid, data})))
+            .then(_ => {
+              dispatch(finishCalculations({pid, data}))
+              dispatch(portfolioActions.loadPortfolioCalculations(pid))
+            })
 
           // dispatch(loadChartSuccess(data))
         }

@@ -77,7 +77,9 @@ export function calcBalances (pid, addressList) {
       let manager = new AccountsManager(accounts)
       manager.getBalances(function (data) {
         Portman.updatePortfolioBalances(pid, data)
-          .then(updatedData => dispatch(calcBalancesSuccess({pid, data: updatedData})))
+          .then(updatedData => {
+            dispatch(calcBalancesSuccess({pid, data: updatedData}))
+          })
       })
     }
   }

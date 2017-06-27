@@ -118,7 +118,10 @@ export function associateAddressToPortfolio (pid, address) {
 }
 export function associateTokenToPortfolio (pid, token) {
   return dispatch => Portman.associateTokenWithPortfolio(pid, token)
-    .then(result => dispatch(addTokenToPortfolio({pid, token})))
+    .then(result => {
+      dispatch(addTokenToPortfolio({pid, token}))
+      return result
+    })
 }
 
 export const loadPortfolioCalculations = (pid) => {

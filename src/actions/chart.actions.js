@@ -152,7 +152,7 @@ export function calcPortfolio (pid, addressList, customTokens) {
     let accounts = []
 
     if (ethAddresses.length) {
-      let wallet = new ETHWallet(ethAddresses)
+      let wallet = new ETHWallet(ethAddresses, customTokens)
       accounts = wallet.getAccounts()
     }
 

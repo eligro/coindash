@@ -143,14 +143,14 @@ export function loadChart () {
   }
 }
 
-export function calcPortfolio (pid, addressList) {
+export function calcPortfolio (pid, addressList, customTokens) {
   return (dispatch, getState) => {
     dispatch(beginCalculations(pid))
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
 
     if (ethAddresses.length) {
-      let wallet = new ETHWallet(ethAddresses)
+      let wallet = new ETHWallet(ethAddresses, customTokens)
       accounts = wallet.getAccounts()
     }
 

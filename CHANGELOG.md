@@ -6,9 +6,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
+- Support for custom tokens 
+
+## [0.3.8] - 2017-06-27
+### Added
 - Portfolios flow
 - Sync portfolio to cloud
+- New layout
+- Added support for multiple portfolios
+- Added support for multiple addresses per portfolio
+- Onboarding flow
+- Dashboard support for multiple portfolios
+- Added administration section
 
+### Changed
+- Speed and responsiveness improvements
+- Reduced the amount of data stored for historical views
+- Fixed allocation table colors
+- Fixed logout bug causing corrupted UI
 
 ## [0.3.7] - 2017-06-19
 ### Added

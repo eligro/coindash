@@ -56,13 +56,13 @@ export function loadBalances () {
   }
 }
 
-export function calcBalances (pid, addressList) {
+export function calcBalances (pid, addressList, customTokens) {
   return (dispatch, getState) => {
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
 
     if (ethAddresses.length) {
-      let wallet = new ETHWallet(ethAddresses)
+      let wallet = new ETHWallet(ethAddresses, customTokens)
       accounts = wallet.getAccounts()
     }
 
@@ -71,17 +71,30 @@ export function calcBalances (pid, addressList) {
       accounts.push(poloniexAccount)
     })
 
+    const tokens = accounts.reduce((acc, val) => {
+      acc.push(...val.watchedTokens)
+      return acc
+    }, [])
+
     dispatch(calcBalancesFetch(pid))
 
-    if (accounts.length) {
-      let manager = new AccountsManager(accounts)
-      manager.getBalances(function (data) {
-        Portman.updatePortfolioBalances(pid, data)
-          .then(updatedData => {
-            dispatch(calcBalancesSuccess({pid, data: updatedData}))
-          })
-      })
-    }
+    return new Promise((resolve, reject) => {
+      if (accounts.length) {
+        let manager = new AccountsManager(accounts)
+        manager.getBalances(function (data) {
+          Portman.updatePortfolioBalances(pid, data)
+            .then(updatedData => {
+              dispatch(calcBalancesSuccess({pid, data: updatedData}))
+              resolve({
+                balances: data,
+                baseTokens: tokens
+              })
+            })
+        })
+      } else {
+        reject('No accounts')
+      }
+    })
   }
 }
 

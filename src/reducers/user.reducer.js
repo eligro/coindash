@@ -28,6 +28,10 @@ export default function userReducer (state = {}, action) {
         error: false
       })
 
+    case types.SET_DARK_THEME:
+      return Object.assign({}, state, {
+        darkTheme: action.dark
+      })
     default:
       return state
   }

@@ -143,7 +143,9 @@ export function loadChart () {
   }
 }
 
-export function calcPortfolio (pid, addressList) {
+export function calcPortfolio (pid, addressList, customTokens) {
+  console.log('\n\n\n\n\nCUSTOM TOKENS IN CALC PORTFOLIO\n\n\n\n\n')
+  console.log(customTokens)
   return (dispatch, getState) => {
     dispatch(beginCalculations(pid))
     let ethAddresses = addressList.map(e => e.address)

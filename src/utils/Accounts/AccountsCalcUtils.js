@@ -1,5 +1,6 @@
 import { Trade } from '../../utils/Trades/Trade'
 import { Token } from '../../utils/Trades/Token'
+import { cloneDeep } from 'lodash'
 import BigNumber from 'bignumber.js'
 
 export class AccountsCalcUtils {
@@ -59,7 +60,7 @@ export class AccountsCalcUtils {
 
       let day = days[dayIdx]
       let previousDay = days[dayIdx + 1]
-      let balancesCpy = AccountsCalcUtils.copyTokenList(day.balances)
+      let balancesCpy = cloneDeep(day.balances)
 
       // trades
       for (let tradeIdx in day.trades) {

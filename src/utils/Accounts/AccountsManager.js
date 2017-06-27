@@ -97,15 +97,12 @@ export class AccountsManager {
       statusUpdater(obj)
     })
 
-    console.time('fetchBalances')
     nevent({action: 'Days Status', label: 'Start'})
     AccountsBalanceUtils.fetchBalances(this.accounts, function (data) {
       balances = data
 
       executed += 1
 
-      console.timeEnd('fetchBalances')
-      console.log('finsihed fetchBalances')
       nevent({action: 'Days Status', label: 'Fetched Balances'})
       // statusUpdater(executed * 10 + '%')
 
@@ -114,14 +111,11 @@ export class AccountsManager {
       }
     })
 
-    console.time('fetchTrades')
     AccountsTradesUtils.fetchTrades(this.accounts, function (data) {
       trades = data
 
       executed += 1
 
-      console.timeEnd('fetchTrades')
-      console.log('finsihed fetchTrades')
       nevent({action: 'Days Status', label: 'Fetched Trades'})
       // statusUpdater(executed * 10 + '%')
 
@@ -130,15 +124,12 @@ export class AccountsManager {
       }
     })
 
-    console.time('AccountsDepositAndWithdrawalUtils')
     AccountsDepositAndWithdrawalUtils.fetch(this.accounts, function (openWithdrawals, openDeposits) {
       deposits = openDeposits
       withdrawals = openWithdrawals
 
       executed += 1
 
-      console.timeEnd('AccountsDepositAndWithdrawalUtils')
-      console.log('finsihed AccountsDepositAndWithdrawalUtils')
       nevent({action: 'Days Status', label: 'Fetched Deposits and Widthdraws'})
       // statusUpdater(executed * 10 + '%')
 
@@ -176,7 +167,6 @@ export class AccountsManager {
     days[0].balances = currentBalances
 
     // append trades, open deposits and withdrawals
-    console.log('ordered day events')
     // statusUpdater('40%')
 
     for (let dayIdx in days) {
@@ -238,8 +228,6 @@ export class AccountsManager {
   }
 
   calcDeltaByDays (data, numOfDays, callback) {
-    console.log('calcDeltaByDays')
-
     let startBalance = data.portfolio.length > numOfDays
       ? data.portfolio[data.portfolio.length - numOfDays].dayFiatValue
       : data.portfolio[0].dayFiatValue

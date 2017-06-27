@@ -56,7 +56,9 @@ export function loadBalances () {
   }
 }
 
-export function calcBalances (pid, addressList) {
+export function calcBalances (pid, addressList, customTokens) {
+  console.log('\n\n\n\n\nCUSTOM TOKENS IN CALC BALANCES\n\n\n\n\n')
+  console.log(customTokens)
   console.group(`calcBalances for ${pid}`)
   return (dispatch, getState) => {
     let ethAddresses = addressList.map(e => e.address)

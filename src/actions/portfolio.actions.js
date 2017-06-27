@@ -27,7 +27,7 @@ export function addAddressToPortfolio (data) {
 }
 
 export function addTokenToPortfolio (pid, data) {
-  return {type: types.ADD_TOKEN_TO_PORTFOLIO, data}
+  return {type: types.ADD_TOKEN_TO_PORTFOLIO, pid, data}
 }
 
 export function addPortfolioCalculations ({pid, data}) {
@@ -66,7 +66,9 @@ export function deleteAddressPortfolioSuccess (pf, address, userKey) {
   return {type: types.DELETE_ADDRESS_PORTFOLIO_SUCCESS, pf, address, userKey}
 }
 
-
+export function deleteTokenFromPortfolio (pf, data) {
+  return {type: types.DELETE_TOKEN_FROM_PORTFOLIO, pid: pf.portfolio.pid, data}
+}
 
 
 
@@ -143,5 +145,12 @@ export function removeAddressFromPortfolio (pf, address, userKey) {
   return dispatch => {
     return Portman.deletePortfolioAddress(pf, address, userKey)
       .then(_ => dispatch(deleteAddressFromPortfolio(pf, address, userKey)))
+  }
+}
+
+export function removeCustomToken (pf, token) {
+  return dispatch => {
+    return Portman.deleteCustomToken(pf, token)
+      .then(_ => dispatch(deleteTokenFromPortfolio(pf, token)))
   }
 }

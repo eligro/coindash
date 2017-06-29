@@ -1,6 +1,4 @@
 import * as types from './action.const'
-import Auth from 'osi/auth'
-import User from 'osi/user'
 import * as Portman from 'osi/components/portman'
 
 export function createPortfolio (data) {

@@ -22,6 +22,7 @@ export class AccountsCalcUtils {
         aggregated value.
       */
       if (previousDay.dayFiatValue == 0) {
+        debugger;
         day.delta = 0;
         day.aggregatedDelta = 1;
         continue;

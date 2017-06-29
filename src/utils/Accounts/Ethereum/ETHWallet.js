@@ -1,6 +1,5 @@
 import { Token } from '../../Trades/Token'
 import { ETHChainAccount } from './ETHChainAccount'
-const { localStorage } = window
 
 export class ETHWallet {
   static hardcoded () {

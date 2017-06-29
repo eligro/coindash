@@ -45,6 +45,7 @@ export class ETHHelper {
       })
       .catch((error) => {
         console.error(error)
+        // throwing error because token.getValueOfUnit is undefined
         // alert("Some problems with the account, try again later");
       })
   }

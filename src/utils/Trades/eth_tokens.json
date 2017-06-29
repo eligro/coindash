@@ -73,7 +73,7 @@
     "address":"0xcbcc0f036ed4788f63fc0fee32873d6a7487b908",
     "symbol":"HMQ",
 	  "ico_initial_price_usd": 0.1521,
-    "decimal":18,
+    "decimal":8,
     "type":"default"
   },
   {

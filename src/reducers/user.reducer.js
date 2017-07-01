@@ -32,6 +32,17 @@ export default function userReducer (state = {}, action) {
       return Object.assign({}, state, {
         darkTheme: action.dark
       })
+
+    case types.ACTIVATE_VERSION_NOTIFICATION:
+      return Object.assign({}, state, {
+        showVersionNotification: true
+      })
+
+    case types.DISMISS_VERSION_NOTIFICATION:
+      return Object.assign({}, state, {
+        showVersionNotification: false
+      })
+
     default:
       return state
   }

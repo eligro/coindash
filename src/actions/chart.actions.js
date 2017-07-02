@@ -147,7 +147,6 @@ export function calcPortfolio (pid, addressList, customTokens) {
     let calcPortStart = Date.now()
     recordEvent('starts calculate portfolio', { pid: pid, keen: { timestamp: new Date().toISOString() } } )
 
-    debugger
     dispatch(beginCalculations(pid))
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
@@ -195,16 +194,12 @@ export function calcPortfolio (pid, addressList, customTokens) {
 
           console.log('data is ready for firebase:', data)
           // store the data in firebase
-          debugger
           Portman.updatePortfolioCalculations(pid, data)
             .then(_ => {
-              debugger
               dispatch(finishCalculations({pid, data}))
-              debugger
               dispatch(portfolioActions.loadPortfolioCalculations(pid))
             })
             .then(_ => {
-              debugger
               let calcPortEnd = Date.now()
               let calCPortDuration = calcPortEnd - calcPortStart
               const finishCalc = {
@@ -212,10 +207,8 @@ export function calcPortfolio (pid, addressList, customTokens) {
                 duration: calCPortDuration,
                 keen: { timestamp: new Date().toISOString() }
               }
-              debugger
               recordEvent('finish calculate portfolio', finishCalc)
             })
-              debugger
           // dispatch(loadChartSuccess(data))
         }
       )

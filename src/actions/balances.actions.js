@@ -1,9 +1,9 @@
 import * as types from './action.const'
-// import BalancesAPI from '../api/mockBalancesApi';
 import {ETHWallet} from '../utils/Accounts/Ethereum/ETHWallet'
 import {PoloniexAccount} from '../utils/Accounts/Poloniex/PoloniexAccount'
 import {AccountsManager} from '../utils/Accounts/AccountsManager'
 import * as Portman from 'osi/components/portman'
+import { recordEvent } from 'osi/analytics'
 
 export function loadBalancesSuccess (data) {
   return {type: types.LOAD_BALANCES_SUCCESS, data}
@@ -58,6 +58,9 @@ export function loadBalances () {
 
 export function calcBalances (pid, addressList, customTokens) {
   return (dispatch, getState) => {
+    let calcBalStart = Date.now()
+    recordEvent('starts calculate balances', { pid: pid, keen: { timestamp: new Date().toISOString() } } )
+
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
 
@@ -90,8 +93,19 @@ export function calcBalances (pid, addressList, customTokens) {
                 baseTokens: tokens
               })
             })
+            .then(_ => {
+              let calcBalEnd = Date.now()
+              let calcBalDuration = calcBalEnd - calcBalStart
+              const finishCalc = {
+                pid: pid,
+                duration: calcBalDuration,
+                keen: { timestamp: new Date().toISOString() }
+              }
+              recordEvent('finish calculate balances', finishCalc)
+            })
         })
       } else {
+        recordEvent('error in calculate balances', { error: 'No accounts' } )
         reject('No accounts')
       }
     })

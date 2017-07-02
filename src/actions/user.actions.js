@@ -116,13 +116,13 @@ export function showVersionNotification () {
   }
 }
 
-export function hideVersionNotification (uid, appVersion) {
-  return (dispatch) => {
-    return User.setUserProp(uid, 'lastVersion', appVersion)
-      .then(_ => dispatch(dismissVersionNotification(uid, appVersion)))
-      .then(_ => true)
-  }
-}
+// export function hideVersionNotification (uid, appVersion) {
+//   return (dispatch) => {
+//     return User.setUserProp(uid, 'lastVersion', appVersion)
+//       .then(_ => dispatch(dismissVersionNotification(uid, appVersion)))
+//       .then(_ => true)
+//   }
+// }
 
 export function updateUserProperties (properties) {
   return (dispatch) => {

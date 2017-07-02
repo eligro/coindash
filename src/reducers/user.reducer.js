@@ -1,13 +1,21 @@
 import * as types from '../actions/action.const'
 
-export default function userReducer (state = {}, action) {
+const initialState = {
+  loggedIn: false,
+  email: '',
+  error: true,
+  profile: null,
+  properties: {},
+}
+
+export default function userReducer (state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         loggedIn: !!action.data.uid,
         email: action.data.email,
         error: false,
-        profile: action.data
+        profile: action.data,
       })
 
     case types.LOGOUT_SUCCESS:
@@ -44,12 +52,7 @@ export default function userReducer (state = {}, action) {
       })
 
     case types.SET_USER_PROPERTIES:
-      return Object.assign({}, state, {
-        properties: {
-          ...state.properties,
-          ...action.properties
-        }
-      })
+      return { ...state, properties: action.properties }
 
     default:
       return state

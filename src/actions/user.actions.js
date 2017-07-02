@@ -34,6 +34,11 @@ export function dismissVersionNotification () {
   return {type: types.DISMISS_VERSION_NOTIFICATION}
 }
 
+export function setUserProperties (properties) {
+  return {type: types.SET_USER_PROPERTIES, properties}
+}
+
+
 export function loadUser (data) {
   return dispatch => {
     let user = {
@@ -116,5 +121,11 @@ export function hideVersionNotification (uid, appVersion) {
     return User.setUserProp(uid, 'lastVersion', appVersion)
       .then(_ => dispatch(dismissVersionNotification(uid, appVersion)))
       .then(_ => true)
+  }
+}
+
+export function updateUserProperties (properties) {
+  return (dispatch) => {
+    dispatch(setUserProperties(properties))
   }
 }

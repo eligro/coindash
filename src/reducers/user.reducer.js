@@ -43,6 +43,14 @@ export default function userReducer (state = {}, action) {
         showVersionNotification: false
       })
 
+    case types.SET_USER_PROPERTIES:
+      return Object.assign({}, state, {
+        properties: {
+          ...state.properties,
+          ...action.properties
+        }
+      })
+
     default:
       return state
   }

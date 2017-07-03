@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
-- Support for custom tokens 
+- Support for custom tokens
+
+### Changed
+- Header & Sidenav design update
 
 ## [0.3.8] - 2017-06-27
 ### Added

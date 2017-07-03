@@ -1,4 +1,5 @@
 import * as types from '../actions/action.const'
+import { REHYDRATE } from 'redux-persist/constants'
 
 const initialState = {
   loggedIn: false,
@@ -53,6 +54,9 @@ export default function userReducer (state = initialState, action) {
 
     case types.SET_USER_PROPERTIES:
       return { ...state, properties: action.properties }
+
+    case REHYDRATE:
+      return { ...state, properties: {} }
 
     default:
       return state

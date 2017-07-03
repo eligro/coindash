@@ -15,7 +15,7 @@ export default function userReducer (state = initialState, action) {
         loggedIn: !!action.data.uid,
         email: action.data.email,
         error: false,
-        profile: action.data,
+        profile: action.data
       })
 
     case types.LOGOUT_SUCCESS:

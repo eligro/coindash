@@ -48,12 +48,17 @@ export default function userReducer (state = initialState, action) {
       })
 
     case types.DISMISS_VERSION_NOTIFICATION:
+    console.log('DISMISS_VERSION_NOTIFICATION', action)
       return Object.assign({}, state, {
-        showVersionNotification: false
+        showVersionNotification: false,
+        properties: {
+          ...state.properties,
+          lastVersion: action.lastVersion
+        }
       })
 
     case types.SET_USER_PROPERTIES:
-      return { ...state, properties: action.properties }
+      return { ...state, properties: action.properties, propertiesLastUpdate: Date.now() }
 
     case REHYDRATE:
       return { ...state, properties: {} }

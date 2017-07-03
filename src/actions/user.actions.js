@@ -30,8 +30,8 @@ export function activateVersionNotification () {
   return {type: types.ACTIVATE_VERSION_NOTIFICATION}
 }
 
-export function dismissVersionNotification () {
-  return {type: types.DISMISS_VERSION_NOTIFICATION}
+export function dismissVersionNotification (lastVersion) {
+  return {type: types.DISMISS_VERSION_NOTIFICATION, lastVersion}
 }
 
 export function setUserProperties (properties) {
@@ -119,7 +119,7 @@ export function showVersionNotification () {
 export function hideVersionNotification (uid, appVersion) {
   return (dispatch) => {
     return User.setUserProp(uid, 'lastVersion', appVersion)
-      .then(_ => dispatch(dismissVersionNotification(uid, appVersion)))
+      .then(_ => dispatch(dismissVersionNotification(appVersion)))
       .then(_ => true)
   }
 }

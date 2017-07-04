@@ -3,6 +3,9 @@
 - Support for custom tokens
 - Version notification dialog
 
+### Changed
+- Header & Sidenav design update
+
 ## [0.3.8] - 2017-06-27
 ### Added
 - Portfolios flow

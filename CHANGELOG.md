@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
-- Support for custom tokens 
+- Support for custom tokens
+- Users can sign up with email
 
 ## [0.3.8] - 2017-06-27
 ### Added

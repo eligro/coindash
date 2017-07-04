@@ -1,6 +1,7 @@
 ## Unreleased
 ### Added
 - Support for custom tokens
+- Users can sign up with email
 - Version notification dialog
 
 ### Changed

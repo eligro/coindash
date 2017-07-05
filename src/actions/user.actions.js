@@ -35,23 +35,16 @@ export function dismissVersionNotification (lastVersion) {
 }
 
 export function activateTour (uid) {
-  return User.setUserProp(uid, 'takenTour', false)
-    .then(_ => {
-      return {type: types.ACTIVATE_TOUR}
-    })
+  return {type: types.ACTIVATE_TOUR}
 }
 
-export function dismissTour (uid) {
-  return User.setUserProp(uid, 'takenTour', true)
-    .then(_ => {
-      return {type: types.DISMISS_TOUR}
-    })
+export function dismissTour (uid, lastTourVersion) {
+  return {type: types.DISMISS_TOUR, uid, lastTourVersion}
 }
 
 export function setUserProperties (properties) {
   return {type: types.SET_USER_PROPERTIES, properties}
 }
-
 
 export function loadUser (data) {
   return dispatch => {
@@ -136,6 +129,18 @@ export function hideVersionNotification (uid, appVersion) {
       .then(_ => dispatch(dismissVersionNotification(appVersion)))
       .then(_ => true)
   }
+}
+
+export function showTourGuide () {
+  return (dispatch) => {
+    dispatch(activateTour())
+  }
+}
+
+export function hideTourGuide (uid, lastTourVersion) {
+  return (dispatch) => User.setUserProp(uid, 'lastTourVersion', lastTourVersion)
+    .then(_ => dispatch(dismissTour(uid, lastTourVersion)))
+    .then(_ => true)
 }
 
 export function updateUserProperties (properties) {

@@ -48,7 +48,6 @@ export default function userReducer (state = initialState, action) {
       })
 
     case types.DISMISS_VERSION_NOTIFICATION:
-    console.log('DISMISS_VERSION_NOTIFICATION', action)
       return Object.assign({}, state, {
         showVersionNotification: false,
         properties: {
@@ -59,22 +58,19 @@ export default function userReducer (state = initialState, action) {
 
     case types.ACTIVATE_TOUR:
       return { ...state,
-        showTour: true,
-        properties: {
-          ...state.properties,
-          takenTour: false
-        }
+        showTour: true
       }
 
     case types.DISMISS_TOUR:
+      console.log('tour dismissing:', action)
       return { ...state,
         showTour: false,
         properties: {
           ...state.properties,
-          takenTour: true
+          lastTourVersion: action.lastTourVersion
         }
       }
-      
+
     case types.SET_USER_PROPERTIES:
       return { ...state, properties: action.properties, propertiesLastUpdate: Date.now() }
 

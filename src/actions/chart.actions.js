@@ -3,8 +3,7 @@ import ChartAPI from '../api/mockChartsApi'
 import { ETHWallet } from '../utils/Accounts/Ethereum/ETHWallet'
 import * as Portman from 'osi/components/portman'
 import * as portfolioActions from './portfolio.actions'
-
-
+import { recordEvent } from 'osi/analytics'
 import { AccountsManager } from '../utils/Accounts/AccountsManager'
 
 export function loadChartSuccess (data) {
@@ -143,14 +142,17 @@ export function loadChart () {
   }
 }
 
-export function calcPortfolio (pid, addressList) {
+export function calcPortfolio (pid, addressList, customTokens) {
   return (dispatch, getState) => {
+    let calcPortStart = Date.now()
+    recordEvent('starts calculate portfolio', { pid: pid, keen: { timestamp: new Date().toISOString() } } )
+
     dispatch(beginCalculations(pid))
     let ethAddresses = addressList.map(e => e.address)
     let accounts = []
 
     if (ethAddresses.length) {
-      let wallet = new ETHWallet(ethAddresses)
+      let wallet = new ETHWallet(ethAddresses, customTokens)
       accounts = wallet.getAccounts()
     }
 
@@ -197,12 +199,22 @@ export function calcPortfolio (pid, addressList) {
               dispatch(finishCalculations({pid, data}))
               dispatch(portfolioActions.loadPortfolioCalculations(pid))
             })
-
+            .then(_ => {
+              let calcPortEnd = Date.now()
+              let calCPortDuration = calcPortEnd - calcPortStart
+              const finishCalc = {
+                pid: pid,
+                duration: calCPortDuration,
+                keen: { timestamp: new Date().toISOString() }
+              }
+              recordEvent('finish calculate portfolio', finishCalc)
+            })
           // dispatch(loadChartSuccess(data))
         }
       )
     } else {
       // no account
+      recordEvent('error in calculate portfolio', { error: 'No accounts found, not loading charts' })
       console.log('No accounts found, not loading charts')
       dispatch(chartText(''))
     }

@@ -218,7 +218,7 @@ export class ExchangeProvider {
       var exchangeValuePoint = dataPoint.price.find(isSameCurrensy)
 
       if (exchangeValuePoint == null) {
-        exchangeValuePoint == new ExchangeValuePoint(targetCurrency, 0);
+        exchangeValuePoint = new ExchangeValuePoint(targetCurrency, 0);
       }
 
       // check value is not 0, default to ico initial price
@@ -361,7 +361,7 @@ export class ExchangeProvider {
       console.log("start");
 
       if (exchangeValuePoint == null || exchangeValuePoint == undefined) {
-        exchangeValuePoint == new ExchangeValuePoint(targetCurrency, 0);
+        exchangeValuePoint = new ExchangeValuePoint(targetCurrency, 0);
       }
 
       // check value is not 0, default to ico initial price

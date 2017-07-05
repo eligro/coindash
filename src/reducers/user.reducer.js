@@ -1,6 +1,15 @@
 import * as types from '../actions/action.const'
+import { REHYDRATE } from 'redux-persist/constants'
 
-export default function userReducer (state = {}, action) {
+const initialState = {
+  loggedIn: false,
+  email: '',
+  error: true,
+  profile: null,
+  properties: {},
+}
+
+export default function userReducer (state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_SUCCESS:
       return Object.assign({}, state, {
@@ -32,6 +41,28 @@ export default function userReducer (state = {}, action) {
       return Object.assign({}, state, {
         darkTheme: action.dark
       })
+
+    case types.ACTIVATE_VERSION_NOTIFICATION:
+      return Object.assign({}, state, {
+        showVersionNotification: true
+      })
+
+    case types.DISMISS_VERSION_NOTIFICATION:
+    console.log('DISMISS_VERSION_NOTIFICATION', action)
+      return Object.assign({}, state, {
+        showVersionNotification: false,
+        properties: {
+          ...state.properties,
+          lastVersion: action.lastVersion
+        }
+      })
+
+    case types.SET_USER_PROPERTIES:
+      return { ...state, properties: action.properties, propertiesLastUpdate: Date.now() }
+
+    case REHYDRATE:
+      return { ...state, properties: {} }
+
     default:
       return state
   }

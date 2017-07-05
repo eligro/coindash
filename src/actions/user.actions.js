@@ -34,6 +34,20 @@ export function dismissVersionNotification (lastVersion) {
   return {type: types.DISMISS_VERSION_NOTIFICATION, lastVersion}
 }
 
+export function activateTour (uid) {
+  return User.setUserProp(uid, 'takenTour', false)
+    .then(_ => {
+      return {type: types.ACTIVATE_TOUR}
+    })
+}
+
+export function dismissTour (uid) {
+  return User.setUserProp(uid, 'takenTour', true)
+    .then(_ => {
+      return {type: types.DISMISS_TOUR}
+    })
+}
+
 export function setUserProperties (properties) {
   return {type: types.SET_USER_PROPERTIES, properties}
 }

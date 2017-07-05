@@ -57,6 +57,24 @@ export default function userReducer (state = initialState, action) {
         }
       })
 
+    case types.ACTIVATE_TOUR:
+      return { ...state,
+        showTour: true,
+        properties: {
+          ...state.properties,
+          takenTour: false
+        }
+      }
+
+    case types.DISMISS_TOUR:
+      return { ...state,
+        showTour: false,
+        properties: {
+          ...state.properties,
+          takenTour: true
+        }
+      }
+      
     case types.SET_USER_PROPERTIES:
       return { ...state, properties: action.properties, propertiesLastUpdate: Date.now() }
 

@@ -1,4 +1,4 @@
-## Unreleased
+## [0.3.9] - 2017-01-05
 ### Added
 - Support for custom tokens
 - Users can sign up with email

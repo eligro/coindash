@@ -1,6 +1,6 @@
 {
   "name": "coindash-client",
-  "version": "0.3.10-1",
+  "version": "0.3.10-2",
   "private": true,
   "dependencies": {
     "bignumber.js": "^3.0.1",

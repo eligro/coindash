@@ -1,4 +1,11 @@
-## [0.3.9] - 2017-01-05
+## [0.4.0] - 2017-07-11
+### Added
+- Presale flow
+
+### Changed
+- Fixed `Forgot Password` on login
+
+## [0.3.9] - 2017-07-05
 ### Added
 - Support for custom tokens
 - Users can sign up with email

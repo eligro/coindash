@@ -1,5 +1,6 @@
 import * as types from './action.const'
 import Auth from 'osi/auth'
+import * as User from 'osi/user'
 
 export function loginSuccess (data) {
   return {type: types.LOGIN_SUCCESS, data}
@@ -23,6 +24,26 @@ export function clearError () {
 
 export function setDarkTheme (dark) {
   return {type: types.SET_DARK_THEME, dark}
+}
+
+export function activateVersionNotification () {
+  return {type: types.ACTIVATE_VERSION_NOTIFICATION}
+}
+
+export function dismissVersionNotification (lastVersion) {
+  return {type: types.DISMISS_VERSION_NOTIFICATION, lastVersion}
+}
+
+export function activateTour (uid) {
+  return {type: types.ACTIVATE_TOUR}
+}
+
+export function dismissTour (uid, lastTourVersion) {
+  return {type: types.DISMISS_TOUR, uid, lastTourVersion}
+}
+
+export function setUserProperties (properties) {
+  return {type: types.SET_USER_PROPERTIES, properties}
 }
 
 export function loadUser (data) {
@@ -93,5 +114,37 @@ export function resetError () {
 export function changeToDark (isDark) {
   return (dispatch) => {
     dispatch(setDarkTheme(isDark))
+  }
+}
+
+export function showVersionNotification () {
+  return (dispatch) => {
+    dispatch(activateVersionNotification())
+  }
+}
+
+export function hideVersionNotification (uid, appVersion) {
+  return (dispatch) => {
+    return User.setUserProp(uid, 'lastVersion', appVersion)
+      .then(_ => dispatch(dismissVersionNotification(appVersion)))
+      .then(_ => true)
+  }
+}
+
+export function showTourGuide () {
+  return (dispatch) => {
+    dispatch(activateTour())
+  }
+}
+
+export function hideTourGuide (uid, lastTourVersion) {
+  return (dispatch) => User.setUserProp(uid, 'lastTourVersion', lastTourVersion)
+    .then(_ => dispatch(dismissTour(uid, lastTourVersion)))
+    .then(_ => true)
+}
+
+export function updateUserProperties (properties) {
+  return (dispatch) => {
+    dispatch(setUserProperties(properties))
   }
 }

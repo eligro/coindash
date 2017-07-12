@@ -1,12 +1,18 @@
-# Change Log
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
-## Unreleased
+## [0.4.0] - 2017-07-11
 ### Added
-- Support for custom tokens 
+- Presale flow
+
+### Changed
+- Fixed `Forgot Password` on login
+
+## [0.3.9] - 2017-07-05
+### Added
+- Support for custom tokens
+- Users can sign up with email
+- Version notification dialog
+
+### Changed
+- Header & Sidenav design update
 
 ## [0.3.8] - 2017-06-27
 ### Added
